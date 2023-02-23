@@ -1,8 +1,11 @@
-const express = require("express");
-const cors = require("cors");
-const typeorm = require("typeorm");
-const { initialiseDataSource } = require("./db/datasource.js");
-const { LogHelper } = require("./utils/log-helper.js");
+const dotenv = require('dotenv');
+const express = require('express');
+const cors = require('./middlewares/cors/index');
+const { initialiseDataSource } = require('./db/datasource');
+const { LogHelper } = require('./utils/log-helper');
+
+// Using dotenv
+dotenv.config();
 
 initialiseDataSource().then((isInitialised) => {
 	if (isInitialised) {
@@ -14,25 +17,20 @@ initialiseDataSource().then((isInitialised) => {
 
 const app = express();
 
-// Change later
-var corsOptions = {
-  origin: 'http://localhost:8000'
-}
-
 app.use(cors(corsOptions));
 // Parse request content type - application/json
 app.use(express.json());
 // Parse request content type - application/x-www-form-urlencoded
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 // Starting route
-app.get("/", (req, res) => {
-  res.json({
-    message: "Layanan SarPras ITB Service."
-  });
+app.get('/', (req, res) => {
+	res.json({
+		message: 'Layanan SarPras ITB Service.',
+	});
 });
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  LogHelper.info(`Example app listening on port ${PORT}`);
+	LogHelper.info(`Example app listening on port ${PORT}`);
 });

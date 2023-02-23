@@ -1,6 +1,6 @@
 const ALL_LOG_LEVELS = 'INFO,DEBUG,WARN,ERROR';
 
-const LOG_LEVELS = (process.env.ALLOWED_LOG_LEVELS || ALL_LOG_LEVELS).split(',')
+const LOG_LEVELS = (process.env.ALLOWED_LOG_LEVELS || ALL_LOG_LEVELS).split(',');
 const ENABLED_LEVELS = new Set(LOG_LEVELS);
 
 function logger(method, level = 'INFO') {
@@ -23,4 +23,4 @@ const LogHelper = {
 	error: logger('error', 'ERROR'),
 };
 
-module.exports = {ALL_LOG_LEVELS, LogHelper}
+module.exports = { ALL_LOG_LEVELS, LogHelper };

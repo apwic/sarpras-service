@@ -1,23 +1,26 @@
 {
-  "name": "sarpras-service",
-  "version": "1.0.0",
-  "description": "service for layanan sarana prasarana ITB",
-  "scripts": {
-    "dev": "nodemon dist/main",
-    "start": "node src/main.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://gitlab.informatika.org/sarpras-kel-03/sarpras-service.git"
-  },
-  "author": "KEL-03",
-  "license": "ISC",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "nodemon": "^2.0.20",
-    "pg": "^8.9.0",
-    "typeorm": "^0.3.12"
-  }
+	"name": "sarpras-service",
+	"version": "1.0.0",
+	"description": "service for layanan sarana prasarana ITB",
+	"scripts": {
+		"dev": "nodemon dist/main",
+		"start": "node src/main.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://gitlab.informatika.org/sarpras-kel-03/sarpras-service.git"
+	},
+	"author": "KEL-03",
+	"license": "ISC",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"nodemon": "^2.0.20",
+		"pg": "^8.9.0",
+		"typeorm": "^0.3.12"
+	},
+	"devDependencies": {
+		"prettier": "2.8.4"
+	}
 }
