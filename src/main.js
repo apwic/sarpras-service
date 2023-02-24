@@ -24,8 +24,8 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 8080;
 
-sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    LogHelper.info(`Example app listening on port ${PORT}`);
-  });
+sequelize.sync({ force: true }).then(() => {
+	app.listen(PORT, () => {
+		LogHelper.info(`Example app listening on port ${PORT}`);
+	});
 });
