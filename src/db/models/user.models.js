@@ -1,5 +1,5 @@
-const UsersModel = (sequelize, { DataTypes }) => {
-	const Users = sequelize.define('users', {
+const UserModel = (sequelize, { DataTypes }) => {
+	const User = sequelize.define('user', {
 		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
@@ -37,11 +37,11 @@ const UsersModel = (sequelize, { DataTypes }) => {
 		},
 	});
 
-	return Users;
+	return User;
 };
 
-const LoggingRolesModel = (sequelize, { DataTypes }) => {
-	const LoggingRoles = sequelize.define('logging_role', {
+const LoggingRoleModel = (sequelize, { DataTypes }) => {
+	const LoggingRole = sequelize.define('logging_role', {
 		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
@@ -52,7 +52,7 @@ const LoggingRolesModel = (sequelize, { DataTypes }) => {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'users',
+				model: 'user',
 				key: 'id',
 			},
 		},
@@ -61,7 +61,7 @@ const LoggingRolesModel = (sequelize, { DataTypes }) => {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'users',
+				model: 'user',
 				key: 'id',
 			},
 		},
@@ -72,7 +72,7 @@ const LoggingRolesModel = (sequelize, { DataTypes }) => {
 		},
 	});
 
-	return LoggingRoles;
+	return LoggingRole;
 };
 
-module.exports = { UsersModel, LoggingRolesModel };
+module.exports = { UserModel, LoggingRoleModel };

@@ -1,5 +1,5 @@
-const ReportsModel = (sequelize, { DataTypes }) => {
-	const Reports = sequelize.define('reports', {
+const IssueModel = (sequelize, { DataTypes }) => {
+	const Issue = sequelize.define('issue', {
 		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
@@ -10,7 +10,7 @@ const ReportsModel = (sequelize, { DataTypes }) => {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'users',
+				model: 'user',
 				key: 'id',
 			},
 		},
@@ -19,7 +19,7 @@ const ReportsModel = (sequelize, { DataTypes }) => {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'users',
+				model: 'user',
 				key: 'id',
 			},
 		},
@@ -48,33 +48,33 @@ const ReportsModel = (sequelize, { DataTypes }) => {
 		},
 	});
 
-	Reports.associate = (models) => {
-		Reports.hasOne(models.ReviewReports, {
-			foreignKey: 'report_id',
+	Issue.associate = (models) => {
+		Issue.hasOne(models.ReviewIssue, {
+			foreignKey: 'issue_id',
 			onDelete: 'CASCADE',
 		});
-		Reports.hasMany(models.LoggingReports, {
-			foreignKey: 'report_id',
+		Issue.hasMany(models.LoggingIssue, {
+			foreignKey: 'issue_id',
 			onDelete: 'CASCADE',
 		});
 	};
 
-	return Reports;
+	return Issue;
 };
 
-const ReviewReportsModel = (sequelize, { DataTypes }) => {
-	const ReviewReports = sequelize.define('review_report', {
+const ReviewIssueModel = (sequelize, { DataTypes }) => {
+	const ReviewIssue = sequelize.define('review_issue', {
 		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
 		},
 
-		report_id: {
+		issue_id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'reports',
+				model: 'issue',
 				key: 'id',
 			},
 		},
@@ -93,22 +93,22 @@ const ReviewReportsModel = (sequelize, { DataTypes }) => {
 		},
 	});
 
-	return ReviewReports;
+	return ReviewIssue;
 };
 
-const LoggingReportsModel = (sequelize, { DataTypes }) => {
-	const LoggingReports = sequelize.define('logging_report', {
+const LoggingIssueModel = (sequelize, { DataTypes }) => {
+	const LoggingIssue = sequelize.define('logging_issue', {
 		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
 		},
 
-		report_id: {
+		issue_id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'reports',
+				model: 'issue',
 				key: 'id',
 			},
 		},
@@ -119,7 +119,7 @@ const LoggingReportsModel = (sequelize, { DataTypes }) => {
 		},
 	});
 
-	return LoggingReports;
+	return LoggingIssue;
 };
 
-module.exports = { ReportsModel, LoggingReportsModel, ReviewReportsModel };
+module.exports = { IssueModel, LoggingIssueModel, ReviewIssueModel };
