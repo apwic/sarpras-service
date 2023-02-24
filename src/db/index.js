@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Sequelize = require('sequelize');
-const { UserModel, LoggingRoleModel } = require('./models/user.models');
-const { IssueModel, ReviewIssueModel, LoggingIssueModel } = require('./models/issue.models');
+const { UserModel, LoggingRoleModel } = require('./models/user-model');
+const { IssueModel, ReviewIssueModel, LoggingIssueModel } = require('./models/issue-model');
 const {
   FacilityModel,
   CampusModel,
@@ -10,7 +10,7 @@ const {
   FacilityRoomModel,
   VehicleTypeModel,
   FacilityVehicleModel
-} = require('./models/facility.models');
+} = require('./models/facility-model');
 const {
   PaymentModel,
   BookingModel, 
@@ -20,7 +20,7 @@ const {
   BookingSelasarModel,
   BookingRoomModel,
   BookingVehicleModel
-} = require("./models/booking.models");
+} = require("./models/booking-model");
 
 const sequelize = new Sequelize(
 	process.env.DATABASE_NAME,

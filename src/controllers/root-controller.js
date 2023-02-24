@@ -1,12 +1,12 @@
 const Joi = require('joi');
-const RootRouter = require('express').Router();
+const rootRouter = require('express').Router();
 
 module.exports = () => {
-    RootRouter.get('/', (req, res) => {
+    rootRouter.get('/', (req, res) => {
         res.json({
             message: 'Layanan SarPras ITB Service.',
         });
     })
 
-    return RootRouter;
+    return rootRouter;
 };
