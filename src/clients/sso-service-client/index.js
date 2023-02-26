@@ -10,7 +10,7 @@ class SSOServiceClient {
         let itbUserDetails;
 
         try {
-            const loginPageUrl = `${APP_BASE_URL}/login`;
+            const loginPageUrl = `${APP_BASE_URL}/login/INA`;
             const encodedLoginPageUrl = encodeURIComponent(loginPageUrl);
 
             itbUserDetails = (await client.getITBUserDetails(ticket, encodedLoginPageUrl)).data;
@@ -25,7 +25,6 @@ class SSOServiceClient {
         }
 
         if (!itbUserDetails.includes('authenticationSuccess')) {
-            console.log('masukkk');
             throw new StandardError(
                 401,
                 'SSO_AUTHENTICATION_FAILED',

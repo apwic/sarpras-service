@@ -14,7 +14,9 @@ module.exports = () => {
             }),
         }),
         handleRequest(async req => AuthService.SSOlogin(req.query.ticket)),
-        buildResponse()
+        (_, res) => {
+            res.redirect(res.locals.response_data);
+        }
     )
 
     return loginRouter;
