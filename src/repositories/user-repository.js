@@ -1,8 +1,8 @@
 const {sequelize, models} = require('../db/index');
-const {StandardError} = require('../utils/standard-error');
+const StandardError = require('../utils/standard-error');
 
 class UserRepository {
-    async getUserById(id) {
+    static async getUserById(id) {
         try {
             return await models.User.findOne({
                 where: {
@@ -19,7 +19,7 @@ class UserRepository {
         }
     }
 
-    async createUser(user) {
+    static async createUser(user) {
         try {
             return await models.User.create(user);
         } catch (e) {
@@ -32,7 +32,7 @@ class UserRepository {
         }
     }
 
-    async changeRole(user) {
+    static async changeRole(user) {
         try {
             return await models.User.update({
                 role: user.role

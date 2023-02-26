@@ -1,14 +1,19 @@
 const StandardError = require('../../utils/standard-error');
 const client = require('./connector');
 
-class SSOServiceClient {
-    constructor() {}
+const { APP_BASE_URL } = process.env;
 
-    async getITBUserDetails() {
+
+class SSOServiceClient {
+    static async getITBUserDetails(ticket) {
         let itbUserDetails;
 
         try {
-            itbUserDetails = await client.getITBUserDetails();
+            const loginPageUrl = `${APP_BASE_URL}/login`;
+            const encodedLoginPageUrl = encodeURIComponent(loginPageUrl);
+
+            itbUserDetails = (await client.getITBUserDetails(ticket, encodedLoginPageUrl)).data;
+
         } catch (err) {
             throw new StandardError(
                 'SSO_SERVICE_CLIENT_ERROR',
@@ -17,7 +22,9 @@ class SSOServiceClient {
                 { ticket }
             )
         }
+
+        return itbUserDetails;
     }
 }
 
-module.exports = new SSOServiceClient();
+module.exports = SSOServiceClient;

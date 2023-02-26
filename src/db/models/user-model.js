@@ -24,6 +24,7 @@ const UserModel = (sequelize, { DataTypes }) => {
 		nim_nip: {
 			type: DataTypes.STRING,
 			allowNull: false,
+			unique: true,
 		},
 
 		token: {
