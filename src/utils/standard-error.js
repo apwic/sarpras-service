@@ -1,7 +1,7 @@
 const assert = require('assert-plus');
 
 class StandardError extends Error {
-    constructor(errorCode, message, lastError, context) {
+    constructor(httpStatus, errorCode, message, lastError, context) {
         super(message);
 
         assert.optionalString(errorCode);
@@ -9,10 +9,11 @@ class StandardError extends Error {
         assert.optionalObject(lastError);
         assert.optionalObject(context);
 
+        this.http_status = httpStatus;
         this.error_code = errorCode;
         this.message = message;
         this.stack = Error().stack;
-        this.lastError = lastError;
+        this.last_error = lastError;
         this.context = context;
 
         if (this.lastError) {

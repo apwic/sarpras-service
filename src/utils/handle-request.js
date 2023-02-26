@@ -4,7 +4,7 @@ module.exports = function(handler) {
             .then(response => {
                 res.locals.response_data = response;
 
-                res.status(200).json(response);
+                next(null);
             })
             .catch(err => {
                 err.context = {
@@ -14,7 +14,7 @@ module.exports = function(handler) {
                     req_params: req.params,
                     req_query: req.query,
                 };
-                return next(err);
+                res.status(err.httpStatus? err.httpStatus : 500).json(err);
             });
     };
 };

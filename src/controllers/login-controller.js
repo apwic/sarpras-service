@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const AuthService = require('../services/auth-service');
+const buildResponse = require('../utils/build-response');
 const handleRequest = require('../utils/handle-request');
 const expressValidation = require('express-validation').validate;
 
@@ -12,7 +13,8 @@ module.exports = () => {
                 ticket: Joi.string().optional(),
             }),
         }),
-        handleRequest(async req => AuthService.SSOlogin(req.query.ticket))
+        handleRequest(async req => AuthService.SSOlogin(req.query.ticket)),
+        buildResponse()
     )
 
     return loginRouter;

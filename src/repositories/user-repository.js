@@ -11,10 +11,11 @@ class UserRepository {
             });
         } catch (e) {   
             throw new StandardError(
+                400,
                 'USER_NOT_FOUND', 
                 'User not found', 
                 e, 
-                {}
+                { user }
             );
         }
     }
@@ -24,10 +25,11 @@ class UserRepository {
             return await models.User.create(user);
         } catch (e) {
             throw new StandardError(
+                400,
                 'USER_NOT_CREATED',
                 'User not created',
                 e,
-                {}
+                { user }
             );
         }
     }
@@ -43,10 +45,11 @@ class UserRepository {
             });
         } catch (e) {
             throw new StandardError(
+                400,
                 'USER_NOT_UPDATED', 
                 'User not updated',
                 e,
-                {}
+                { user }
             );
         }
     }
