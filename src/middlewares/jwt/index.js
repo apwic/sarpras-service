@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const StandardError = require('../../utils/standard-error');
 const { JWT_SECRET_KEY, JWT_EXPIRE } = process.env;
 
 class JWTMiddleware {
@@ -6,9 +7,20 @@ class JWTMiddleware {
 		let bearerHeader = req.headers['authorization'];
 
 		if (!bearerHeader) {
-			return res.status(403).send({
-				message: 'Token not provided!',
-			});
+			const err = new StandardError(
+				401,
+				'Unauthorized',
+				'You are not authorized to access this resource',
+				{},
+				{
+					req_body: req.body,
+					req_ip: req.ip,
+					req_params: req.params,
+					req_query: req.query,
+				}
+			)
+
+			return res.status(401).json(err);
 		}
 
 		const bearer = bearerHeader.split(' ');
@@ -16,9 +28,20 @@ class JWTMiddleware {
 
 		jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
 			if (err) {
-				return res.status(401).send({
-					message: 'Unauthorized token!',
-				});
+				const err = new StandardError(
+					401,
+					'Unauthorized',
+					'You are not authorized to access this resource',
+					{},
+					{
+						req_body: req.body,
+						req_ip: req.ip,
+						req_params: req.params,
+						req_query: req.query,
+					}
+				)
+
+				return res.status(401).json(err);
 			}
 			req.user_id = decoded.user_id;
 			next();
