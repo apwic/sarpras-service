@@ -14,6 +14,18 @@ class UserRepository {
 		}
 	}
 
+	static async getUserByNip(nip) {
+		try {
+			return await models.User.findOne({
+				where: {
+					nim_nip: nip,
+				},
+			});
+		} catch (e) {
+			throw new StandardError(400, 'USER_NOT_FOUND', 'User not found', e, { user });
+		}
+	}
+
 	static async createUser(user) {
 		try {
 			return await models.User.create(user);

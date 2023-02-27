@@ -1,17 +1,30 @@
 const SSOServiceClient = require('../../clients/sso-service-client');
+const JWTMiddleware = require('../../middlewares/jwt');
 const UserRepository = require('../../repositories/user-repository');
+const { catchThrows, isPromiseError } = require('../../utils/promise');
 
 const { SARPRAS_BASE_URL } = process.env;
 
 class AuthService {
 	static async SSOlogin(ticket) {
-		const itbUserDetails = await SSOServiceClient.getITBUserDetails(ticket);
+		const itbUserDetails = await catchThrows(SSOServiceClient.getITBUserDetails(ticket));
+		if (isPromiseError(itbUserDetails)) {
+			const redirectPath = `${SARPRAS_BASE_URL}/login?status=failed`;
+			return redirectPath;
+		}
 
-		await UserRepository.createUser(itbUserDetails);
+		let userDetails = await UserRepository.getUserByNip(itbUserDetails.nip);
+		if (userDetails === null) {
+			userDetails = await catchThrows(UserRepository.createUser(itbUserDetails));
+			if (isPromiseError(itbUserDetails)) {
+				const redirectPath = `${SARPRAS_BASE_URL}/login?status=failed`;
+				return redirectPath;
+			}
+		}
 
-		// TODO: catch throws error sso & repository and create bearer token
+		const token = JWTMiddleware.createToken(userDetails.id);
 
-		const redirectPath = `${SARPRAS_BASE_URL}/login`;
+		const redirectPath = `${SARPRAS_BASE_URL}/login?status=success&token=${token}`;
 		return redirectPath;
 	}
 }

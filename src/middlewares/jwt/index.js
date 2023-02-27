@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET_KEY } = process.env;
+const { JWT_SECRET_KEY, JWT_EXPIRE } = process.env;
 
 class JWTMiddleware {
 	static verifyToken(req, res, next) {
@@ -25,7 +25,9 @@ class JWTMiddleware {
 		});
 	}
 
-	// TODO : check for each role
+	static createToken(user_id) {
+		return jwt.sign({ user_id }, JWT_SECRET_KEY, { expiresIn: JWT_EXPIRE });
+	}
 }
 
 module.exports = JWTMiddleware;

@@ -26,6 +26,10 @@ async function catchThrows(promise) {
 	}
 }
 
+function isPromiseError(result) {
+	return result && result.error_code;
+}
+
 function catchOnly(errorCode, returnValue) {
 	return (err) => {
 		const { error_code } = err;
@@ -37,4 +41,5 @@ function catchOnly(errorCode, returnValue) {
 module.exports = {
 	catchOnly,
 	catchThrows,
+	isPromiseError,
 };
