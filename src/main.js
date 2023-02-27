@@ -3,10 +3,10 @@ const { createApp } = require('./app');
 const { LogHelper } = require('./utils/log-helper');
 
 (async () => {
-    try {
+	try {
 		dotenv.config();
 		await createApp();
-    } catch (err) {
-        LogHelper.error(err);
-    }
+	} catch (err) {
+		LogHelper.error(err);
+	}
 })();

@@ -1,33 +1,33 @@
-const { sequelize } = require("..");
+const { sequelize } = require('..');
 
 const PaymentModel = (sequelize, { DataTypes }) => {
-  const Payment = sequelize.define('payment', {
-    id: {
+	const Payment = sequelize.define('payment', {
+		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
 		},
 
-    amount: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
+		amount: {
+			type: DataTypes.FLOAT,
+			allowNull: false,
+		},
 
-    image_proof: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
-  });
+		image_proof: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+	});
 
-  Payment.associate = (models) => {
-    Payment.hasOne(models.Booking, {
-      foreignKey: 'payment_id',
-      onDelete: 'CASCADE'
-    })
-  }
+	Payment.associate = (models) => {
+		Payment.hasOne(models.Booking, {
+			foreignKey: 'payment_id',
+			onDelete: 'CASCADE',
+		});
+	};
 
-  return Payment;
-}
+	return Payment;
+};
 
 const BookingModel = (sequelize, { DataTypes }) => {
 	const Booking = sequelize.define('booking', {
@@ -46,14 +46,14 @@ const BookingModel = (sequelize, { DataTypes }) => {
 			},
 		},
 
-    payment_id: {
-      type: DataTypes.INTEGER,
+		payment_id: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
 				model: 'payment',
 				key: 'id',
 			},
-    },
+		},
 
 		category: {
 			type: DataTypes.ENUM('Building', 'Room', 'Selasar', 'Vehicle'),
@@ -79,19 +79,19 @@ const BookingModel = (sequelize, { DataTypes }) => {
 			foreignKey: 'booking_id',
 			onDelete: 'CASCADE',
 		});
-    Booking.hasMany(models.BookingBuilding, {
+		Booking.hasMany(models.BookingBuilding, {
 			foreignKey: 'booking_id',
 			onDelete: 'CASCADE',
 		});
-    Booking.hasMany(models.BookingSelasar, {
+		Booking.hasMany(models.BookingSelasar, {
 			foreignKey: 'booking_id',
 			onDelete: 'CASCADE',
 		});
-    Booking.hasMany(models.BookingRoom, {
+		Booking.hasMany(models.BookingRoom, {
 			foreignKey: 'booking_id',
 			onDelete: 'CASCADE',
 		});
-    Booking.hasMany(models.BookingVehicle, {
+		Booking.hasMany(models.BookingVehicle, {
 			foreignKey: 'booking_id',
 			onDelete: 'CASCADE',
 		});
@@ -161,156 +161,156 @@ const LoggingBookingModel = (sequelize, { DataTypes }) => {
 };
 
 const BookingBuildingModel = (sequelize, { DataTypes }) => {
-  const BookingBuilding = sequelize.define('booking_building', {
-    booking_id: {
+	const BookingBuilding = sequelize.define('booking_building', {
+		booking_id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
 				model: 'booking',
 				key: 'id',
 			},
-      primaryKey: true,
+			primaryKey: true,
 		},
 
-    facility_building_id: {
-      type: DataTypes.INTEGER,
+		facility_building_id: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
 				model: 'facility_building',
 				key: 'id',
 			},
-      primaryKey: true
-    },
+			primaryKey: true,
+		},
 
-    start_timestamp: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
+		start_timestamp: {
+			type: DataTypes.DATE,
+			allowNull: false,
+		},
 
-    end_timestamp: {
-      type: DataTypes.DATE,
-      allowNull: false
-    }
-  });
+		end_timestamp: {
+			type: DataTypes.DATE,
+			allowNull: false,
+		},
+	});
 
-  return BookingBuilding;
+	return BookingBuilding;
 };
 
 const BookingSelasarModel = (sequelize, { DataTypes }) => {
-  const BookingSelasar = sequelize.define('booking_selasar', {
-    booking_id: {
+	const BookingSelasar = sequelize.define('booking_selasar', {
+		booking_id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
 				model: 'booking',
 				key: 'id',
 			},
-      primaryKey: true,
+			primaryKey: true,
 		},
 
-    facility_selasar_id: {
-      type: DataTypes.INTEGER,
+		facility_selasar_id: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
 				model: 'facility_selasar',
 				key: 'id',
 			},
-      primaryKey: true
-    },
+			primaryKey: true,
+		},
 
-    start_timestamp: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
+		start_timestamp: {
+			type: DataTypes.DATE,
+			allowNull: false,
+		},
 
-    end_timestamp: {
-      type: DataTypes.DATE,
-      allowNull: false
-    }
-  });
+		end_timestamp: {
+			type: DataTypes.DATE,
+			allowNull: false,
+		},
+	});
 
-  return BookingSelasar;
+	return BookingSelasar;
 };
 
 const BookingRoomModel = (sequelize, { DataTypes }) => {
-  const BookingRoom = sequelize.define('booking_room', {
-    booking_id: {
+	const BookingRoom = sequelize.define('booking_room', {
+		booking_id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
 				model: 'booking',
 				key: 'id',
 			},
-      primaryKey: true,
+			primaryKey: true,
 		},
 
-    facility_room_id: {
-      type: DataTypes.INTEGER,
+		facility_room_id: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
 				model: 'facility_room',
 				key: 'id',
 			},
-      primaryKey: true
-    },
+			primaryKey: true,
+		},
 
-    start_timestamp: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
+		start_timestamp: {
+			type: DataTypes.DATE,
+			allowNull: false,
+		},
 
-    end_timestamp: {
-      type: DataTypes.DATE,
-      allowNull: false
-    }
-  });
+		end_timestamp: {
+			type: DataTypes.DATE,
+			allowNull: false,
+		},
+	});
 
-  return BookingRoom;
+	return BookingRoom;
 };
 
 const BookingVehicleModel = (sequelize, { DataTypes }) => {
-  const BookingVehicle = sequelize.define('booking_vehicle', {
-    booking_id: {
+	const BookingVehicle = sequelize.define('booking_vehicle', {
+		booking_id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
 				model: 'booking',
 				key: 'id',
 			},
-      primaryKey: true,
+			primaryKey: true,
 		},
 
-    facility_vehicle_id: {
-      type: DataTypes.INTEGER,
+		facility_vehicle_id: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
 				model: 'facility_vehicle',
 				key: 'id',
 			},
-      primaryKey: true
-    },
+			primaryKey: true,
+		},
 
-    start_timestamp: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
+		start_timestamp: {
+			type: DataTypes.DATE,
+			allowNull: false,
+		},
 
-    end_timestamp: {
-      type: DataTypes.DATE,
-      allowNull: false
-    }
-  });
+		end_timestamp: {
+			type: DataTypes.DATE,
+			allowNull: false,
+		},
+	});
 
-  return BookingVehicle;
+	return BookingVehicle;
 };
 
 module.exports = {
-  PaymentModel,
-  BookingModel, 
-  LoggingBookingModel,
-  ReviewBookingModel,
-  BookingBuildingModel,
-  BookingSelasarModel,
-  BookingRoomModel,
-  BookingVehicleModel
+	PaymentModel,
+	BookingModel,
+	LoggingBookingModel,
+	ReviewBookingModel,
+	BookingBuildingModel,
+	BookingSelasarModel,
+	BookingRoomModel,
+	BookingVehicleModel,
 };
