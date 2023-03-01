@@ -50,6 +50,18 @@ class UserRepository {
 			throw new StandardError(400, 'USER_NOT_UPDATED', 'User not updated', e, { user });
 		}
 	}
+
+	static async getUserByRole(role) {
+		try {
+			return await models.User.findAll({
+				where: {
+					role: role,
+				},
+			});
+		} catch (e) {
+			throw new StandardError(400, 'USER_NOT_FOUND', 'User not found', e, { user });
+		}
+	}
 }
 
 module.exports = UserRepository;

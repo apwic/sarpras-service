@@ -1,4 +1,5 @@
 const Joi = require('joi');
+
 const rootRouter = require('express').Router();
 
 module.exports = () => {
