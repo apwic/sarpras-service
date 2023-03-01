@@ -14,7 +14,7 @@ class UserService {
 		return await UserRepository.changeRole(userId, role);
 	}
 
-	static async getUseRoles() {
+	static async getUserRoles() {
 		return {
 			booking_staff: await UserRepository.getUserByRole(userRoles.BOOKING_STAFF),
 			super_user: await UserRepository.getUserByRole(userRoles.SUPER_USER),

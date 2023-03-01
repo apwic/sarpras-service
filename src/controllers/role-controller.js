@@ -13,7 +13,7 @@ const roleRouter = require('express').Router();
 module.exports = () => {
     roleRouter.get('/',
         [JWTMiddleware.verifyToken, UserValidation.superUser],
-        handleRequest(async () => await UserService.getUseRoles()),
+        handleRequest(async () => await UserService.getUserRoles()),
         buildResponse()
     );
 
