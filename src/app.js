@@ -6,11 +6,13 @@ const { LogHelper } = require('./utils/log-helper');
 const rootController = require('./controllers/root-controller');
 const loginController = require('./controllers/login-controller');
 const profileController = require('./controllers/profile-controller');
+const roleController = require('./controllers/role-controller');
 
 async function setupRoutes(app) {
 	app.use('/', rootController());
 	app.use('/login', loginController());
 	app.use('/profile', profileController());
+	app.use('/role', roleController());
 }
 
 async function createApp() {
