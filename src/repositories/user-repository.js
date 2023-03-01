@@ -10,7 +10,7 @@ class UserRepository {
 				},
 			});
 		} catch (e) {
-			throw new StandardError(400, 'USER_NOT_FOUND', 'User not found', e, { user });
+			throw new StandardError(400, 'USER_NOT_FOUND', 'User not found', e, { id });
 		}
 	}
 
@@ -22,7 +22,7 @@ class UserRepository {
 				},
 			});
 		} catch (e) {
-			throw new StandardError(400, 'USER_NOT_FOUND', 'User not found', e, { user });
+			throw new StandardError(400, 'USER_NOT_FOUND', 'User not found', e, { nip });
 		}
 	}
 
@@ -47,7 +47,7 @@ class UserRepository {
 				}
 			);
 		} catch (e) {
-			throw new StandardError(400, 'USER_NOT_UPDATED', 'User not updated', e, { user });
+			throw new StandardError(400, 'USER_NOT_UPDATED', 'User not updated', e, { userId, role });
 		}
 	}
 
@@ -59,7 +59,7 @@ class UserRepository {
 				},
 			});
 		} catch (e) {
-			throw new StandardError(400, 'USER_NOT_FOUND', 'User not found', e, { user });
+			throw new StandardError(400, 'USER_NOT_FOUND', 'User not found', e, { role });
 		}
 	}
 }
