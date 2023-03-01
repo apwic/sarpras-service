@@ -8,10 +8,9 @@ const expressValidation = require('express-validation').validate;
 const profileRouter = require('express').Router();
 
 module.exports = () => {
-	profileRouter.get(
-		'',
+	profileRouter.get('/',
 		[JWTMiddleware.verifyToken],
-		handleRequest(async (req) => UserService.getUserById(req.user_id)),
+		handleRequest(async (req) => UserService.getUserById(req.user.id)),
 		buildResponse()
 	);
 

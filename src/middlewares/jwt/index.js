@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const UserRepository = require('../../repositories/user-repository');
 const StandardError = require('../../utils/standard-error');
 const { JWT_SECRET_KEY, JWT_EXPIRE } = process.env;
 
@@ -43,7 +44,13 @@ class JWTMiddleware {
 
 				return res.status(401).json(err);
 			}
-			req.user_id = decoded.user_id;
+
+			const user = UserRepository.getUserById(decoded.user_id);
+			req.user = {
+				id: user.id,
+				role: user.role,
+			}
+
 			next();
 		});
 	}

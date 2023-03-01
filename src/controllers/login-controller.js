@@ -6,8 +6,7 @@ const expressValidation = require('express-validation').validate;
 const loginRouter = require('express').Router();
 
 module.exports = () => {
-	loginRouter.get(
-		'/INA',
+	loginRouter.get('/INA',
 		expressValidation({
 			query: Joi.object({
 				ticket: Joi.string().optional(),

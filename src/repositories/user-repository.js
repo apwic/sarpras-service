@@ -34,15 +34,15 @@ class UserRepository {
 		}
 	}
 
-	static async changeRole(user) {
+	static async changeRole(userId, role) {
 		try {
 			return await models.User.update(
 				{
-					role: user.role,
+					role: role,
 				},
 				{
 					where: {
-						id: user.id,
+						id: userId,
 					},
 				}
 			);

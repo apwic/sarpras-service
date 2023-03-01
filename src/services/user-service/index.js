@@ -8,6 +8,10 @@ class UserService {
 	static async createUser(user) {
 		return await UserRepository.createUser(user);
 	}
+
+	static async updateUserRole(userId, role) {
+		return await UserRepository.changeRole(userId, role);
+	}
 }
 
 module.exports = UserService;
