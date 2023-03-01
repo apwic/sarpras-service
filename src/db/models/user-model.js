@@ -7,7 +7,7 @@ const UserModel = (sequelize, { DataTypes }) => {
 		},
 
 		role: {
-			type: DataTypes.ENUM('Basic', 'Admin', 'Staff'),
+			type: DataTypes.ENUM('BASIC', 'ADMIN', 'SANITATION_STAFF', 'DEFECT_STAFF', 'SAFETY_STAFF', 'LOSS_STAFF', 'ADMIN', 'BOOKING_STAFF', 'SUPER_USER'),
 			allowNull: false,
 		},
 

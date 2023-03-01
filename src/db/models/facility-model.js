@@ -9,7 +9,7 @@ const FacilityModel = (sequelize, { DataTypes }) => {
 		},
 
 		category: {
-			type: DataTypes.ENUM('Building', 'Selasar', 'Room', 'Vehicle'),
+			type: DataTypes.ENUM('BUILDING', 'SELASAR', 'ROOM', 'VEHICLE'),
 			allowNull: false,
 		},
 	});

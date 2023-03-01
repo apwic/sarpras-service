@@ -56,12 +56,12 @@ const BookingModel = (sequelize, { DataTypes }) => {
 		},
 
 		category: {
-			type: DataTypes.ENUM('Building', 'Room', 'Selasar', 'Vehicle'),
+			type: DataTypes.ENUM('BUILDING', 'ROOM', 'SELASAR', 'VEHICLE'),
 			allowNull: false,
 		},
 
 		status: {
-			type: DataTypes.ENUM('Pending', 'In Progress', 'Approved', 'Canceled'),
+			type: DataTypes.ENUM('PENGIN', 'In Progress', 'Approved', 'Canceled'),
 			allowNull: false,
 		},
 
