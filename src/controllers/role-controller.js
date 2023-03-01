@@ -39,4 +39,6 @@ module.exports = () => {
         handleRequest(async (req) => await UserService.updateUserRole(req.body.user_id, 'BASIC_USER')),
         buildResponse()
     );
+
+    return roleRouter;
 }
