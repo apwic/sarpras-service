@@ -23,7 +23,7 @@ async function createApp() {
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
 
-	sequelize.sync({ force: true });
+	sequelize.sync();
 
 	await setupRoutes(app);
 

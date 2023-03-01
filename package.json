@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "service for layanan sarana prasarana ITB",
 	"scripts": {
-		"dev": "nodemon dist/main",
+		"dev": "nodemon src/main.js",
 		"start": "node src/main.js"
 	},
 	"repository": {

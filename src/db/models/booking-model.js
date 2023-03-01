@@ -1,5 +1,3 @@
-const { sequelize } = require('..');
-
 const PaymentModel = (sequelize, { DataTypes }) => {
 	const Payment = sequelize.define('payment', {
 		id: {

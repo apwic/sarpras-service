@@ -55,7 +55,7 @@ class JWTMiddleware {
 	}
 
 	static createToken(user_id) {
-		return jwt.sign({ user_id }, JWT_SECRET_KEY, { expiresIn: JWT_EXPIRE });
+		return jwt.sign({ user_id: user_id }, JWT_SECRET_KEY, { expiresIn: JWT_EXPIRE });
 	}
 }
 

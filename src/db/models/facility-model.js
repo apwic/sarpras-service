@@ -1,5 +1,3 @@
-const { sequelize } = require('..');
-
 const FacilityModel = (sequelize, { DataTypes }) => {
 	const Facility = sequelize.define('facility', {
 		id: {
