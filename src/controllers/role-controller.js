@@ -28,4 +28,15 @@ module.exports = () => {
         handleRequest(async (req) => await UserService.updateUserRole(req.body.user_id, req.body.role)),
         buildResponse()
     );
+
+    roleRouter.put('/revoke',
+        [JWTMiddleware.verifyToken, UserValidation.superUser],
+        expressValidation({
+            body: Joi.object({
+                user_id: Joi.string().required(),
+            }),
+        }),
+        handleRequest(async (req) => await UserService.updateUserRole(req.body.user_id, 'BASIC_USER')),
+        buildResponse()
+    );
 }
