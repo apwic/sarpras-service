@@ -13,10 +13,10 @@ class AuthService {
 			return redirectPath;
 		}
 
-		let userDetails = await UserRepository.getUserByNip(itbUserDetails.nip);
+		let userDetails = await UserRepository.getUserByNip(itbUserDetails.nim_nip);
 		if (userDetails === null) {
 			userDetails = await catchThrows(UserRepository.createUser(itbUserDetails));
-			if (isPromiseError(itbUserDetails)) {
+			if (isPromiseError(userDetails)) {
 				const redirectPath = `${SARPRAS_BASE_URL}/login?status=failed`;
 				return redirectPath;
 			}

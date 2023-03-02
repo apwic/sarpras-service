@@ -47,7 +47,10 @@ class UserRepository {
 				}
 			);
 		} catch (e) {
-			throw new StandardError(400, 'USER_NOT_UPDATED', 'User not updated', e, { userId, role });
+			throw new StandardError(400, 'USER_NOT_UPDATED', 'User not updated', e, {
+				userId,
+				role,
+			});
 		}
 	}
 

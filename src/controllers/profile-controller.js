@@ -10,7 +10,8 @@ const UserService = require('../services/user-service');
 const profileRouter = require('express').Router();
 
 module.exports = () => {
-	profileRouter.get('/',
+	profileRouter.get(
+		'/',
 		[JWTMiddleware.verifyToken],
 		handleRequest(async (req) => UserService.getUserById(req.user.id)),
 		buildResponse()
