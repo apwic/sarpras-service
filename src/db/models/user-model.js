@@ -7,7 +7,16 @@ const UserModel = (sequelize, { DataTypes }) => {
 		},
 
 		role: {
-			type: DataTypes.ENUM('BASIC_USER', 'ADMIN', 'SANITATION_STAFF', 'DEFECT_STAFF', 'SAFETY_STAFF', 'LOSS_STAFF', 'BOOKING_STAFF', 'SUPER_USER'),
+			type: DataTypes.ENUM(
+				'BASIC_USER',
+				'ADMIN',
+				'SANITATION_STAFF',
+				'DEFECT_STAFF',
+				'SAFETY_STAFF',
+				'LOSS_STAFF',
+				'BOOKING_STAFF',
+				'SUPER_USER'
+			),
 			allowNull: false,
 		},
 
@@ -27,25 +36,20 @@ const UserModel = (sequelize, { DataTypes }) => {
 			unique: true,
 		},
 
-		token: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-
 		no_telp: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
 
-    image: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+		image: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 
-    unit: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    }
+		unit: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 	});
 
 	return User;

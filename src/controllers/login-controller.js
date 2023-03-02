@@ -8,7 +8,8 @@ const AuthService = require('../services/auth-service');
 const loginRouter = require('express').Router();
 
 module.exports = () => {
-	loginRouter.get('/INA',
+	loginRouter.get(
+		'/INA',
 		expressValidation({
 			query: Joi.object({
 				ticket: Joi.string().optional(),

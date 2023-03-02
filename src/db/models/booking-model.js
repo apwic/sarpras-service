@@ -44,7 +44,7 @@ const BookingModel = (sequelize, { DataTypes }) => {
 			},
 		},
 
-    verifier_id: {
+		verifier_id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
@@ -62,7 +62,7 @@ const BookingModel = (sequelize, { DataTypes }) => {
 			},
 		},
 
-    facility_id: {
+		facility_id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
@@ -76,21 +76,21 @@ const BookingModel = (sequelize, { DataTypes }) => {
 			allowNull: false,
 		},
 
-    attachment: {
-      type: DataTypes.STRING
-    },
+		attachment: {
+			type: DataTypes.STRING,
+		},
 
-    letter: {
-      type: DataTypes.STRING
-    },
+		letter: {
+			type: DataTypes.STRING,
+		},
 
-    cost: {
-      type: DataTypes.FLOAT
-    },
+		cost: {
+			type: DataTypes.FLOAT,
+		},
 
-    rekening_va: {
-      type: DataTypes.STRING
-    },
+		rekening_va: {
+			type: DataTypes.STRING,
+		},
 
 		status: {
 			type: DataTypes.ENUM('PENGIN', 'In Progress', 'Approved', 'Canceled'),
@@ -101,7 +101,7 @@ const BookingModel = (sequelize, { DataTypes }) => {
 			type: DataTypes.STRING,
 		},
 
-    start_timestamp: {
+		start_timestamp: {
 			type: DataTypes.DATE,
 			allowNull: false,
 		},

@@ -20,44 +20,46 @@ function generateErrorUnauthorized(req) {
 
 class JWTMiddleware {
 	static async verifyToken(req, res, next) {
-    try {
-      let bearerHeader = req.headers['authorization'];
-      
-      if (!bearerHeader) {
-        const err = generateErrorUnauthorized(req);
-        return res.status(401).send(err);
-      }
-      
-      const bearer = bearerHeader.split(' ');
-      const token = bearer[1];
-      let user_id;
-      
-      jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
-        if (err) {
-          const err = generateErrorUnauthorized(req);
-          return res.status(401).send(err);
-        }
-        
-        user_id = decoded.user_id;
-      });
-      
-      const user = await UserRepository.getUserById(user_id);
-      if (!user) {
-        const err = generateErrorUnauthorized(req);
-        return res.status(401).send(err);
-      }
-      
-      req.user = {
-        id: user.id,
-        role: user.role,
-      }
-      
-      next();
-    } catch (e) {
-      // throw e;
-      // console.log(e);
-      // return res.send(e);
-    }
+		try {
+			let bearerHeader = req.headers['authorization'];
+
+			if (!bearerHeader) {
+				const err = generateErrorUnauthorized(req);
+				return res.status(401).send(err);
+			}
+
+			const bearer = bearerHeader.split(' ');
+			const token = bearer[1];
+			let user_id;
+
+			jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
+				if (err) {
+					const err = generateErrorUnauthorized(req);
+					return res.status(401).send(err);
+				}
+
+				user_id = decoded.user_id;
+			});
+
+			console.log(user_id);
+
+			const user = await UserRepository.getUserById(user_id);
+			if (!user) {
+				const err = generateErrorUnauthorized(req);
+				return res.status(401).send(err);
+			}
+
+			req.user = {
+				id: user.id,
+				role: user.role,
+			};
+
+			next();
+		} catch (e) {
+			// throw e;
+			// console.log(e);
+			return res.send(e);
+		}
 	}
 
 	static createToken(user_id) {

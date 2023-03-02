@@ -1,28 +1,28 @@
 const UtilityModel = (sequelize, { DataTypes }) => {
-  const Utility = sequelize.define('utility', {
-    id: {
+	const Utility = sequelize.define('utility', {
+		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
 		},
 
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
+		name: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 
-    price: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
+		price: {
+			type: DataTypes.FLOAT,
+			allowNull: false,
+		},
 
-    image: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
-    }
-  });
+		image: {
+			type: DataTypes.ARRAY(DataTypes.STRING),
+		},
+	});
 
-  return Utility;
-}
+	return Utility;
+};
 
 const FacilityModel = (sequelize, { DataTypes }) => {
 	const Facility = sequelize.define('facility', {
@@ -32,27 +32,27 @@ const FacilityModel = (sequelize, { DataTypes }) => {
 			primaryKey: true,
 		},
 
-    pic_id: {
-      type: DataTypes.INTEGER,
+		pic_id: {
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
 				model: 'user',
 				key: 'id',
 			},
-    },
+		},
 
 		category: {
 			type: DataTypes.ENUM('BUILDING', 'SELASAR', 'ROOM', 'VEHICLE'),
 			allowNull: false,
 		},
 
-    electricity: {
-      type: DataTypes.INTEGER,
-    },
+		electricity: {
+			type: DataTypes.INTEGER,
+		},
 
-    utility: {
-      type: DataTypes.ARRAY(DataTypes.INTEGER),
-    }
+		utility: {
+			type: DataTypes.ARRAY(DataTypes.INTEGER),
+		},
 	});
 
 	Facility.associate = (models) => {
@@ -146,7 +146,7 @@ const FacilityBuildingModel = (sequelize, { DataTypes }) => {
 			type: DataTypes.INTEGER,
 		},
 
-    latitude: {
+		latitude: {
 			type: DataTypes.FLOAT,
 			allowNull: false,
 		},
@@ -156,7 +156,7 @@ const FacilityBuildingModel = (sequelize, { DataTypes }) => {
 			allowNull: false,
 		},
 
-    status_maintenance: {
+		status_maintenance: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			default: false,
@@ -212,7 +212,7 @@ const FacilitySelasarModel = (sequelize, { DataTypes }) => {
 			type: DataTypes.INTEGER,
 		},
 
-    status_maintenance: {
+		status_maintenance: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			default: false,
@@ -261,7 +261,7 @@ const FacilityRoomModel = (sequelize, { DataTypes }) => {
 			type: DataTypes.INTEGER,
 		},
 
-    status_maintenance: {
+		status_maintenance: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			default: false,
@@ -284,7 +284,7 @@ const FacilityVehicleModel = (sequelize, { DataTypes }) => {
 			unique: true,
 		},
 
-    campus_id: {
+		campus_id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
@@ -298,12 +298,12 @@ const FacilityVehicleModel = (sequelize, { DataTypes }) => {
 			allowNull: false,
 		},
 
-    type: {
-      type: DataTypes.ENUM("TRUCK", "BUS", "CAR"),
-      allowNull: false
-    },
+		type: {
+			type: DataTypes.ENUM('TRUCK', 'BUS', 'CAR'),
+			allowNull: false,
+		},
 
-    sim_category: {
+		sim_category: {
 			type: DataTypes.ENUM('A', 'B1', 'B2', 'C', 'D'),
 			allowNull: false,
 		},
@@ -343,5 +343,5 @@ module.exports = {
 	FacilitySelasarModel,
 	FacilityRoomModel,
 	FacilityVehicleModel,
-  UtilityModel
+	UtilityModel,
 };
