@@ -42,7 +42,7 @@ class UserService {
 	}
 
 	static async getUserRolesUnassigned() {
-		const users = await UserRepository.getUserByRole('BASIC_USER');
+		const users = await UserRepository.getUserByRole(userRoles.BASIC_USER);
 
 		return {
 			message: 'Fetching unassigned users successful',
