@@ -14,20 +14,5 @@ module.exports = () => {
 		});
 	});
 
-	rootRouter.post('/', handleRequest((req, res) => {
-		const user = UserRepository.createUser({
-			email: 'gdryrp@gmail.com',
-			role: 'SUPER_USEadaR',
-			name: 'GEDE ARYA',
-			nim_nip: 'asdadaadadsdad',
-			token: '1234567890',
-			no_telp: '1234567890',
-		});
-
-		return user;
-	}),
-	buildResponse(),
-	);
-
 	return rootRouter;
 };

@@ -34,18 +34,23 @@ class AuthService {
 			name: 'Arip Dandi Arkanando',
 			email: 'arip@gmail.com',
 			role: 'SUPER_USER',
-			token: '1234567890',
 			no_telp: '1234567890',
 			unit: '1234567890',
 			image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUfiJE2Hg3o-qmmkm8t3rk5s0uxS3VnVpIai54dZKF_w&s'
 		};
 
-		const user = await UserRepository.createUser(itbUserDetails);
-
-		const token = JWTMiddleware.createToken(user.id);
-
-		return {
-			token
+		if (UserRepository.getUserByNip(itbUserDetails.nim_nip) === null ) {
+			user = await UserRepository.createUser(itbUserDetails);
+			const token = JWTMiddleware.createToken(user.id);
+			return {
+				token
+			}
+		} else {
+			const user = await UserRepository.getUserByNip(itbUserDetails.nim_nip);
+			const token = JWTMiddleware.createToken(user.id);
+			return {
+				token
+			}
 		}
 	}
 }
