@@ -12,15 +12,15 @@ class UserService {
 	}
 
 	static async createUser(user) {
-		const created_user = await UserRepository.createUser(user);
+		const createdUser = await UserRepository.createUser(user);
 
 		return {
-			message: `Create user with id ${created_user.id} successful`,
+			message: `Create user with id ${createdUser.id} successful`,
 		};
 	}
 
 	static async updateUserRole(userId, role) {
-		const user = await UserRepository.changeRole(userId, role);
+		await UserRepository.changeRole(userId, role);
 
 		return {
 			message: `Update user role with role ${role} successful`,
