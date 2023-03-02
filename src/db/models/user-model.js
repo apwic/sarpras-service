@@ -37,15 +37,15 @@ const UserModel = (sequelize, { DataTypes }) => {
 			allowNull: false,
 		},
 
-    image: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+		image: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 
-    unit: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    }
+		unit: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		}
 	});
 
 	return User;
