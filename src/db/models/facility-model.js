@@ -1,3 +1,29 @@
+const UtilityModel = (sequelize, { DataTypes }) => {
+  const Utility = sequelize.define('utility', {
+    id: {
+			type: DataTypes.INTEGER,
+			autoIncrement: true,
+			primaryKey: true,
+		},
+
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+
+    image: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+    }
+  });
+
+  return Utility;
+}
+
 const FacilityModel = (sequelize, { DataTypes }) => {
 	const Facility = sequelize.define('facility', {
 		id: {
@@ -6,26 +32,43 @@ const FacilityModel = (sequelize, { DataTypes }) => {
 			primaryKey: true,
 		},
 
+    pic_id: {
+      type: DataTypes.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'user',
+				key: 'id',
+			},
+    },
+
 		category: {
 			type: DataTypes.ENUM('BUILDING', 'SELASAR', 'ROOM', 'VEHICLE'),
 			allowNull: false,
 		},
+
+    electricity: {
+      type: DataTypes.INTEGER,
+    },
+
+    utility: {
+      type: DataTypes.ARRAY(DataTypes.INTEGER),
+    }
 	});
 
 	Facility.associate = (models) => {
-		Facility.hasMany(models.FacilityBuilding, {
+		Facility.hasOne(models.FacilityBuilding, {
 			foreignKey: 'id',
 			onDelete: 'CASCADE',
 		});
-		Facility.hasMany(models.FacilitySelasar, {
+		Facility.hasOne(models.FacilitySelasar, {
 			foreignKey: 'id',
 			onDelete: 'CASCADE',
 		});
-		Facility.hasMany(models.FacilityRoom, {
+		Facility.hasOne(models.FacilityRoom, {
 			foreignKey: 'id',
 			onDelete: 'CASCADE',
 		});
-		Facility.hasMany(models.FacilityVehicle, {
+		Facility.hasOne(models.FacilityVehicle, {
 			foreignKey: 'id',
 			onDelete: 'CASCADE',
 		});
@@ -88,7 +131,6 @@ const FacilityBuildingModel = (sequelize, { DataTypes }) => {
 				model: 'campus',
 				key: 'id',
 			},
-			primaryKey: true,
 		},
 
 		name: {
@@ -103,6 +145,22 @@ const FacilityBuildingModel = (sequelize, { DataTypes }) => {
 		capacity: {
 			type: DataTypes.INTEGER,
 		},
+
+    latitude: {
+			type: DataTypes.FLOAT,
+			allowNull: false,
+		},
+
+		longitude: {
+			type: DataTypes.FLOAT,
+			allowNull: false,
+		},
+
+    status_maintenance: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			default: false,
+		},
 	});
 
 	FacilityBuilding.associate = (models) => {
@@ -111,10 +169,6 @@ const FacilityBuildingModel = (sequelize, { DataTypes }) => {
 			onDelete: 'CASCADE',
 		});
 		FacilityBuilding.hasMany(models.FacilityRoom, {
-			foreignKey: 'facility_building_id',
-			onDelete: 'CASCADE',
-		});
-		FacilityBuilding.hasMany(models.BookingBuilding, {
 			foreignKey: 'facility_building_id',
 			onDelete: 'CASCADE',
 		});
@@ -143,7 +197,6 @@ const FacilitySelasarModel = (sequelize, { DataTypes }) => {
 				model: 'facility_building',
 				key: 'id',
 			},
-			primaryKey: true,
 		},
 
 		name: {
@@ -158,14 +211,13 @@ const FacilitySelasarModel = (sequelize, { DataTypes }) => {
 		capacity: {
 			type: DataTypes.INTEGER,
 		},
-	});
 
-	FacilitySelasar.associate = (models) => {
-		FacilitySelasar.hasMany(models.BookingSelasar, {
-			foreignKey: 'facility_selasar_id',
-			onDelete: 'CASCADE',
-		});
-	};
+    status_maintenance: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			default: false,
+		},
+	});
 
 	return FacilitySelasar;
 };
@@ -190,7 +242,6 @@ const FacilityRoomModel = (sequelize, { DataTypes }) => {
 				model: 'facility_building',
 				key: 'id',
 			},
-			primaryKey: true,
 		},
 
 		name: {
@@ -209,45 +260,15 @@ const FacilityRoomModel = (sequelize, { DataTypes }) => {
 		capacity: {
 			type: DataTypes.INTEGER,
 		},
-	});
 
-	FacilityRoom.associate = (models) => {
-		FacilityRoom.hasMany(models.BookingRoom, {
-			foreignKey: 'facility_room_id',
-			onDelete: 'CASCADE',
-		});
-	};
+    status_maintenance: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			default: false,
+		},
+	});
 
 	return FacilityRoom;
-};
-
-const VehicleTypeModel = (sequelize, { DataTypes }) => {
-	const VehicleType = sequelize.define('vehicle_type', {
-		id: {
-			type: DataTypes.INTEGER,
-			autoIncrement: true,
-			primaryKey: true,
-		},
-
-		name: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-
-		sim_category: {
-			type: DataTypes.ENUM('A', 'B1', 'B2', 'C', 'D'),
-			allowNull: false,
-		},
-	});
-
-	VehicleType.associate = (models) => {
-		VehicleType.hasMany(models.FacilityVehicle, {
-			foreignKey: 'vehicle_type_id',
-			onDelete: 'CASCADE',
-		});
-	};
-
-	return VehicleType;
 };
 
 const FacilityVehicleModel = (sequelize, { DataTypes }) => {
@@ -263,18 +284,27 @@ const FacilityVehicleModel = (sequelize, { DataTypes }) => {
 			unique: true,
 		},
 
-		vehicle_type_id: {
+    campus_id: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
-				model: 'vehicle_type',
+				model: 'campus',
 				key: 'id',
 			},
-			primaryKey: true,
 		},
 
 		name: {
 			type: DataTypes.STRING,
+			allowNull: false,
+		},
+
+    type: {
+      type: DataTypes.ENUM("TRUCK", "BUS", "CAR"),
+      allowNull: false
+    },
+
+    sim_category: {
+			type: DataTypes.ENUM('A', 'B1', 'B2', 'C', 'D'),
 			allowNull: false,
 		},
 
@@ -303,13 +333,6 @@ const FacilityVehicleModel = (sequelize, { DataTypes }) => {
 		},
 	});
 
-	FacilityVehicle.associate = (models) => {
-		FacilityVehicle.hasMany(models.BookingVehicle, {
-			foreignKey: 'facility_vehicle_id',
-			onDelete: 'CASCADE',
-		});
-	};
-
 	return FacilityVehicle;
 };
 
@@ -319,6 +342,6 @@ module.exports = {
 	FacilityBuildingModel,
 	FacilitySelasarModel,
 	FacilityRoomModel,
-	VehicleTypeModel,
 	FacilityVehicleModel,
+  UtilityModel
 };

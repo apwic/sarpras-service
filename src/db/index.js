@@ -12,16 +12,13 @@ const {
 	FacilityRoomModel,
 	VehicleTypeModel,
 	FacilityVehicleModel,
+  UtilityModel,
 } = require('./models/facility-model');
 const {
 	PaymentModel,
 	BookingModel,
 	LoggingBookingModel,
 	ReviewBookingModel,
-	BookingBuildingModel,
-	BookingSelasarModel,
-	BookingRoomModel,
-	BookingVehicleModel,
 } = require('./models/booking-model');
 
 const sequelize = new Sequelize(DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, {
@@ -44,16 +41,12 @@ const models = {
 	FacilityBuilding: FacilityBuildingModel(sequelize, Sequelize),
 	FacilitySelasar: FacilitySelasarModel(sequelize, Sequelize),
 	FacilityRoom: FacilityRoomModel(sequelize, Sequelize),
-	VehicleType: VehicleTypeModel(sequelize, Sequelize),
 	FacilityVehicle: FacilityVehicleModel(sequelize, Sequelize),
+  UtilityModel: UtilityModel(sequelize, Sequelize),
 	Payment: PaymentModel(sequelize, Sequelize),
 	Booking: BookingModel(sequelize, Sequelize),
 	LoggingBooking: LoggingBookingModel(sequelize, Sequelize),
 	ReviewBooking: ReviewBookingModel(sequelize, Sequelize),
-	BookingBuilding: BookingBuildingModel(sequelize, Sequelize),
-	BookingSelasar: BookingSelasarModel(sequelize, Sequelize),
-	BookingRoom: BookingRoomModel(sequelize, Sequelize),
-	BookingVehicle: BookingVehicleModel(sequelize, Sequelize),
 };
 
 Object.keys(models).forEach((key) => {
