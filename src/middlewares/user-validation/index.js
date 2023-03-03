@@ -24,7 +24,7 @@ class UserValidation {
 
 		if (role !== BASIC_USER_ROLE) {
 			const err = generateRoleError(req);
-      LogHelper.error(err.message);
+			LogHelper.error(err.message);
 			return res.status(403).json(err);
 		}
 
@@ -37,7 +37,7 @@ class UserValidation {
 
 		if (role !== SUPER_USER_ROLE) {
 			const err = generateRoleError(req);
-      LogHelper.error(err.message);
+			LogHelper.error(err.message);
 			return res.status(403).json(err);
 		}
 
@@ -50,7 +50,7 @@ class UserValidation {
 
 		if (role !== ADMIN_ROLE) {
 			const err = generateRoleError(req);
-      LogHelper.error(err.message);
+			LogHelper.error(err.message);
 			return res.status(403).json(err);
 		}
 
@@ -63,7 +63,7 @@ class UserValidation {
 
 		if (role !== BOOKING_STAFF_ROLE) {
 			const err = generateRoleError(req);
-      LogHelper.error(err.message);
+			LogHelper.error(err.message);
 			return res.status(403).json(err);
 		}
 
@@ -81,7 +81,7 @@ class UserValidation {
 
 		if (!ISSUE_STAFF_ROLES.includes(role)) {
 			const err = generateRoleError(req);
-      LogHelper.error(err.message);
+			LogHelper.error(err.message);
 			return res.status(403).json(err);
 		}
 

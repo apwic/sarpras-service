@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 const cors = require('./middlewares/cors/index');
 const { sequelize, models } = require('./db/index');
 const { LogHelper } = require('./utils/log-helper');
@@ -19,6 +20,7 @@ async function createApp() {
 	const app = express();
 	const PORT = process.env.PORT || 8080;
 
+	app.use(morgan('combined'));
 	app.use(cors);
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));

@@ -26,7 +26,7 @@ class JWTMiddleware {
 
 			if (!bearerHeader) {
 				err = generateErrorUnauthorized(req);
-        LogHelper.error(err.message);
+				LogHelper.error(err.message);
 				return res.status(401).send(err);
 			}
 
@@ -36,8 +36,8 @@ class JWTMiddleware {
 
 			jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
 				if (err) {
-          err = generateErrorUnauthorized(req);
-          LogHelper.error(err.message);
+					err = generateErrorUnauthorized(req);
+					LogHelper.error(err.message);
 					return res.status(401).send(err);
 				}
 
@@ -47,7 +47,7 @@ class JWTMiddleware {
 			const user = await UserRepository.getUserById(user_id);
 			if (!user) {
 				err = generateErrorUnauthorized(req);
-        LogHelper.error(err.message);
+				LogHelper.error(err.message);
 				return res.status(401).send(err);
 			}
 
@@ -58,7 +58,7 @@ class JWTMiddleware {
 
 			next();
 		} catch (e) {
-      LogHelper.error(e.message);
+			LogHelper.error(e.message);
 		}
 	}
 

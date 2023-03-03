@@ -15,7 +15,7 @@ class SSOServiceClient {
 
 			itbUserDetails = (await client.getITBUserDetails(ticket, encodedLoginPageUrl)).data;
 		} catch (err) {
-      LogHelper.error(err.message);
+			LogHelper.error(err.message);
 			throw new StandardError(
 				500,
 				'SSO_SERVICE_CLIENT_ERROR',

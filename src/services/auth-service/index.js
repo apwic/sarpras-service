@@ -36,22 +36,22 @@ class AuthService {
 			role: 'SUPER_USER',
 			no_telp: '1234567890',
 			unit: '1234567890',
-			image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUfiJE2Hg3o-qmmkm8t3rk5s0uxS3VnVpIai54dZKF_w&s'
+			image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUfiJE2Hg3o-qmmkm8t3rk5s0uxS3VnVpIai54dZKF_w&s',
 		};
 
-    let userDetails = await UserRepository.getUserByNip(itbUserDetails.nim_nip);
+		let userDetails = await UserRepository.getUserByNip(itbUserDetails.nim_nip);
 
-  if (userDetails === null) {
+		if (userDetails === null) {
 			const user = await UserRepository.createUser(itbUserDetails);
 			const token = JWTMiddleware.createToken(user.id);
 			return {
-				token
-			}
+				token,
+			};
 		} else {
 			const token = JWTMiddleware.createToken(userDetails.id);
 			return {
-				token
-			}
+				token,
+			};
 		}
 	}
 }

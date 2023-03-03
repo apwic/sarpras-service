@@ -22,7 +22,8 @@ module.exports = () => {
 		}
 	);
 
-	loginRouter.get('/test',
+	loginRouter.get(
+		'/test',
 		handleRequest(async (req) => await AuthService.TestLogin(req.query.ticket)),
 		buildResponse()
 	);
