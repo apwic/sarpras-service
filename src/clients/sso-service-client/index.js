@@ -1,4 +1,5 @@
 const StandardError = require('../../utils/standard-error');
+const { LogHelper } = require('../../utils/log-helper');
 const client = require('./connector');
 const xml2js = require('xml2js');
 
@@ -14,6 +15,7 @@ class SSOServiceClient {
 
 			itbUserDetails = (await client.getITBUserDetails(ticket, encodedLoginPageUrl)).data;
 		} catch (err) {
+      LogHelper.error(err.message);
 			throw new StandardError(
 				500,
 				'SSO_SERVICE_CLIENT_ERROR',

@@ -17,5 +17,12 @@ module.exports = () => {
 		buildResponse()
 	);
 
+  profileRouter.put(
+    '/edit',
+    [JWTMiddleware.verifyToken],
+    handleRequest(async (req) => UserService.updateUser(req.user.id, req.body.email, req.body.no_telp)),
+    buildResponse()
+  );
+
 	return profileRouter;
 };

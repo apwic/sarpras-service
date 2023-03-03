@@ -11,7 +11,6 @@ class StandardError extends Error {
 
 		this.http_status = httpStatus;
 		this.error_code = errorCode;
-		this.message = message;
 		this.error_message = message;
 		this.stack = Error().stack;
 		this.last_error = lastError;

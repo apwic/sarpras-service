@@ -19,6 +19,14 @@ class UserService {
 		};
 	}
 
+  static async updateUser(id, email, no_telp) {
+    await UserRepository.updateUser(id, email, no_telp);
+
+    return {
+      message: `Update user with id ${id} successful`,
+    }
+  }
+
 	static async updateUserRole(userId, role) {
 		await UserRepository.changeRole(userId, role);
 

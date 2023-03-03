@@ -65,6 +65,24 @@ class UserRepository {
 			throw new StandardError(400, 'USER_NOT_FOUND', 'User not found', e, { role });
 		}
 	}
+
+  static async updateUser(userId, email, no_telp) {
+    try {
+      return await models.User.update(
+        {
+          email: email,
+          no_telp: no_telp
+        },
+        {
+          where: {
+            id: userId
+          }
+        }
+      )
+    } catch (e) {
+      throw new StandardError(400, 'USER_NOT_FOUND', 'User not found', e, { role });
+    }
+  }
 }
 
 module.exports = UserRepository;

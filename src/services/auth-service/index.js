@@ -41,7 +41,7 @@ class AuthService {
 
     let userDetails = await UserRepository.getUserByNip(itbUserDetails.nim_nip);
 
-		if (userDetails === null) {
+  if (userDetails === null) {
 			const user = await UserRepository.createUser(itbUserDetails);
 			const token = JWTMiddleware.createToken(user.id);
 			return {

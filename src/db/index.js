@@ -28,6 +28,7 @@ const sequelize = new Sequelize(DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD,
 	define: {
 		freezeTableName: true,
 	},
+  logging: false
 });
 
 const models = {

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const UserRepository = require('../../repositories/user-repository');
 const StandardError = require('../../utils/standard-error');
+const { LogHelper } = require('../../utils/log-helper');
 const { JWT_SECRET_KEY, JWT_EXPIRE } = process.env;
 
 function generateErrorUnauthorized(req) {
@@ -24,7 +25,8 @@ class JWTMiddleware {
 			let bearerHeader = req.headers['authorization'];
 
 			if (!bearerHeader) {
-				const err = generateErrorUnauthorized(req);
+				err = generateErrorUnauthorized(req);
+        LogHelper.error(err.message);
 				return res.status(401).send(err);
 			}
 
@@ -34,18 +36,18 @@ class JWTMiddleware {
 
 			jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
 				if (err) {
-					const err = generateErrorUnauthorized(req);
+          err = generateErrorUnauthorized(req);
+          LogHelper.error(err.message);
 					return res.status(401).send(err);
 				}
 
 				user_id = decoded.user_id;
 			});
 
-			console.log(user_id);
-
 			const user = await UserRepository.getUserById(user_id);
 			if (!user) {
-				const err = generateErrorUnauthorized(req);
+				err = generateErrorUnauthorized(req);
+        LogHelper.error(err.message);
 				return res.status(401).send(err);
 			}
 
@@ -56,9 +58,7 @@ class JWTMiddleware {
 
 			next();
 		} catch (e) {
-			// throw e;
-			// console.log(e);
-			return res.send(e);
+      LogHelper.error(e.message);
 		}
 	}
 
