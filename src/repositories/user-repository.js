@@ -66,11 +66,45 @@ class UserRepository {
 		}
 	}
 
-	static async updateUser(userId, email, no_telp) {
+	static async updateUserImageAndNumber(userId, image, no_telp) {
 		try {
 			return await models.User.update(
 				{
-					email: email,
+					image: image,
+					no_telp: no_telp,
+				},
+				{
+					where: {
+						id: userId,
+					},
+				}
+			);
+		} catch (e) {
+			throw new StandardError(400, 'USER_NOT_FOUND', 'User not found', e, { role });
+		}
+	}
+
+  static async updateUserImage(userId, image) {
+		try {
+			return await models.User.update(
+				{
+					image: image,
+				},
+				{
+					where: {
+						id: userId,
+					},
+				}
+			);
+		} catch (e) {
+			throw new StandardError(400, 'USER_NOT_FOUND', 'User not found', e, { role });
+		}
+	}
+
+  static async updateUserNumber(userId, no_telp) {
+		try {
+			return await models.User.update(
+				{
 					no_telp: no_telp,
 				},
 				{

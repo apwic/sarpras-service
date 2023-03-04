@@ -1,3 +1,5 @@
+const { LogHelper } = require('../utils/log-helper');
+
 module.exports = function (handler) {
 	return function (req, res, next) {
 		handler(req)
@@ -7,6 +9,7 @@ module.exports = function (handler) {
 				next(null);
 			})
 			.catch((err) => {
+        LogHelper.error(err);
 				err.context = {
 					...err.context,
 					req_body: req.body,

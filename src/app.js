@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const bodyParser = require("body-parser");
 const cors = require('./middlewares/cors/index');
 const { sequelize, models } = require('./db/index');
 const { LogHelper } = require('./utils/log-helper');
@@ -22,8 +23,8 @@ async function createApp() {
 
 	app.use(morgan('combined'));
 	app.use(cors);
-	app.use(express.json());
-	app.use(express.urlencoded({ extended: true }));
+	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({ extended: true }));
 
 	sequelize.sync();
 

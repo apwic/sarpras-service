@@ -1,61 +1,94 @@
 const UserRepository = require('../../repositories/user-repository');
 const { userRoles } = require('./constant');
-
+const StandardError = require('../../utils/standard-error');
+// TO DO: add try catch in every service
 class UserService {
 	static async getUserById(id) {
-		const user = await UserRepository.getUserById(id);
-
-		return {
-			message: 'Fetching user successful',
-			data: user,
-		};
+    try {
+      const user = await UserRepository.getUserById(id);
+  
+      return {
+        message: 'Fetching user successful',
+        data: user,
+      };
+    } catch (err) {
+      throw err;
+    }
 	}
 
 	static async createUser(user) {
-		const createdUser = await UserRepository.createUser(user);
-
-		return {
-			message: `Create user with id ${createdUser.id} successful`,
-		};
+    try {
+      const createdUser = await UserRepository.createUser(user);
+  
+      return {
+        message: `Create user with id ${createdUser.id} successful`,
+      };
+    } catch (err) {
+      throw err;
+    }
 	}
 
-	static async updateUser(id, email, no_telp) {
-		await UserRepository.updateUser(id, email, no_telp);
-
-		return {
-			message: `Update user with id ${id} successful`,
-		};
+	static async updateUser(id, image, no_telp) {
+    try {
+      if (image === undefined && no_telp === undefined) {
+        throw new StandardError(400, 'EMPTY_REQUEST_BODY', 'Request body cannot be empty!');
+      } else if (image === undefined && no_telp !== undefined) {
+        await UserRepository.updateUserNumber(id, no_telp);
+      } else if (image !== undefined && no_telp === undefined) {
+        await UserRepository.updateUserImage(id, image.filename);
+      } else {
+        await UserRepository.updateUserImageAndNumber(id, image.filename, no_telp);
+      }
+  
+      return {
+        message: `Update user with id ${id} successful`,
+      };
+    } catch (err) {
+      throw err;
+    }
 	}
 
 	static async updateUserRole(userId, role) {
-		await UserRepository.changeRole(userId, role);
+    try {
+      await UserRepository.changeRole(userId, role);
 
-		return {
-			message: `Update user role with role ${role} successful`,
-		};
+      return {
+        message: `Update user role with role ${role} successful`,
+      };
+    } catch (err) {
+      throw err;
+    }
 	}
 
 	static async getUserRoles() {
-		return {
-			message: 'Fetching users role successful',
-			data: {
-				booking_staff: await UserRepository.getUserByRole(userRoles.BOOKING_STAFF),
-				super_user: await UserRepository.getUserByRole(userRoles.SUPER_USER),
-				sanitation_staff: await UserRepository.getUserByRole(userRoles.SANITATION_STAFF),
-				defect_staff: await UserRepository.getUserByRole(userRoles.DEFECT_STAFF),
-				safety_staff: await UserRepository.getUserByRole(userRoles.SAFETY_STAFF),
-				loss_staff: await UserRepository.getUserByRole(userRoles.LOSS_STAFF),
-			},
-		};
+    try {
+      return {
+        message: 'Fetching users role successful',
+        data: {
+          booking_staff: await UserRepository.getUserByRole(userRoles.BOOKING_STAFF),
+          super_user: await UserRepository.getUserByRole(userRoles.SUPER_USER),
+          sanitation_staff: await UserRepository.getUserByRole(userRoles.SANITATION_STAFF),
+          defect_staff: await UserRepository.getUserByRole(userRoles.DEFECT_STAFF),
+          safety_staff: await UserRepository.getUserByRole(userRoles.SAFETY_STAFF),
+          loss_staff: await UserRepository.getUserByRole(userRoles.LOSS_STAFF),
+        },
+      };
+    } catch (err) {
+      throw err;
+    }
 	}
 
 	static async getUserRolesUnassigned() {
-		const users = await UserRepository.getUserByRole(userRoles.BASIC_USER);
-
-		return {
-			message: 'Fetching unassigned users successful',
-			data: users,
-		};
+		try {
+      const users = await UserRepository.getUserByRole(userRoles.BASIC_USER);
+  
+      return {
+        message: 'Fetching unassigned users successful',
+        data: users,
+      };
+    } catch (err) {
+      throw err;
+    }
 	}
 }
 
