@@ -9,7 +9,7 @@ module.exports = function (handler) {
 				next(null);
 			})
 			.catch((err) => {
-        LogHelper.error(err);
+				LogHelper.error(err);
 				err.context = {
 					...err.context,
 					req_body: req.body,

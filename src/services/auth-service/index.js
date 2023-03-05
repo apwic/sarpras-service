@@ -49,6 +49,7 @@ class AuthService {
 			};
 		} else {
 			const token = JWTMiddleware.createToken(userDetails.id);
+
 			return {
 				token,
 			};

@@ -1,8 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
+const path = require('path');
+
 const cors = require('./middlewares/cors/index');
-const { sequelize, models } = require('./db/index');
+const { sequelize } = require('./db/index');
 const { LogHelper } = require('./utils/log-helper');
 
 const rootController = require('./controllers/root-controller');
@@ -15,6 +17,7 @@ async function setupRoutes(app) {
 	app.use('/login', loginController());
 	app.use('/profile', profileController());
 	app.use('/role', roleController());
+	app.use(express.static(path.join(__basedir, '/../public')));
 }
 
 async function createApp() {

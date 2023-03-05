@@ -4,7 +4,7 @@ const { LogHelper } = require('./utils/log-helper');
 
 (async () => {
 	try {
-    global.__basedir = __dirname;
+		global.__basedir = __dirname;
 		dotenv.config();
 		await createApp();
 	} catch (err) {

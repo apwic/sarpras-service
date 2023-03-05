@@ -84,7 +84,7 @@ class UserRepository {
 		}
 	}
 
-  static async updateUserImage(userId, image) {
+	static async updateUserImage(userId, image) {
 		try {
 			return await models.User.update(
 				{
@@ -101,7 +101,7 @@ class UserRepository {
 		}
 	}
 
-  static async updateUserNumber(userId, no_telp) {
+	static async updateUserNumber(userId, no_telp) {
 		try {
 			return await models.User.update(
 				{

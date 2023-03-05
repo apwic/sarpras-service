@@ -18,6 +18,7 @@ const UserModel = (sequelize, { DataTypes }) => {
 				'SUPER_USER'
 			),
 			allowNull: false,
+			defaultValue: 'BASIC_USER',
 		},
 
 		name: {
