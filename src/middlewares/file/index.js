@@ -3,7 +3,7 @@ const multer = require('multer');
 const maxSize = 64 * 1024 * 1024;
 const directoryPath = '/../public/uploads';
 
-let storage = multer.diskStorage({
+let storage = multer.memoryStorage({
 	destination: (req, file, cb) => {
 		cb(null, __basedir + directoryPath);
 	},
