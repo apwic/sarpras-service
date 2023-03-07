@@ -1,7 +1,8 @@
-const fs = require('fs');
+const path = require('path');
 const UserRepository = require('../../repositories/user-repository');
 const { userRoles } = require('./constant');
 const StandardError = require('../../utils/standard-error');
+const UploadImage = require('../../utils/upload-image');
 // TO DO: add try catch in every service
 class UserService {
 	static async getUserById(id) {
@@ -31,25 +32,30 @@ class UserService {
 
 	static async updateUser(id, image, no_telp) {
 		try {
-			const user = await UserRepository.getUserById(id);
-			const old_path = user.image;
+			// const user = await UserRepository.getUserById(id);
+			// const old_path = user.image;
 
-			if (image === undefined && no_telp === undefined) {
-				throw new StandardError(400, 'EMPTY_REQUEST_BODY', 'Request body cannot be empty!');
-			} else if (image === undefined && no_telp !== undefined) {
-				await UserRepository.updateUserNumber(id, no_telp);
-			} else if (image !== undefined && no_telp === undefined) {
-				await UserRepository.updateUserImage(id, image.filename);
+			if (image === undefined) {
+				if (no_telp === undefined) {
+					throw new StandardError(
+						400,
+						'EMPTY_REQUEST_BODY',
+						'Request body cannot be empty!'
+					);
+				} else {
+					await UserRepository.updateUserNumber(id, no_telp);
+				}
 			} else {
-				await UserRepository.updateUserImageAndNumber(id, image.filename, no_telp);
-			}
+				const imageUrl = await UploadImage(
+					image,
+					`user-${id}${path.parse(image.originalname).ext}`
+				);
 
-			if (image !== undefined) {
-				fs.unlink(__basedir + '/../public/uploads/' + old_path, (err) => {
-					if (err) {
-						return err;
-					}
-				});
+				if (no_telp === undefined) {
+					await UserRepository.updateUserImage(id, imageUrl);
+				} else {
+					await UserRepository.updateUserImageAndNumber(id, imageUrl, no_telp);
+				}
 			}
 
 			return {
