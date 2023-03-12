@@ -2,8 +2,12 @@ const path = require('path');
 const UserRepository = require('../../repositories/user-repository');
 const { userRoles } = require('./constant');
 const StandardError = require('../../utils/standard-error');
-const UploadImage = require('../../utils/upload-image');
-// TO DO: add try catch in every service
+const { uploadImageUser } = require('../../utils/upload-file');
+
+const fs = require('fs');
+const { promisify } = require('util');
+
+const unlinkAsync = promisify(fs.unlink);
 class UserService {
 	static async getUserById(id) {
 		try {
@@ -32,9 +36,6 @@ class UserService {
 
 	static async updateUser(id, image, no_telp) {
 		try {
-			// const user = await UserRepository.getUserById(id);
-			// const old_path = user.image;
-
 			if (image === undefined) {
 				if (no_telp === undefined) {
 					throw new StandardError(
@@ -46,10 +47,12 @@ class UserService {
 					await UserRepository.updateUserNumber(id, no_telp);
 				}
 			} else {
-				const imageUrl = await UploadImage(
+				const imageUrl = await uploadImageUser(
 					image,
 					`user-${id}${path.parse(image.originalname).ext}`
 				);
+
+				await unlinkAsync(`${__basedir}/../public/uploads/${image.originalname}`);
 
 				if (no_telp === undefined) {
 					await UserRepository.updateUserImage(id, imageUrl);

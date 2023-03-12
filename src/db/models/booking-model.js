@@ -46,7 +46,6 @@ const BookingModel = (sequelize, { DataTypes }) => {
 
 		verifier_id: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
 			references: {
 				model: 'user',
 				key: 'id',
@@ -55,7 +54,6 @@ const BookingModel = (sequelize, { DataTypes }) => {
 
 		payment_id: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
 			references: {
 				model: 'payment',
 				key: 'id',
@@ -93,7 +91,16 @@ const BookingModel = (sequelize, { DataTypes }) => {
 		},
 
 		status: {
-			type: DataTypes.ENUM('PENGIN', 'In Progress', 'Approved', 'Canceled'),
+			type: DataTypes.ENUM(
+				'PENDING',
+				'CANCELED',
+				'REJECTED',
+				'ON_VERIFICATION',
+				'WAITING_FOR_PAYMENT',
+				'PAYMENT_SUCCESS',
+				'ENDED',
+				'WAITING_FOR_RATING'
+			),
 			allowNull: false,
 		},
 

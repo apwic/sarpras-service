@@ -12,10 +12,19 @@ let storage = multer.memoryStorage({
 	},
 });
 
-let uploadFile = multer({
+let uploadSingle = multer({
 	storage: storage,
 	limits: { fileSize: maxSize },
-}).single('image');
+}).single('file');
 
-let uploadFileMiddleware = util.promisify(uploadFile);
-module.exports = uploadFileMiddleware;
+let uploadMultiple = multer({
+	storage: storage,
+	limits: { fileSize: maxSize },
+}).array('file', 10);
+
+let uploadSingleFile = util.promisify(uploadSingle);
+let uploadMultipleFile = util.promisify(uploadMultiple);
+module.exports = {
+	uploadSingleFile,
+	uploadMultipleFile,
+};
