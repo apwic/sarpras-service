@@ -4,10 +4,6 @@ const { userRoles } = require('./constant');
 const StandardError = require('../../utils/standard-error');
 const { uploadImageUser } = require('../../utils/upload-file');
 
-const fs = require('fs');
-const { promisify } = require('util');
-
-const unlinkAsync = promisify(fs.unlink);
 class UserService {
 	static async getUserById(id) {
 		try {
@@ -47,13 +43,10 @@ class UserService {
 					await UserRepository.updateUserNumber(id, no_telp);
 				}
 			} else {
-				console.log(image);
-				const imageUrl = await uploadImageUser(
-					image,
-					`user-${id}${path.parse(image.originalname).ext}`
-				);
+        const user = await UserRepository.getUserById(id);
+        const oldPath = user.image;
 
-				// await unlinkAsync(`${__basedir}/../public/uploads/${image.originalname}`);
+				const imageUrl = await uploadImageUser(oldPath, image);
 
 				if (no_telp === undefined) {
 					await UserRepository.updateUserImage(id, imageUrl);

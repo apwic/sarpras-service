@@ -1,68 +1,17 @@
-const { format } = require('util');
-const gc = require('../clients/google-cloud-storage');
-const bucket = gc.bucket('sarpras'); // should be your bucket name
-const StandardError = require('./standard-error');
-/**
- *
- * @param { File } object file object that will be uploaded
- * @description - This function does the following
- * - It uploads a file to the image bucket on Google Cloud
- * - It accepts an object as an argument with the
- *   "originalname" and "buffer" as keys
- */
+const uploadPromise = require('../clients/google-cloud-storage/index');
+const path = require('path');
 
-const uploadImageUser = (file, filename) =>
-	new Promise((resolve, reject) => {
-		const { buffer } = file;
+async function uploadImageUser(oldPath, file) {
+  const filePath = `image/user/${path.parse(oldPath).name + path.parse(oldPath).ext}`
+  const fileName = `image/user/${file.originalname.replace(/ /g, '_')}`;
+  return await uploadPromise(filePath, file, fileName);
+}
 
-		const blob = bucket.file(`image/user/${filename.replace(/ /g, '_')}`);
-		const blobStream = blob.createWriteStream({
-			resumable: false,
-		});
-		blobStream
-			.on('finish', async () => {
-				const publicUrl = format(
-					`https://storage.googleapis.com/${bucket.name}/${blob.name}`
-				);
-				resolve(publicUrl);
-			})
-			.on('error', (err) => {
-				throw new StandardError(
-					500,
-					'CLOUD_ERROR',
-					'Something is wrong with the cloud storage',
-					err
-				);
-			})
-			.end(buffer);
-	});
-
-const uploadFileBooking = (id, file, filename) => {
-	new Promise((resolve, reject) => {
-		const { buffer } = file;
-
-		const blob = bucket.file(`document/booking-${id}/${filename.replace(/ /g, '_')}`);
-		const blobStream = blob.createWriteStream({
-			resumable: false,
-		});
-		blobStream
-			.on('finish', async () => {
-				const publicUrl = format(
-					`https://storage.googleapis.com/${bucket.name}/${blob.name}`
-				);
-				resolve(publicUrl);
-			})
-			.on('error', (err) => {
-				throw new StandardError(
-					500,
-					'CLOUD_ERROR',
-					'Something is wrong with the cloud storage',
-					err
-				);
-			})
-			.end(buffer);
-	});
-};
+async function uploadFileBooking(id, oldPath, file) {
+  const filePath = `document/booking-${id}/${path.parse(oldPath).name + path.parse(oldPath).ext}`
+  const fileName = `document/booking-${id}/${file.originalname.replace(/ /g, '_')}`;
+  return await uploadPromise(filePath, file, fileName);
+}
 
 module.exports = {
 	uploadImageUser,
