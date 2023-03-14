@@ -3,6 +3,8 @@ const UserRepository = require('../../repositories/user-repository');
 const { userRoles } = require('./constant');
 const StandardError = require('../../utils/standard-error');
 const { uploadImageUser } = require('../../utils/upload-file');
+const LoggingService = require('../logging-service/index');
+const { loggingRoleStatus } = require('../logging-service/constant');
 
 class UserService {
 	static async getUserById(id) {
@@ -43,8 +45,8 @@ class UserService {
 					await UserRepository.updateUserNumber(id, no_telp);
 				}
 			} else {
-        const user = await UserRepository.getUserById(id);
-        const oldPath = user.image;
+				const user = await UserRepository.getUserById(id);
+				const oldPath = user.image;
 
 				const imageUrl = await uploadImageUser(oldPath, image);
 
@@ -63,9 +65,29 @@ class UserService {
 		}
 	}
 
-	static async updateUserRole(userId, role) {
+	static async updateUserRole(adminId, staffId, role) {
 		try {
-			await UserRepository.changeRole(userId, role);
+			const oldStaff = await UserRepository.getUserById(staffId);
+
+			await UserRepository.changeRole(staffId, role);
+
+			if (role === userRoles.BASIC_USER) {
+				await LoggingService.createLoggingRole(
+					adminId,
+					staffId,
+					oldStaff.role,
+					role,
+					loggingRoleStatus.REVOKE
+				);
+			} else {
+				await LoggingService.createLoggingRole(
+					adminId,
+					staffId,
+					oldStaff.role,
+					role,
+					loggingRoleStatus.GRANT
+				);
+			}
 
 			return {
 				message: `Update user role with role ${role} successful`,
