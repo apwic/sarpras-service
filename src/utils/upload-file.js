@@ -1,7 +1,7 @@
 const { format } = require('util');
 const gc = require('../clients/google-cloud-storage');
 const bucket = gc.bucket('sarpras'); // should be your bucket name
-
+const StandardError = require('./standard-error');
 /**
  *
  * @param { File } object file object that will be uploaded
@@ -27,8 +27,12 @@ const uploadImageUser = (file, filename) =>
 				resolve(publicUrl);
 			})
 			.on('error', (err) => {
-				console.log(err);
-				reject(`Unable to upload image, something went wrong`);
+				throw new StandardError(
+					500,
+					'CLOUD_ERROR',
+					'Something is wrong with the cloud storage',
+					err
+				);
 			})
 			.end(buffer);
 	});
@@ -48,8 +52,13 @@ const uploadFileBooking = (id, file, filename) => {
 				);
 				resolve(publicUrl);
 			})
-			.on('error', () => {
-				reject(`Unable to upload image, something went wrong`);
+			.on('error', (err) => {
+				throw new StandardError(
+					500,
+					'CLOUD_ERROR',
+					'Something is wrong with the cloud storage',
+					err
+				);
 			})
 			.end(buffer);
 	});

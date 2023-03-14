@@ -75,7 +75,7 @@ const BookingModel = (sequelize, { DataTypes }) => {
 		},
 
 		attachment: {
-			type: DataTypes.STRING,
+			type: DataTypes.ARRAY(DataTypes.STRING),
 		},
 
 		letter: {

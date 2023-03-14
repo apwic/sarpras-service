@@ -47,12 +47,13 @@ class UserService {
 					await UserRepository.updateUserNumber(id, no_telp);
 				}
 			} else {
+				console.log(image);
 				const imageUrl = await uploadImageUser(
 					image,
 					`user-${id}${path.parse(image.originalname).ext}`
 				);
 
-				await unlinkAsync(`${__basedir}/../public/uploads/${image.originalname}`);
+				// await unlinkAsync(`${__basedir}/../public/uploads/${image.originalname}`);
 
 				if (no_telp === undefined) {
 					await UserRepository.updateUserImage(id, imageUrl);
