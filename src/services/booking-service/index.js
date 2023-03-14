@@ -1,5 +1,5 @@
 const BookingRepository = require('../../repositories/booking-repository');
-const { uploadFileBooking } = require('../../utils/upload-file');
+const { uploadFileBooking } = require('../../utils/storage');
 class BookingService {
 	static async getBookingByBookingId(bookingId) {
 		try {

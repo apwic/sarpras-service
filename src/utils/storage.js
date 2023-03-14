@@ -1,4 +1,4 @@
-const uploadPromise = require('../clients/google-cloud-storage/index');
+const GCPStorageClient = require('../clients/google-cloud-storage/index');
 const path = require('path');
 const crypto = require('crypto');
 
@@ -7,25 +7,34 @@ async function uploadImageUser(oldPath, file) {
 	const fileName = `image/user/${
 		crypto.randomBytes(20).toString('hex') + path.parse(file.originalname).ext
 	}`;
-	return await uploadPromise(filePath, file, fileName);
+	return await GCPStorageClient.uploadPromise(filePath, file, fileName);
 }
 
 async function uploadFileBooking(id, file) {
 	const fileName = `document/booking-${id}/${
 		crypto.randomBytes(20).toString('hex') + path.parse(file.originalname).ext
 	}`;
-	return await uploadPromise(null, file, fileName);
+	return await GCPStorageClient.uploadPromise(null, file, fileName);
 }
 
 async function uploadImageFacility(id, file) {
 	const fileName = `image/facility/facility-${id}/${
 		crypto.randomBytes(20).toString('hex') + path.parse(file.originalname).ext
 	}`;
-	return await uploadPromise(null, file, fileName);
+	return await GCPStorageClient.uploadPromise(null, file, fileName);
+}
+
+async function deleteImageFacility(filePath) {
+	return await GCPStorageClient.deletePromise(filePath);
+}
+
+const ImageFacility = {
+	upload: uploadImageFacility,
+	delete: deleteImageFacility,
 }
 
 module.exports = {
 	uploadImageUser,
 	uploadFileBooking,
-	uploadImageFacility
+	ImageFacility,
 };

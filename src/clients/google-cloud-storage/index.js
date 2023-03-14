@@ -3,34 +3,56 @@ const path = require('path');
 
 const bucket = require('./connector');
 
-const uploadPromise = (oldPath, file, path) =>
-	new Promise((resolve, reject) => {
-		const { buffer } = file;
+class GCPStorageClient {
+	static async uploadPromise(oldPath, file, path) {
+		new Promise((resolve, reject) => {
+			const { buffer } = file;
 
-		const blob = bucket.file(path);
-		const blobStream = blob.createWriteStream({
-			resumable: false,
+			const blob = bucket.file(path);
+			const blobStream = blob.createWriteStream({
+				resumable: false,
+			});
+			blobStream
+				.on('finish', async () => {
+					if (oldPath !== null) {
+						await bucket.file(oldPath).delete();
+					}
+
+					const publicUrl = format(
+						`https://storage.googleapis.com/${bucket.name}/${blob.name}`
+					);
+					resolve(publicUrl);
+				})
+				.on('error', (err) => {
+					throw new StandardError(
+						500,
+						'CLOUD_ERROR',
+						'Something is wrong with the cloud storage',
+						err
+					);
+				})
+				.end(buffer);
 		});
-		blobStream
-			.on('finish', async () => {
-				if (oldPath !== null) {
-					await bucket.file(oldPath).delete();
-				}
+	}
 
-				const publicUrl = format(
-					`https://storage.googleapis.com/${bucket.name}/${blob.name}`
-				);
-				resolve(publicUrl);
-			})
-			.on('error', (err) => {
-				throw new StandardError(
-					500,
-					'CLOUD_ERROR',
-					'Something is wrong with the cloud storage',
-					err
-				);
-			})
-			.end(buffer);
-	});
+	static async deletePromise(path) {
+		new Promise((resolve, reject) => {
+			bucket
+				.file(path)
+				.delete()
+				.then(() => {
+					resolve();
+				})
+				.catch((err) => {
+					throw new StandardError(
+						500,
+						'CLOUD_ERROR',
+						'Something is wrong with the cloud storage',
+						err
+					);
+				});
+		});
+	}
+}
 
-module.exports = uploadPromise;
+module.exports = GCPStorageClient;
