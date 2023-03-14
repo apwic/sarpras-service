@@ -21,15 +21,23 @@ class FacilityRepository {
 
     static async getFacility(id) {
         try {
-            return await models.Facility.findOne({
+            return (await models.Facility.findOne({
                 where: {
                     id,
                 },
-            });
+            })).dataValues;
         } catch (err) {
             throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
                 id,
             });
+        }
+    }
+
+    static async getFacilities() {
+        try {
+            return await models.Facility.findAll();
+        } catch (err) {
+            throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err);
         }
     }
 
@@ -50,6 +58,28 @@ class FacilityRepository {
             throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
                 vehicle,
             });
+        }
+    }
+
+    static async getVehicle(id) {
+        try {
+            return (await models.FacilityVehicle.findOne({
+                where: {
+                    id,
+                },
+            })).dataValues;
+        } catch (err) {
+            throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+                id,
+            });
+        }
+    }
+
+    static async getVehicles() {
+        try {
+            return await models.FacilityVehicle.findAll();
+        } catch (err) {
+            throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err);
         }
     }
 }

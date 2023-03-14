@@ -2,7 +2,7 @@ const FacilityRepository = require('../../repositories/facility-repository');
 const { uploadImageFacility } = require('../../utils/upload-file');
 
 class FacilityService {
-    static async createFacility(data, files, userId) {
+    static async createFacilityVehicle(data, files, userId) {
         const facilityData = {
             pic_id: data.pic_id || userId,
             category: 'VEHICLE',
@@ -40,10 +40,16 @@ class FacilityService {
         };
     }
 
-    static async getFacility(id) {
+    static async getFacilityVehicle(id) {
         const facility = await FacilityRepository.getFacility(id);
-        return facility;
+        const vehicle = await FacilityRepository.getVehicle(id);
+
+        return {
+            ...facility,
+            ...vehicle,
+        }
     }
+
 }
 
 module.exports = FacilityService;
