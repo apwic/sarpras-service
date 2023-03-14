@@ -17,7 +17,15 @@ async function uploadFileBooking(id, file) {
 	return await uploadPromise(null, file, fileName);
 }
 
+async function uploadImageFacility(id, file) {
+	const fileName = `image/facility/facility-${id}/${
+		crypto.randomBytes(20).toString('hex') + path.parse(file.originalname).ext
+	}`;
+	return await uploadPromise(null, file, fileName);
+}
+
 module.exports = {
 	uploadImageUser,
 	uploadFileBooking,
+	uploadImageFacility
 };

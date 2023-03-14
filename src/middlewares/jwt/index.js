@@ -25,7 +25,7 @@ class JWTMiddleware {
 			let bearerHeader = req.headers['authorization'];
 
 			if (!bearerHeader) {
-				err = generateErrorUnauthorized(req);
+				const err = generateErrorUnauthorized(req);
 				LogHelper.error(err.message);
 				return res.status(401).send(err);
 			}
