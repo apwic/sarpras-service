@@ -2,7 +2,7 @@ const path = require('path');
 const UserRepository = require('../../repositories/user-repository');
 const { userRoles } = require('./constant');
 const StandardError = require('../../utils/standard-error');
-const { uploadImageUser } = require('../../utils/upload-file');
+const { uploadImageUser } = require('../../utils/storage');
 const LoggingService = require('../logging-service/index');
 const { loggingRoleStatus } = require('../logging-service/constant');
 

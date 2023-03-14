@@ -1,5 +1,5 @@
 const FacilityRepository = require('../../repositories/facility-repository');
-const { uploadImageFacility } = require('../../utils/upload-file');
+const { ImageFacility } = require('../../utils/storage');
 
 class FacilityService {
     static async createFacilityVehicle(data, files, userId) {
@@ -14,10 +14,10 @@ class FacilityService {
         const facility = await FacilityRepository.createFacility(facilityData);
 
         const uploadedImages = [];
-        const images = files.image;
+        const images = files.image || [];
         await Promise.all(
             images.map(async (image) => {
-                const fileURL = await uploadImageFacility(facility.id, image);
+                const fileURL = await ImageFacility.upload(facility.id, image);
                 uploadedImages.push(fileURL);
             })
         );
