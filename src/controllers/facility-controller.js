@@ -27,7 +27,14 @@ module.exports = () => {
 		[JWTMiddleware.verifyToken],
 		handleRequest(async (req) => FacilityService.deleteFacilityVehicle(req.params.id)),
 		buildResponse()
-	)
+	);
+
+	facilityRouter.put(
+		'/vehicle/:id',
+		[JWTMiddleware.verifyToken, uploadFile],
+		handleRequest(async (req) => FacilityService.updateFacilityVehicle(req.params.id, req.body, req.files)),
+		buildResponse()
+	);
 
 	return facilityRouter;
 };
