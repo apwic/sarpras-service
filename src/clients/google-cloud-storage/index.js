@@ -13,7 +13,9 @@ const uploadPromise = (oldPath, file, path) =>
 		});
 		blobStream
 			.on('finish', async () => {
-				await bucket.file(oldPath).delete();
+				if (oldPath !== null) {
+					await bucket.file(oldPath).delete();
+				}
 
 				const publicUrl = format(
 					`https://storage.googleapis.com/${bucket.name}/${blob.name}`

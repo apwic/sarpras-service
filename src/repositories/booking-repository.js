@@ -2,6 +2,34 @@ const { models } = require('../db/index');
 const StandardError = require('../utils/standard-error');
 
 class BookingRepository {
+	static async getBookingByBookingId(bookingId) {
+		try {
+			return await models.Booking.findOne({
+				where: {
+					id: bookingId,
+				},
+			});
+		} catch (err) {
+			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+				bookingId,
+			});
+		}
+	}
+
+	static async getBookingByUserId(userId) {
+		try {
+			return await models.Booking.findAll({
+				where: {
+					user_id: userId,
+				},
+			});
+		} catch (err) {
+			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+				userId,
+			});
+		}
+	}
+
 	static async createBooking(booking) {
 		try {
 			return await models.Booking.create({
