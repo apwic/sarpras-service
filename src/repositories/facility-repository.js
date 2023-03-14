@@ -19,6 +19,20 @@ class FacilityRepository {
         }
     }
 
+    static async getFacility(id) {
+        try {
+            return await models.Facility.findOne({
+                where: {
+                    id,
+                },
+            });
+        } catch (err) {
+            throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+                id,
+            });
+        }
+    }
+
     static async createVehicle(vehicle) {
         try {
             return await models.FacilityVehicle.create({

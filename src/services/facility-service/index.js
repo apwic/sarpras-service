@@ -39,6 +39,11 @@ class FacilityService {
             message: 'Facility Vehicle created succesfully',
         };
     }
+
+    static async getFacility(id) {
+        const facility = await FacilityRepository.getFacility(id);
+        return facility;
+    }
 }
 
 module.exports = FacilityService;
