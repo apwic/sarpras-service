@@ -11,13 +11,14 @@ const rootController = require('./controllers/root-controller');
 const loginController = require('./controllers/login-controller');
 const profileController = require('./controllers/profile-controller');
 const roleController = require('./controllers/role-controller');
+const bookingController = require('./controllers/booking-controller');
 
 async function setupRoutes(app) {
 	app.use('/', rootController());
 	app.use('/login', loginController());
 	app.use('/profile', profileController());
 	app.use('/role', roleController());
-	app.use(express.static(path.join(__basedir, '/../public')));
+	app.use('/booking', bookingController());
 }
 
 async function createApp() {

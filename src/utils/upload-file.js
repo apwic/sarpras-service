@@ -10,12 +10,11 @@ async function uploadImageUser(oldPath, file) {
 	return await uploadPromise(filePath, file, fileName);
 }
 
-async function uploadFileBooking(id, oldPath, file) {
-	const filePath = `document/booking-${id}/${path.parse(oldPath).name + path.parse(oldPath).ext}`;
+async function uploadFileBooking(id, file) {
 	const fileName = `document/booking-${id}/${
 		crypto.randomBytes(20).toString('hex') + path.parse(file.originalname).ext
 	}`;
-	return await uploadPromise(filePath, file, fileName);
+	return await uploadPromise(null, file, fileName);
 }
 
 module.exports = {
