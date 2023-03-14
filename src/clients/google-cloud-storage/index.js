@@ -3,9 +3,9 @@ const path = require('path');
 
 const bucket = require('./connector');
 
-const uploadPromise = (oldPath, file, path) => 
-  new Promise((resolve, reject) => {
-    const { buffer } = file;
+const uploadPromise = (oldPath, file, path) =>
+	new Promise((resolve, reject) => {
+		const { buffer } = file;
 
 		const blob = bucket.file(path);
 		const blobStream = blob.createWriteStream({
@@ -13,7 +13,7 @@ const uploadPromise = (oldPath, file, path) =>
 		});
 		blobStream
 			.on('finish', async () => {
-        await bucket.file(oldPath).delete();
+				await bucket.file(oldPath).delete();
 
 				const publicUrl = format(
 					`https://storage.googleapis.com/${bucket.name}/${blob.name}`
@@ -29,6 +29,6 @@ const uploadPromise = (oldPath, file, path) =>
 				);
 			})
 			.end(buffer);
-  });
+	});
 
 module.exports = uploadPromise;

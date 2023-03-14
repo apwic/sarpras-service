@@ -46,6 +46,11 @@ const FacilityModel = (sequelize, { DataTypes }) => {
 			allowNull: false,
 		},
 
+		price: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+		},
+
 		electricity: {
 			type: DataTypes.INTEGER,
 		},

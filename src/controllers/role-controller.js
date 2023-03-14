@@ -35,7 +35,8 @@ module.exports = () => {
 			}),
 		}),
 		handleRequest(
-			async (req) => await UserService.updateUserRole(req.body.user_id, req.body.role)
+			async (req) =>
+				await UserService.updateUserRole(req.user.id, req.body.user_id, req.body.role)
 		),
 		buildResponse()
 	);
@@ -49,7 +50,8 @@ module.exports = () => {
 			}),
 		}),
 		handleRequest(
-			async (req) => await UserService.updateUserRole(req.body.user_id, 'BASIC_USER')
+			async (req) =>
+				await UserService.updateUserRole(req.user.id, req.body.user_id, 'BASIC_USER')
 		),
 		buildResponse()
 	);
