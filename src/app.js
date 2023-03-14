@@ -12,6 +12,7 @@ const loginController = require('./controllers/login-controller');
 const profileController = require('./controllers/profile-controller');
 const roleController = require('./controllers/role-controller');
 const bookingController = require('./controllers/booking-controller');
+const facilityController = require('./controllers/facility-controller');
 
 async function setupRoutes(app) {
 	app.use('/', rootController());
@@ -19,6 +20,7 @@ async function setupRoutes(app) {
 	app.use('/profile', profileController());
 	app.use('/role', roleController());
 	app.use('/booking', bookingController());
+	app.use('/facility', facilityController());
 }
 
 async function createApp() {

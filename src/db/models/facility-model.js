@@ -58,6 +58,11 @@ const FacilityModel = (sequelize, { DataTypes }) => {
 		utility: {
 			type: DataTypes.ARRAY(DataTypes.INTEGER),
 		},
+
+		description: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 	});
 
 	Facility.associate = (models) => {
@@ -311,10 +316,6 @@ const FacilityVehicleModel = (sequelize, { DataTypes }) => {
 		sim_category: {
 			type: DataTypes.ENUM('A', 'B1', 'B2', 'C', 'D'),
 			allowNull: false,
-		},
-
-		description: {
-			type: DataTypes.STRING,
 		},
 
 		license_number: {
