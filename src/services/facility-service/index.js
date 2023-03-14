@@ -15,6 +15,7 @@ class FacilityService {
 
         const uploadedImages = [];
         const images = files.image || [];
+
         await Promise.all(
             images.map(async (image) => {
                 const fileURL = await ImageFacility.upload(facility.id, image);
@@ -48,6 +49,31 @@ class FacilityService {
             ...facility,
             ...vehicle,
         }
+    }
+
+    static async deleteFacilityVehicle(id) {
+        const facility = await FacilityRepository.getFacility(id);
+
+        if (facility.category !== 'VEHICLE') {
+            return {
+                message: 'Facility is not a vehicle',
+            }
+        }
+
+        const vehicle = await FacilityRepository.getVehicle(id);
+
+        const images = vehicle.image || [];
+        await Promise.all(
+            images.map(async (image) => {
+                await ImageFacility.delete(image);
+            }
+        ));
+
+        await FacilityRepository.deleteFacility(id);
+
+        return {
+            message: 'Facility Vehicle deleted succesfully',
+        };
     }
 
 }

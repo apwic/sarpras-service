@@ -2,10 +2,11 @@ const { format } = require('util');
 const path = require('path');
 
 const bucket = require('./connector');
+const StandardError = require('../../utils/standard-error');
 
 class GCPStorageClient {
 	static async uploadPromise(oldPath, file, path) {
-		new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			const { buffer } = file;
 
 			const blob = bucket.file(path);
@@ -36,7 +37,7 @@ class GCPStorageClient {
 	}
 
 	static async deletePromise(path) {
-		new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			bucket
 				.file(path)
 				.delete()
