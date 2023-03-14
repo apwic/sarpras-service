@@ -33,11 +33,17 @@ class FacilityRepository {
         }
     }
 
-    static async getFacilities() {
+    static async deleteFacility(id) {
         try {
-            return await models.Facility.findAll();
+            await models.Facility.destroy({
+                where: {
+                    id,
+                },
+            });
         } catch (err) {
-            throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err);
+            throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+                id,
+            });
         }
     }
 
@@ -72,14 +78,6 @@ class FacilityRepository {
             throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
                 id,
             });
-        }
-    }
-
-    static async getVehicles() {
-        try {
-            return await models.FacilityVehicle.findAll();
-        } catch (err) {
-            throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err);
         }
     }
 }

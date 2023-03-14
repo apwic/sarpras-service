@@ -25,6 +25,8 @@ async function uploadImageFacility(id, file) {
 }
 
 async function deleteImageFacility(filePath) {
+	filePath = filePath.replace('https://storage.googleapis.com/sarpras/', '');
+
 	return await GCPStorageClient.deletePromise(filePath);
 }
 
