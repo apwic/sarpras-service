@@ -1,29 +1,64 @@
 const CampusRepository = require('../../repositories/campus-repository');
 const FacilityRepository = require('../../repositories/facility-repository');
 const { ImageFacility } = require('../../utils/storage');
+const { facilityCategory } = require('./constant');
+
+async function createFacility(data, userId, category) {
+	const facilityData = {
+		pic_id: data.pic_id || userId,
+		category: category,
+		electricity: data.electricity || null,
+		utility: data.utility || null,
+		price: data.price,
+		description: data.description,
+		not_available: data.not_available || null,
+	};
+
+	const facility = FacilityRepository.createFacility(facilityData);
+	return facility;
+}
+
+async function updateFacility(data, facility) {
+	const facilityData = {
+		id: id,
+		pic_id: data.pic_id || facility.pic_id,
+		category: facilityCategory.VEHICLE,
+		electricity: data.electricity || facility.electricity,
+		utility: data.utility || facility.utility,
+		price: data.price || facility.price,
+		description: data.description || facility.description,
+		not_available: data.not_available || facility.not_available,
+	};
+
+	await FacilityRepository.updateFacility(facilityData);
+}
+
+async function uploadImage(files) {
+	const uploadedImages = [];
+	const images = files.image || [];
+
+	await Promise.all(
+		images.map(async (image) => {
+			const fileURL = await ImageFacility.upload(facility.id, image);
+			uploadedImages.push(fileURL);
+		})
+	);
+
+	return uploadedImages;
+}
+
+async function deleteImage(images) {
+	await Promise.all(
+		images.map(async (image) => {
+			await ImageFacility.delete(image);
+		})
+	);
+}
 
 class FacilityService {
 	static async createFacilityVehicle(data, files, userId) {
-		const facilityData = {
-			pic_id: data.pic_id || userId,
-			category: 'VEHICLE',
-			electricity: data.electricity || null,
-			utility: data.utility || null,
-			price: data.price,
-			description: data.description,
-			not_available: data.not_available || null,
-		};
-		const facility = await FacilityRepository.createFacility(facilityData);
-
-		const uploadedImages = [];
-		const images = files.image || [];
-
-		await Promise.all(
-			images.map(async (image) => {
-				const fileURL = await ImageFacility.upload(facility.id, image);
-				uploadedImages.push(fileURL);
-			})
-		);
+		const facility = await createFacility(data, userId, facilityCategory.VEHICLE);
+		const uploadedImages = await uploadImage(files);
 
 		const vehicleData = {
 			id: facility.id,
@@ -72,11 +107,7 @@ class FacilityService {
 		const vehicle = await FacilityRepository.getVehicle(id);
 
 		const images = vehicle.image || [];
-		await Promise.all(
-			images.map(async (image) => {
-				await ImageFacility.delete(image);
-			})
-		);
+		await deleteImage(images);
 
 		await FacilityRepository.deleteFacility(id);
 
@@ -88,24 +119,18 @@ class FacilityService {
 	static async updateFacilityVehicle(id, data, files) {
 		const facility = await FacilityRepository.getFacility(id);
 
-		if (facility.category !== 'VEHICLE') {
+		if (facility.category !== facilityCategory.VEHICLE) {
 			return {
 				message: 'Facility is not a vehicle',
 			};
 		}
 
 		const vehicle = await FacilityRepository.getVehicle(id);
-		const images = vehicle.image || [];
 
-		const uploadedImages = [];
+		const images = vehicle.image || [];
 		const newImages = files.image || [];
 
-		await Promise.all(
-			newImages.map(async (image) => {
-				const fileURL = await ImageFacility.upload(id, image);
-				uploadedImages.push(fileURL);
-			})
-		);
+		const uploadedImages = await uploadImage(newImages);
 
 		const vehicleData = {
 			id: id,
@@ -118,28 +143,108 @@ class FacilityService {
 			image: uploadedImages,
 			status_maintenance: data.status_maintenance || vehicle.status_maintenance,
 		};
+
 		await FacilityRepository.updateVehicle(vehicleData);
-
-		const facilityData = {
-			id: id,
-			pic_id: data.pic_id || facility.pic_id,
-			category: 'VEHICLE',
-			electricity: data.electricity || facility.electricity,
-			utility: data.utility || facility.utility,
-			price: data.price || facility.price,
-			description: data.description || facility.description,
-			not_available: data.not_available || facility.not_available,
-		};
-		await FacilityRepository.updateFacility(facilityData);
-
-		await Promise.all(
-			images.map(async (image) => {
-				await ImageFacility.delete(image);
-			})
-		);
+		await updateFacility(data, facility);
+		await deleteImage(images);
 
 		return {
 			message: 'Facility Vehicle updated succesfully',
+		};
+	}
+
+	static async createFacilityBuilding(data, files, userId) {
+		const facility = await createFacility(data, userId, facilityCategory.BUILDING);
+		const uploadedImages = await uploadImage(files);
+
+		const buildingData = {
+			id: facility.id,
+			campus_id: data.campus_id,
+			name: data.name,
+			image: uploadedImages,
+			capacity: data.capacity,
+			latitude: data.latitude,
+			longitude: data.longitude,
+			status_maintenance: data.status_maintenance || false,
+		};
+		await FacilityRepository.createBuilding(buildingData);
+
+		return {
+			message: 'Facility Building created succesfully',
+		};
+	}
+
+	static async getFacilityBuilding(id) {
+		const facility = (await FacilityRepository.getFacility(id)).dataValues;
+		const building = (await FacilityRepository.getBuilding(id)).dataValues;
+
+		const campusName = await CampusRepository.getCampus(building.campus_id);
+		delete building.campus_id;
+
+		return {
+			message: 'Facility Building retrieved succesfully',
+			data: {
+				...facility,
+				...building,
+				campus: campusName,
+			}
+		};
+	}
+
+	static async deleteFacilityBuilding(id) {
+		const facility = await FacilityRepository.getFacility(id);
+
+		if (facility.category !== facilityCategory.BUILDING) {
+			return {
+				message: 'Facility is not a building',
+			};
+		}
+
+		const building = await FacilityRepository.getBuilding(id);
+
+		const images = building.image || [];
+		await deleteImage(images);
+
+		await FacilityRepository.deleteFacility(id);
+
+		return {
+			message: 'Facility Building deleted succesfully',
+		};
+	}
+
+	static async updateFacilityBuilding(id, data, files) {
+		const facility = await FacilityRepository.getFacility(id);
+
+		if (facility.category !== facilityCategory.BUILDING) {
+			return {
+				message: 'Facility is not a building',
+			};
+		}
+
+		const building = await FacilityRepository.getBuilding(id);
+
+		const images = building.image || [];
+		const newImages = files.image || [];
+
+		const uploadedImages = await uploadImage(newImages);
+
+		const buildingData = {
+			id: id,
+			campus_id: data.campus_id || building.campus_id,
+			name: data.name || building.name,
+			image: uploadedImages,
+			capacity: data.capacity || building.capacity,
+			latitude: data.latitude || building.latitude,
+			longitude: data.longitude || building.longitude,
+			status_maintenance: data.status_maintenance || building.status_maintenance,
+		};
+
+		await FacilityRepository.updateBuilding(buildingData);
+		await updateFacility(data, facility);
+		await deleteImage(images);
+
+		return {
+			message: 'Facility Building updated succesfully',
 		};
 	}
 }
