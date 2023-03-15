@@ -11,7 +11,7 @@ const facilityRouter = require('express').Router();
 module.exports = () => {
 	facilityRouter.post(
 		'/vehicle',
-		[JWTMiddleware.verifyToken, uploadFile],
+		[JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
 		handleRequest(async (req) =>
 			FacilityService.createFacilityVehicle(req.body, req.files, req.user.id)
 		),
@@ -26,14 +26,14 @@ module.exports = () => {
 
 	facilityRouter.delete(
 		'/vehicle/:id',
-		[JWTMiddleware.verifyToken],
+		[JWTMiddleware.verifyToken, UserValidation.admin],
 		handleRequest(async (req) => FacilityService.deleteFacilityVehicle(req.params.id)),
 		buildResponse()
 	);
 
 	facilityRouter.put(
 		'/vehicle/:id',
-		[JWTMiddleware.verifyToken, uploadFile],
+		[JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
 		handleRequest(async (req) =>
 			FacilityService.updateFacilityVehicle(req.params.id, req.body, req.files)
 		),
