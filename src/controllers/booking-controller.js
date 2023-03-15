@@ -19,7 +19,7 @@ module.exports = () => {
 	bookingRouter.get(
 		'/:id',
 		[JWTMiddleware.verifyToken],
-		handleRequest(async (req) => await BookingService.getBookingByUserId(req.params.id)),
+		handleRequest(async (req) => await BookingService.getBookingByBookingId(req.params.id)),
 		buildResponse()
 	);
 
