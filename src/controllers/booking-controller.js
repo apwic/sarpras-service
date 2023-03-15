@@ -83,5 +83,12 @@ module.exports = () => {
 		buildResponse()
 	);
 
+	bookingRouter.post(
+		'/review',
+		[JWTMiddleware.verifyToken],
+		handleRequest(async (req) => await BookingService.createReviewBooking(req.body)),
+		buildResponse()
+	);
+
 	return bookingRouter;
 };

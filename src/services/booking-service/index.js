@@ -65,6 +65,24 @@ class BookingService {
 			throw err;
 		}
 	}
+
+	static async createReviewBooking(body) {
+		try {
+			const review = {
+				booking_id: body.booking_id,
+				rating: body.rating,
+				description: body.description,
+			};
+
+			await BookingRepository.createReviewBooking(review);
+
+			return {
+				message: 'Review Booking created succesfully',
+			};
+		} catch (err) {
+			throw err;
+		}
+	}
 }
 
 module.exports = BookingService;
