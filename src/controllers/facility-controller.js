@@ -40,5 +40,36 @@ module.exports = () => {
 		buildResponse()
 	);
 
+	facilityRouter.post(
+		'/building',
+		[JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
+		handleRequest(async (req) =>
+			FacilityService.createFacilityBuilding(req.body, req.files, req.user.id)
+		),
+		buildResponse()
+	);
+
+	facilityRouter.get(
+		'/building/:id',
+		handleRequest(async (req) => FacilityService.getFacilityBuilding(req.params.id)),
+		buildResponse()
+	);
+
+	facilityRouter.delete(
+		'/building/:id',
+		[JWTMiddleware.verifyToken, UserValidation.admin],
+		handleRequest(async (req) => FacilityService.deleteFacilityBuilding(req.params.id)),
+		buildResponse()
+	);
+
+	facilityRouter.put(
+		'/building/:id',
+		[JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
+		handleRequest(async (req) =>
+			FacilityService.updateFacilityBuilding(req.params.id, req.body, req.files)
+		),
+		buildResponse()
+	);
+
 	return facilityRouter;
 };
