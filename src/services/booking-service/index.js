@@ -83,6 +83,19 @@ class BookingService {
 			throw err;
 		}
 	}
+
+	static async getReviewBookingByBookingId(bookingId) {
+		try {
+			const review = await BookingRepository.getReviewBookingByBookingId(bookingId);
+
+			return {
+				message: `Fetching review booking with booking_id ${bookingId} succesful`,
+				data: review,
+			};
+		} catch (err) {
+			throw err;
+		}
+	}
 }
 
 module.exports = BookingService;

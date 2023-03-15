@@ -90,5 +90,14 @@ module.exports = () => {
 		buildResponse()
 	);
 
+	bookingRouter.get(
+		'/:id/review',
+		[JWTMiddleware.verifyToken],
+		handleRequest(
+			async (req) => await BookingService.getReviewBookingByBookingId(req.params.id)
+		),
+		buildResponse()
+	);
+
 	return bookingRouter;
 };
