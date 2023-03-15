@@ -10,6 +10,7 @@ class FacilityService {
 			utility: data.utility || null,
 			price: data.price,
 			description: data.description,
+			not_available: data.not_available || null,
 		};
 		const facility = await FacilityRepository.createFacility(facilityData);
 
@@ -119,6 +120,7 @@ class FacilityService {
 			utility: data.utility || facility.utility,
 			price: data.price || facility.price,
 			description: data.description || facility.description,
+			not_available: data.not_available || facility.not_available,
 		};
 		await FacilityRepository.updateFacility(facilityData);
 

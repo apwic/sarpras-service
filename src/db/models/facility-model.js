@@ -59,6 +59,10 @@ const FacilityModel = (sequelize, { DataTypes }) => {
 			type: DataTypes.ARRAY(DataTypes.INTEGER),
 		},
 
+		not_available: {
+			type: DataTypes.ARRAY(DataTypes.DATE),
+		},
+
 		description: {
 			type: DataTypes.STRING,
 			allowNull: false,

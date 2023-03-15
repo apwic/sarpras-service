@@ -47,10 +47,10 @@ class UserService {
 			} else {
 				const user = await UserRepository.getUserById(id);
 				const oldPath = user.image;
+				console.log(image);
 
-				const imageUrl = await ImageUser.upload(image).then(() => {
-					ImageUser.delete(oldPath);
-				});
+				const imageUrl = await ImageUser.upload(image);
+				await ImageUser.delete(oldPath);
 
 				if (no_telp === undefined) {
 					await UserRepository.updateUserImage(id, imageUrl);
