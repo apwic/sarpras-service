@@ -5,7 +5,7 @@ const bucket = require('./connector');
 const StandardError = require('../../utils/standard-error');
 
 class GCPStorageClient {
-	static async uploadPromise(oldPath, file, path) {
+	static async uploadPromise(file, path) {
 		return new Promise((resolve, reject) => {
 			const { buffer } = file;
 
@@ -15,10 +15,6 @@ class GCPStorageClient {
 			});
 			blobStream
 				.on('finish', async () => {
-					if (oldPath !== null) {
-						await bucket.file(oldPath).delete();
-					}
-
 					const publicUrl = format(
 						`https://storage.googleapis.com/${bucket.name}/${blob.name}`
 					);
