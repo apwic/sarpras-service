@@ -71,6 +71,20 @@ class BookingRepository {
 			});
 		}
 	}
+
+	static async createReviewBooking(review) {
+		try {
+			return await models.ReviewBooking.create({
+				booking_id: review.booking_id,
+				rating: review.rating,
+				description: review.description,
+			});
+		} catch (err) {
+			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+				review,
+			});
+		}
+	}
 }
 
 module.exports = BookingRepository;
