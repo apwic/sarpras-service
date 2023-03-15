@@ -11,6 +11,7 @@ class FacilityRepository {
 				utility: facility.utility,
 				price: facility.price,
 				description: facility.description,
+				not_available: facility.not_available,
 			});
 		} catch (err) {
 			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
