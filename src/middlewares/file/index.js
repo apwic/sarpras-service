@@ -9,10 +9,9 @@ const fileFilter = (req, file, cb) => {
 			file.mimetype === 'image/jpg' ||
 			file.mimetype === 'image/jpeg'
 		) {
-			// check file type to be png, jpeg, or jpg
 			cb(null, true);
 		} else {
-			cb(null, false); // else fails
+			cb(null, false);
 		}
 	} else if (file.fieldname === 'video') {
 		if (
@@ -21,10 +20,9 @@ const fileFilter = (req, file, cb) => {
 			file.mimetype === 'video/x-msvideo' ||
 			file.mimetype === '	video/x-ms-wmv'
 		) {
-			// check file type to be png, jpeg, or jpg
 			cb(null, true);
 		} else {
-			cb(null, false); // else fails
+			cb(null, false);
 		}
 	} else if (file.fieldname === 'file') {
 		if (
@@ -33,10 +31,9 @@ const fileFilter = (req, file, cb) => {
 			file.mimetype ===
 				'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 		) {
-			// check file type to be pdf, doc, or docx
 			cb(null, true);
 		} else {
-			cb(null, false); // else fails
+			cb(null, false);
 		}
 	} else {
 		cb(null, false);
@@ -44,7 +41,6 @@ const fileFilter = (req, file, cb) => {
 };
 
 let uploadFileMulter = multer({
-	// storage: fileStorage,
 	limits: {
 		fileSize: maxSize,
 	},

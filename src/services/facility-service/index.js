@@ -1,3 +1,4 @@
+const CampusRepository = require('../../repositories/campus-controller');
 const FacilityRepository = require('../../repositories/facility-repository');
 const { ImageFacility } = require('../../utils/storage');
 
@@ -43,12 +44,19 @@ class FacilityService {
 	}
 
 	static async getFacilityVehicle(id) {
-		const facility = await FacilityRepository.getFacility(id);
-		const vehicle = await FacilityRepository.getVehicle(id);
+		const facility = (await FacilityRepository.getFacility(id)).dataValues;
+		const vehicle = (await FacilityRepository.getVehicle(id)).dataValues;
+
+		const campusName = await CampusRepository.getCampus(vehicle.campus_id);
+		delete vehicle.campus_id;
 
 		return {
-			...facility,
-			...vehicle,
+			message: 'Facility Vehicle retrieved succesfully',
+			data: {
+				...facility,
+				...vehicle,
+				campus: campusName,
+			}
 		};
 	}
 

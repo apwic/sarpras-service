@@ -22,13 +22,11 @@ class FacilityRepository {
 
 	static async getFacility(id) {
 		try {
-			return (
-				await models.Facility.findOne({
-					where: {
-						id,
-					},
-				})
-			).dataValues;
+			return await models.Facility.findOne({
+				where: {
+					id,
+				},
+			});
 		} catch (err) {
 			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
 				id,
@@ -96,13 +94,11 @@ class FacilityRepository {
 
 	static async getVehicle(id) {
 		try {
-			return (
-				await models.FacilityVehicle.findOne({
-					where: {
-						id,
-					},
-				})
-			).dataValues;
+			return await models.FacilityVehicle.findOne({
+				where: {
+					id,
+				},
+			});
 		} catch (err) {
 			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
 				id,
