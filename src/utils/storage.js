@@ -30,22 +30,22 @@ async function deleteFile(filePath) {
 }
 
 const ImageUser = {
-  upload: uploadImageUser,
-  delete: deleteFile
-}
+	upload: uploadImageUser,
+	delete: deleteFile,
+};
 
 const FileBooking = {
-  upload: uploadFileBooking,
-  delete: deleteFile
-}
+	upload: uploadFileBooking,
+	delete: deleteFile,
+};
 
 const ImageFacility = {
 	upload: uploadImageFacility,
 	delete: deleteFile,
-}
+};
 
 module.exports = {
 	ImageUser,
-  FileBooking,
+	FileBooking,
 	ImageFacility,
 };

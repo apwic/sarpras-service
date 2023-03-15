@@ -12,7 +12,9 @@ module.exports = () => {
 	facilityRouter.post(
 		'/vehicle',
 		[JWTMiddleware.verifyToken, uploadFile],
-		handleRequest(async (req) => FacilityService.createFacilityVehicle(req.body, req.files, req.user.id)),
+		handleRequest(async (req) =>
+			FacilityService.createFacilityVehicle(req.body, req.files, req.user.id)
+		),
 		buildResponse()
 	);
 
@@ -32,7 +34,9 @@ module.exports = () => {
 	facilityRouter.put(
 		'/vehicle/:id',
 		[JWTMiddleware.verifyToken, uploadFile],
-		handleRequest(async (req) => FacilityService.updateFacilityVehicle(req.params.id, req.body, req.files)),
+		handleRequest(async (req) =>
+			FacilityService.updateFacilityVehicle(req.params.id, req.body, req.files)
+		),
 		buildResponse()
 	);
 
