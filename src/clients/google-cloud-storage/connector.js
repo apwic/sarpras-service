@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Cloud = require('@google-cloud/storage');
 const path = require('path');
-const serviceKey = require('./config/service-key.js')
+const serviceKey = require('./config/service-key.js');
 
 const { Storage } = Cloud;
 const storage = new Storage({

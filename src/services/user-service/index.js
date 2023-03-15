@@ -49,8 +49,8 @@ class UserService {
 				const oldPath = user.image;
 
 				const imageUrl = await ImageUser.upload(image).then(() => {
-          ImageUser.delete(oldPath)
-        });
+					ImageUser.delete(oldPath);
+				});
 
 				if (no_telp === undefined) {
 					await UserRepository.updateUserImage(id, imageUrl);

@@ -1,5 +1,6 @@
 const BookingRepository = require('../../repositories/booking-repository');
-const { uploadFileBooking } = require('../../utils/storage');
+const { FileBooking } = require('../../utils/storage');
+const { bookingStatus } = require('./constant');
 class BookingService {
 	static async getBookingByBookingId(bookingId) {
 		try {
@@ -35,10 +36,10 @@ class BookingService {
 				payment_id: null,
 				facility_id: body.facility_id,
 				category: category,
-				attachment: body.attachment,
+				attachment: null,
 				letter: null,
 				cost: body.cost,
-				status: body.status,
+				status: bookingStatus.PENDING,
 				description: body.description,
 				start_timestamp: body.start_timestamp,
 				end_timestamp: body.end_timestamp,
@@ -48,12 +49,14 @@ class BookingService {
 			const bookingId = bookingCreated.id;
 
 			const uploadedFiles = [];
-			for (let i = 0; i < files.length; i++) {
-				const fileURL = await uploadFileBooking(bookingId, files[i]);
-				uploadedFiles.push(fileURL);
-			}
+			await Promise.all(
+				files.file.map(async (file) => {
+					const fileURL = await FileBooking.upload(bookingId, file);
+					uploadedFiles.push(fileURL);
+				})
+			);
 
-			await BookingRepository.updateAttachment(uploadedFiles);
+			await BookingRepository.updateAttachment(bookingId, uploadedFiles);
 
 			return {
 				message: 'Booking created succesfully',
