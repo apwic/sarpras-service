@@ -85,6 +85,20 @@ class BookingRepository {
 			});
 		}
 	}
+
+	static async getReviewBookingByBookingId(bookingId) {
+		try {
+			return await models.ReviewBooking.findOne({
+				where: {
+					booking_id: bookingId,
+				},
+			});
+		} catch (err) {
+			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+				bookingId,
+			});
+		}
+	}
 }
 
 module.exports = BookingRepository;
