@@ -13,6 +13,7 @@ const profileController = require('./controllers/profile-controller');
 const roleController = require('./controllers/role-controller');
 const bookingController = require('./controllers/booking-controller');
 const facilityController = require('./controllers/facility-controller');
+const campusController = require('./controllers/campus-controller');
 
 async function setupRoutes(app) {
 	app.use('/', rootController());
@@ -21,6 +22,7 @@ async function setupRoutes(app) {
 	app.use('/role', roleController());
 	app.use('/booking', bookingController());
 	app.use('/facility', facilityController());
+	app.use('/campus', campusController());
 }
 
 async function createApp() {

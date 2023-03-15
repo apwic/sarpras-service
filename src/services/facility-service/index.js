@@ -1,4 +1,4 @@
-const CampusRepository = require('../../repositories/campus-controller');
+const CampusRepository = require('../../repositories/campus-repository');
 const FacilityRepository = require('../../repositories/facility-repository');
 const { ImageFacility } = require('../../utils/storage');
 
