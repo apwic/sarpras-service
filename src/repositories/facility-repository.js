@@ -189,6 +189,116 @@ class FacilityRepository {
 			});
 		}
 	}
+
+	static async createRoom(room) {
+		try {
+			return await models.FacilityRoom.create({
+				id: room.id,
+				facility_building_id: room.facility_building_id,
+				name: room.name,
+				room_code: room.room_code,
+				image: room.image,
+				capacity: room.capacity,
+				status_maintenance: room.status_maintenance,
+			});
+		} catch (err) {
+			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+				room,
+			});
+		}
+	}
+
+	static async getRoom(id) {
+		try {
+			return await models.FacilityRoom.findOne({
+				where: {
+					id,
+				},
+			});
+		} catch (err) {
+			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+				id,
+			});
+		}
+	}
+
+	static async updateRoom(room) {
+		try {
+			await models.FacilityRoom.update(
+				{
+					facility_building_id: room.facility_building_id,
+					name: room.name,
+					room_code: room.room_code,
+					image: room.image,
+					capacity: room.capacity,
+					status_maintenance: room.status_maintenance,
+				},
+				{
+					where: {
+						id: room.id,
+					},
+				}
+			);
+		} catch (err) {
+			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+				room,
+			});
+		}
+	}
+
+	static async createSelasar(selasar) {
+		try {
+			return await models.FacilitySelasar.create({
+				id: selasar.id,
+				facility_building_id: selasar.facility_building_id,
+				name: selasar.name,
+				image: selasar.image,
+				capacity: selasar.capacity,
+				status_maintenance: selasar.status_maintenance,
+			});
+		} catch (err) {
+			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+				selasar,
+			});
+		}
+	}
+
+	static async getSelasar(id) {
+		try {
+			return await models.FacilitySelasar.findOne({
+				where: {
+					id,
+				},
+			});
+		} catch (err) {
+			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+				id,
+			});
+		}
+	}
+
+	static async updateSelasar(selasar) {
+		try {
+			await models.FacilitySelasar.update(
+				{
+					facility_building_id: selasar.facility_building_id,
+					name: selasar.name,
+					image: selasar.image,
+					capacity: selasar.capacity,
+					status_maintenance: selasar.status_maintenance,
+				},
+				{
+					where: {
+						id: selasar.id,
+					},
+				}
+			);
+		} catch (err) {
+			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+				selasar,
+			});
+		}
+	}
 }
 
 module.exports = FacilityRepository;

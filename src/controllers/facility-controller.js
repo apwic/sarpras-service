@@ -71,5 +71,67 @@ module.exports = () => {
 		buildResponse()
 	);
 
+	facilityRouter.post(
+		'/room',
+		[JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
+		handleRequest(async (req) =>
+			FacilityService.createFacilityRoom(req.body, req.files, req.user.id)
+		),
+		buildResponse()
+	);
+
+	facilityRouter.get(
+		'/room/:id',
+		handleRequest(async (req) => FacilityService.getFacilityRoom(req.params.id)),
+		buildResponse()
+	);
+
+	facilityRouter.delete(
+		'/room/:id',
+		[JWTMiddleware.verifyToken, UserValidation.admin],
+		handleRequest(async (req) => FacilityService.deleteFacilityRoom(req.params.id)),
+		buildResponse()
+	);
+
+	facilityRouter.put(
+		'/room/:id',
+		[JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
+		handleRequest(async (req) =>
+			FacilityService.updateFacilityRoom(req.params.id, req.body, req.files)
+		),
+		buildResponse()
+	);
+
+	facilityRouter.post(
+		'/selasar',
+		[JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
+		handleRequest(async (req) =>
+			FacilityService.createFacilitySelasar(req.body, req.files, req.user.id)
+		),
+		buildResponse()
+	);
+
+	facilityRouter.get(
+		'/selasar/:id',
+		handleRequest(async (req) => FacilityService.getFacilitySelasar(req.params.id)),
+		buildResponse()
+	);
+
+	facilityRouter.delete(
+		'/selasar/:id',
+		[JWTMiddleware.verifyToken, UserValidation.admin],
+		handleRequest(async (req) => FacilityService.deleteFacilitySelasar(req.params.id)),
+		buildResponse()
+	);
+
+	facilityRouter.put(
+		'/selasar/:id',
+		[JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
+		handleRequest(async (req) =>
+			FacilityService.updateFacilitySelasar(req.params.id, req.body, req.files)
+		),
+		buildResponse()
+	);
+
 	return facilityRouter;
 };

@@ -3,7 +3,7 @@ const FacilityRepository = require('../../../repositories/facility-repository');
 const { ImageFacilityStorage } = require('../../../utils/storage');
 const { facilityCategory } = require('../constant');
 
-class VehicleUsecase {
+class RoomUsecase {
     static async __createFacility(data, userId, category) {
         const facilityData = {
             pic_id: data.pic_id || userId,
@@ -56,49 +56,50 @@ class VehicleUsecase {
     }
 
     static async create(data, files, userId) {
-		const facility = await this.__createFacility(data, userId, facilityCategory.VEHICLE);
+		const facility = await this.__createFacility(data, userId, facilityCategory.SELASAR);
 		const images = files.image || [];
 		const uploadedImages = await this.__uploadImage(images, facility);
 
-		const vehicleData = {
+		const selasarData = {
 			id: facility.id,
-			campus_id: data.campus_id,
+			facility_building_id: data.facility_building_id,
 			name: data.name,
-			type: data.type,
-			sim_category: data.sim_category,
-			license_number: data.license_number,
-			vehicle_capacity: data.vehicle_capacity,
 			image: uploadedImages,
+			capacity: data.capacity,
 			status_maintenance: data.status_maintenance || false,
 		};
-		await FacilityRepository.createVehicle(vehicleData);
+		await FacilityRepository.createSelasar(selasarData);
 
 		return {
-			message: 'Facility Vehicle created succesfully',
+			message: 'Facility Selasar created succesfully',
 		};
 	}
 
-	static async get(id) {
+    static async get(id) {
 		let facility = await FacilityRepository.getFacility(id);
-		let vehicle = await FacilityRepository.getVehicle(id);
+		let selasar = await FacilityRepository.getSelasar(id);
 
 		facility = facility ? facility.dataValues : null;
-		vehicle = vehicle ? vehicle.dataValues : null;
+		selasar = selasar ? selasar.dataValues : null;
 
-		if (!facility || !vehicle) {
+		if (!facility || !selasar) {
 			return {
-				message: 'Facility Vehicle not found',
+				message: 'Facility Selasar not found',
 			};
 		}
 
-		const campus = await CampusRepository.getCampus(vehicle.campus_id);
-		delete vehicle.campus_id;
+        const building = await FacilityRepository.getBuilding(selasar.facility_building_id);
+        delete selasar.facility_building_id;
+
+		const campus = await CampusRepository.getCampus(building.campus_id);
+		delete selasar.campus_id;
 
 		return {
-			message: 'Facility Vehicle retrieved succesfully',
+			message: 'Facility Selasar retrieved succesfully',
 			data: {
 				...facility,
-				...vehicle,
+				...selasar,
+                building: building,
 				campus: campus,
 			},
 		};
@@ -106,59 +107,55 @@ class VehicleUsecase {
 
 	static async delete(id) {
 		const facility = await FacilityRepository.getFacility(id);
-		const vehicle = await FacilityRepository.getVehicle(id);
+		const selasar = await FacilityRepository.getSelasar(id);
 
-		if (!facility || !vehicle) {
+		if (!facility || !selasar) {
 			return {
-				message: 'Facility Vehicle not found',
+				message: 'Facility is not a selasar',
 			};
 		}
 
-		const images = vehicle.image || [];
+		const images = selasar.image || [];
 		await this.__deleteImage(images);
 
 		await FacilityRepository.deleteFacility(id);
 
 		return {
-			message: 'Facility Vehicle deleted succesfully',
+			message: 'Facility selasar deleted succesfully',
 		};
 	}
 
-    static async update(id, data, files) {
+	static async update(id, data, files) {
 		const facility = await FacilityRepository.getFacility(id);
-		const vehicle = await FacilityRepository.getVehicle(id);
+		const selasar = await FacilityRepository.getSelasar(id);
 
-		if (!facility || !vehicle) {
+		if (!facility || !selasar) {
 			return {
-				message: 'Facility Vehicle not found',
+				message: 'Facility selasar not found',
 			};
 		}
 
-		const images = vehicle.image || [];
+		const images = selasar.image || [];
 		const newImages = files.image || [];
-
 		const uploadedImages = await this.__uploadImage(newImages, facility);
 
-		const vehicleData = {
+		const selasarData = {
 			id: id,
-			campus_id: data.campus_id || vehicle.campus_id,
-			name: data.name || vehicle.name,
-			type: data.type || vehicle.type,
-			sim_category: data.sim_category || vehicle.sim_category,
-			license_number: data.license_number || vehicle.license_number,
-			vehicle_capacity: data.vehicle_capacity || vehicle.vehicle_capacity,
+			facility_building_id: data.facility_building_id || selasar.facility_building_id,
+			name: data.name || selasar.name,
 			image: uploadedImages,
-			status_maintenance: data.status_maintenance || vehicle.status_maintenance,
+			capacity: data.capacity || selasar.capacity,
+			status_maintenance: data.status_maintenance || selasar.status_maintenance,
 		};
 
-		await FacilityRepository.updateVehicle(vehicleData);
+		await FacilityRepository.updateSelasar(selasarData);
 		await this.__updateFacility(data, facility);
 		await this.__deleteImage(images);
 
 		return {
-			message: 'Facility Vehicle updated succesfully',
+			message: 'Facility Selasar updated succesfully',
 		};
 	}
 }
 
-module.exports = VehicleUsecase;
+module.exports = RoomUsecase;
