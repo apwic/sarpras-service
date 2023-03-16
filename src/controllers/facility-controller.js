@@ -112,7 +112,7 @@ module.exports = () => {
 					name: Joi.string().required(),
 					capacity: Joi.string().required(),
 					latitude: Joi.string().required(),
-					longitude: Joi.number().required(),
+					longitude: Joi.string().required(),
 					image: Joi.array().required(),
 					status_maintenance: Joi.boolean().optional()
 				}
@@ -167,7 +167,7 @@ module.exports = () => {
 					name: Joi.string().optional(),
 					capacity: Joi.string().optional(),
 					latitude: Joi.string().optional(),
-					longitude: Joi.number().optional(),
+					longitude: Joi.string().optional(),
 					image: Joi.array().required(),
 					status_maintenance: Joi.boolean().optional()
 				}
