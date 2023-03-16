@@ -2,7 +2,7 @@ const path = require('path');
 const UserRepository = require('../../repositories/user-repository');
 const { userRoles } = require('./constant');
 const StandardError = require('../../utils/standard-error');
-const { ImageUser } = require('../../utils/storage');
+const { ImageUserStorage } = require('../../utils/storage');
 const LoggingService = require('../logging-service/index');
 const { loggingRoleStatus } = require('../logging-service/constant');
 
@@ -49,8 +49,8 @@ class UserService {
 				const oldPath = user.image;
 				console.log(image);
 
-				const imageUrl = await ImageUser.upload(image);
-				await ImageUser.delete(oldPath);
+				const imageUrl = await ImageUserStorage.upload(image);
+				await ImageUserStorage.delete(oldPath);
 
 				if (no_telp === undefined) {
 					await UserRepository.updateUserImage(id, imageUrl);
