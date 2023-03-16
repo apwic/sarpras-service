@@ -25,7 +25,7 @@ class UserService {
 			const createdUser = await UserRepository.createUser(user);
 
 			return {
-				message: `Create user with id ${createdUser.id} successful`,
+				message: `Create user with id = ${createdUser.id} successful`,
 			};
 		} catch (err) {
 			throw err;
@@ -60,7 +60,7 @@ class UserService {
 			}
 
 			return {
-				message: `Update user with id ${id} successful`,
+				message: `Update user with id = ${id} successful`,
 			};
 		} catch (err) {
 			throw err;

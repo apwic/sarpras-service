@@ -91,7 +91,7 @@ class FacilityService {
 				...facility,
 				...vehicle,
 				campus: campusName,
-			}
+			},
 		};
 	}
 
@@ -187,7 +187,7 @@ class FacilityService {
 				...facility,
 				...building,
 				campus: campusName,
-			}
+			},
 		};
 	}
 

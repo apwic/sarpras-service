@@ -1,12 +1,12 @@
 const BookingRepository = require('../../repositories/booking-repository');
 const { FileBooking } = require('../../utils/storage');
-const { bookingStatus } = require('./constant');
+const { bookingCategory, bookingStatus } = require('./constant');
 class BookingService {
 	static async getBookingByBookingId(bookingId) {
 		const booking = await BookingRepository.getBookingByBookingId(bookingId);
 
 		return {
-			message: `Fetching booking with id ${bookingId} succesful`,
+			message: `Fetching booking with id = ${bookingId} succesful`,
 			data: booking,
 		};
 	}
@@ -15,8 +15,56 @@ class BookingService {
 		const booking = await BookingRepository.getBookingByUserId(userId);
 
 		return {
-			message: `Fetching booking with user_id ${userId} succesful`,
+			message: `Fetching booking with user_id = ${userId} succesful`,
 			data: booking,
+		};
+	}
+
+	static async getBookingStat(month, year) {
+		return {
+			message: `Fetching booking with month = ${month} and year = ${year} succesful`,
+			data: {
+				vehicle: {
+					month: await BookingRepository.getBookingCountByCategoryAndMonth(
+						bookingCategory.VEHICLE,
+						month
+					),
+					year: await BookingRepository.getBookingCountByCategoryAndYear(
+						bookingCategory.VEHICLE,
+						year
+					),
+				},
+				building: {
+					month: await BookingRepository.getBookingCountByCategoryAndMonth(
+						bookingCategory.BUILDING,
+						month
+					),
+					year: await BookingRepository.getBookingCountByCategoryAndYear(
+						bookingCategory.BUILDING,
+						year
+					),
+				},
+				room: {
+					month: await BookingRepository.getBookingCountByCategoryAndMonth(
+						bookingCategory.ROOM,
+						month
+					),
+					year: await BookingRepository.getBookingCountByCategoryAndYear(
+						bookingCategory.ROOM,
+						year
+					),
+				},
+				selasar: {
+					month: await BookingRepository.getBookingCountByCategoryAndMonth(
+						bookingCategory.SELASAR,
+						month
+					),
+					year: await BookingRepository.getBookingCountByCategoryAndYear(
+						bookingCategory.SELASAR,
+						year
+					),
+				},
+			},
 		};
 	}
 
@@ -72,7 +120,7 @@ class BookingService {
 		const review = await BookingRepository.getReviewBookingByBookingId(bookingId);
 
 		return {
-			message: `Fetching review booking with booking_id ${bookingId} succesful`,
+			message: `Fetching review booking with booking_id = ${bookingId} succesful`,
 			data: review,
 		};
 	}

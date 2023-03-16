@@ -17,6 +17,15 @@ module.exports = () => {
 	);
 
 	bookingRouter.get(
+		'/stat',
+		[JWTMiddleware.verifyToken],
+		handleRequest(
+			async (req) => await BookingService.getBookingStat(req.query.month, req.query.year)
+		),
+		buildResponse()
+	);
+
+	bookingRouter.get(
 		'/:id',
 		[JWTMiddleware.verifyToken],
 		handleRequest(async (req) => await BookingService.getBookingByBookingId(req.params.id)),

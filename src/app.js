@@ -39,7 +39,7 @@ async function createApp() {
 	await setupRoutes(app);
 
 	app.listen(PORT, () => {
-		LogHelper.info(`Example app listening on port ${PORT}`);
+		LogHelper.info(`Sarpras Service listening on port ${PORT}`);
 	});
 }
 
