@@ -2,7 +2,7 @@ const Cloud = require('@google-cloud/storage');
 const path = require('path');
 const serviceKey = path.join(__dirname, './config/keys.json');
 
-const {GCP_PROJECT_NAME, GCP_BUCKET_NAME} = process.env;
+const { GCP_PROJECT_NAME, GCP_BUCKET_NAME } = process.env;
 
 const { Storage } = Cloud;
 const storage = new Storage({

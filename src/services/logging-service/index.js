@@ -4,9 +4,9 @@ const { loggingRoleStatus } = require('./constant');
 class LoggingService {
 	static loggingRoleDesc(adminId, staffId, currentRole, roleGranted, status) {
 		if (status === loggingRoleStatus.GRANT) {
-			return `Admin with admin_id ${adminId} GRANT staff with staff_id ${staffId} from role ${currentRole} to ${roleGranted}`;
+			return `Admin with admin_id = ${adminId} GRANT staff with staff_id = ${staffId} from role ${currentRole} to ${roleGranted}`;
 		} else {
-			return `Admin with admin_id ${adminId} REVOKE staff with staff_id ${staffId} from role ${currentRole} to ${roleGranted}`;
+			return `Admin with admin_id = ${adminId} REVOKE staff with staff_id = ${staffId} from role ${currentRole} to ${roleGranted}`;
 		}
 	}
 

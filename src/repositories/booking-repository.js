@@ -1,4 +1,4 @@
-const { models } = require('../db/index');
+const { sequelize, Op, models } = require('../db/index');
 const StandardError = require('../utils/standard-error');
 
 class BookingRepository {
@@ -26,6 +26,42 @@ class BookingRepository {
 		} catch (err) {
 			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
 				userId,
+			});
+		}
+	}
+
+	static async getBookingCountByCategoryAndMonth(category, month) {
+		try {
+			return await models.Booking.count({
+				where: {
+					[Op.and]: [
+						sequelize.fn('CATEGORY =', category),
+						sequelize.fn('EXTRACT (MONTH FROM start_timestamp) = ', month),
+					],
+				},
+			});
+		} catch (err) {
+			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+				category,
+				month,
+			});
+		}
+	}
+
+	static async getBookingCountByCategoryAndYear(category, year) {
+		try {
+			return await models.Booking.count({
+				where: {
+					[Op.and]: [
+						sequelize.fn('CATEGORY =', category),
+						sequelize.fn('EXTRACT (YEAR FROM start_timestamp) = ', year),
+					],
+				},
+			});
+		} catch (err) {
+			throw new StandardError(500, 'DATABASE_ERROR', 'Error occured in database', err, {
+				category,
+				year,
 			});
 		}
 	}

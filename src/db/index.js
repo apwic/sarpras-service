@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PORT } =
 	process.env;
-const Sequelize = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const { UserModel, LoggingRoleModel } = require('./models/user-model');
 const { IssueModel, ReviewIssueModel, LoggingIssueModel } = require('./models/issue-model');
 const {
@@ -56,4 +56,4 @@ Object.keys(models).forEach((key) => {
 	}
 });
 
-module.exports = { sequelize, models };
+module.exports = { sequelize, Op, models };
