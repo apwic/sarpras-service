@@ -56,9 +56,9 @@ class BuildingUsecase {
     }
 
     static async create(data, files, userId) {
-		const facility = await createFacility(data, userId, facilityCategory.BUILDING);
+		const facility = await this.__createFacility(data, userId, facilityCategory.BUILDING);
 		const images = files.image || [];
-		const uploadedImages = await uploadImage(images, facility);
+		const uploadedImages = await this.__uploadImage(images, facility);
 
 		const buildingData = {
 			id: facility.id,
@@ -114,7 +114,7 @@ class BuildingUsecase {
 		}
 
 		const images = building.image || [];
-		await deleteImage(images);
+		await this.__deleteImage(images);
 
 		await FacilityRepository.deleteFacility(id);
 
@@ -135,7 +135,7 @@ class BuildingUsecase {
 
 		const images = building.image || [];
 		const newImages = files.image || [];
-		const uploadedImages = await uploadImage(newImages, facility);
+		const uploadedImages = await this.__uploadImage(newImages, facility);
 
 		const buildingData = {
 			id: id,
@@ -149,8 +149,8 @@ class BuildingUsecase {
 		};
 
 		await FacilityRepository.updateBuilding(buildingData);
-		await updateFacility(data, facility);
-		await deleteImage(images);
+		await this.__updateFacility(data, facility);
+		await this.__deleteImage(images);
 
 		return {
 			message: 'Facility Building updated succesfully',
