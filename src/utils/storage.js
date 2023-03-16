@@ -29,23 +29,23 @@ async function deleteFile(filePath) {
 	return await GCPStorageClient.deletePromise(filePath);
 }
 
-const ImageUser = {
+const ImageUserStorage = {
 	upload: uploadImageUser,
 	delete: deleteFile,
 };
 
-const FileBooking = {
+const FileBookingStorage = {
 	upload: uploadFileBooking,
 	delete: deleteFile,
 };
 
-const ImageFacility = {
+const ImageFacilityStorage = {
 	upload: uploadImageFacility,
 	delete: deleteFile,
 };
 
 module.exports = {
-	ImageUser,
-	FileBooking,
-	ImageFacility,
+	ImageUserStorage,
+	FileBookingStorage,
+	ImageFacilityStorage,
 };

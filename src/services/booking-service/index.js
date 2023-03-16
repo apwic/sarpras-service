@@ -1,5 +1,5 @@
 const BookingRepository = require('../../repositories/booking-repository');
-const { FileBooking } = require('../../utils/storage');
+const { FileBookingStorage } = require('../../utils/storage');
 const { bookingCategory, bookingStatus } = require('./constant');
 class BookingService {
 	static async getBookingByBookingId(bookingId) {
@@ -90,7 +90,7 @@ class BookingService {
 		const uploadedFiles = [];
 		await Promise.all(
 			files.file.map(async (file) => {
-				const fileURL = await FileBooking.upload(bookingId, file);
+				const fileURL = await FileBookingStorage.upload(bookingId, file);
 				uploadedFiles.push(fileURL);
 			})
 		);
