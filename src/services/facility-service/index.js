@@ -14,15 +14,15 @@ async function createFacility(data, userId, category) {
 		not_available: data.not_available || null,
 	};
 
-	const facility = FacilityRepository.createFacility(facilityData);
+	const facility = await FacilityRepository.createFacility(facilityData);
 	return facility;
 }
 
 async function updateFacility(data, facility) {
 	const facilityData = {
-		id: id,
+		id: facility.id,
 		pic_id: data.pic_id || facility.pic_id,
-		category: facilityCategory.VEHICLE,
+		category: facility.category,
 		electricity: data.electricity || facility.electricity,
 		utility: data.utility || facility.utility,
 		price: data.price || facility.price,
@@ -33,9 +33,8 @@ async function updateFacility(data, facility) {
 	await FacilityRepository.updateFacility(facilityData);
 }
 
-async function uploadImage(files) {
+async function uploadImage(images, facility) {
 	const uploadedImages = [];
-	const images = files.image || [];
 
 	await Promise.all(
 		images.map(async (image) => {
@@ -58,7 +57,8 @@ async function deleteImage(images) {
 class FacilityService {
 	static async createFacilityVehicle(data, files, userId) {
 		const facility = await createFacility(data, userId, facilityCategory.VEHICLE);
-		const uploadedImages = await uploadImage(files);
+		const images = files.image || [];
+		const uploadedImages = await uploadImage(images, facility);
 
 		const vehicleData = {
 			id: facility.id,
@@ -79,10 +79,19 @@ class FacilityService {
 	}
 
 	static async getFacilityVehicle(id) {
-		const facility = (await FacilityRepository.getFacility(id)).dataValues;
-		const vehicle = (await FacilityRepository.getVehicle(id)).dataValues;
+		let facility = await FacilityRepository.getFacility(id);
+		let vehicle = await FacilityRepository.getVehicle(id);
 
-		const campusName = await CampusRepository.getCampus(vehicle.campus_id);
+		facility = facility ? facility.dataValues : null;
+		vehicle = vehicle ? vehicle.dataValues : null;
+
+		if (!facility || !vehicle) {
+			return {
+				message: 'Facility Vehicle not found',
+			};
+		}
+
+		const campus = await CampusRepository.getCampus(vehicle.campus_id);
 		delete vehicle.campus_id;
 
 		return {
@@ -90,21 +99,20 @@ class FacilityService {
 			data: {
 				...facility,
 				...vehicle,
-				campus: campusName,
+				campus: campus,
 			},
 		};
 	}
 
 	static async deleteFacilityVehicle(id) {
 		const facility = await FacilityRepository.getFacility(id);
+		const vehicle = await FacilityRepository.getVehicle(id);
 
-		if (facility.category !== 'VEHICLE') {
+		if (!facility || !vehicle) {
 			return {
-				message: 'Facility is not a vehicle',
+				message: 'Facility Vehicle not found',
 			};
 		}
-
-		const vehicle = await FacilityRepository.getVehicle(id);
 
 		const images = vehicle.image || [];
 		await deleteImage(images);
@@ -118,19 +126,18 @@ class FacilityService {
 
 	static async updateFacilityVehicle(id, data, files) {
 		const facility = await FacilityRepository.getFacility(id);
+		const vehicle = await FacilityRepository.getVehicle(id);
 
-		if (facility.category !== facilityCategory.VEHICLE) {
+		if (!facility || !vehicle) {
 			return {
-				message: 'Facility is not a vehicle',
+				message: 'Facility Vehicle not found',
 			};
 		}
-
-		const vehicle = await FacilityRepository.getVehicle(id);
 
 		const images = vehicle.image || [];
 		const newImages = files.image || [];
 
-		const uploadedImages = await uploadImage(newImages);
+		const uploadedImages = await uploadImage(newImages, facility);
 
 		const vehicleData = {
 			id: id,
@@ -155,7 +162,8 @@ class FacilityService {
 
 	static async createFacilityBuilding(data, files, userId) {
 		const facility = await createFacility(data, userId, facilityCategory.BUILDING);
-		const uploadedImages = await uploadImage(files);
+		const images = files.image || [];
+		const uploadedImages = await uploadImage(images, facility);
 
 		const buildingData = {
 			id: facility.id,
@@ -175,10 +183,19 @@ class FacilityService {
 	}
 
 	static async getFacilityBuilding(id) {
-		const facility = (await FacilityRepository.getFacility(id)).dataValues;
-		const building = (await FacilityRepository.getBuilding(id)).dataValues;
+		let facility = await FacilityRepository.getFacility(id);
+		let building = await FacilityRepository.getBuilding(id);
 
-		const campusName = await CampusRepository.getCampus(building.campus_id);
+		facility = facility ? facility.dataValues : null;
+		building = building ? building.dataValues : null;
+
+		if (!facility || !building) {
+			return {
+				message: 'Facility Building not found',
+			};
+		}
+
+		const campus = await CampusRepository.getCampus(building.campus_id);
 		delete building.campus_id;
 
 		return {
@@ -186,21 +203,20 @@ class FacilityService {
 			data: {
 				...facility,
 				...building,
-				campus: campusName,
+				campus: campus,
 			},
 		};
 	}
 
 	static async deleteFacilityBuilding(id) {
 		const facility = await FacilityRepository.getFacility(id);
+		const building = await FacilityRepository.getBuilding(id);
 
-		if (facility.category !== facilityCategory.BUILDING) {
+		if (!facility || !building) {
 			return {
 				message: 'Facility is not a building',
 			};
 		}
-
-		const building = await FacilityRepository.getBuilding(id);
 
 		const images = building.image || [];
 		await deleteImage(images);
@@ -214,19 +230,17 @@ class FacilityService {
 
 	static async updateFacilityBuilding(id, data, files) {
 		const facility = await FacilityRepository.getFacility(id);
+		const building = await FacilityRepository.getBuilding(id);
 
-		if (facility.category !== facilityCategory.BUILDING) {
+		if (!facility || !building) {
 			return {
-				message: 'Facility is not a building',
+				message: 'Facility Building not found',
 			};
 		}
 
-		const building = await FacilityRepository.getBuilding(id);
-
 		const images = building.image || [];
 		const newImages = files.image || [];
-
-		const uploadedImages = await uploadImage(newImages);
+		const uploadedImages = await uploadImage(newImages, facility);
 
 		const buildingData = {
 			id: id,
