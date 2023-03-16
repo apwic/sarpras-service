@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const expressValidation = require('express-validation').validate;
+const validator = require('express-joi-validation').createValidator({});
 
 const handleRequest = require('../utils/handle-request');
 const buildResponse = require('../utils/build-response');
@@ -28,12 +28,12 @@ module.exports = () => {
 	roleRouter.put(
 		'/grant',
 		[JWTMiddleware.verifyToken, UserValidation.superUser],
-		expressValidation({
-			body: Joi.object({
+		validator.body(
+			Joi.object({
 				user_id: Joi.string().required(),
 				role: Joi.string().required(),
-			}),
-		}),
+			})
+		),
 		handleRequest(
 			async (req) =>
 				await UserService.updateUserRole(req.user.id, req.body.user_id, req.body.role)
@@ -44,11 +44,11 @@ module.exports = () => {
 	roleRouter.put(
 		'/revoke',
 		[JWTMiddleware.verifyToken, UserValidation.superUser],
-		expressValidation({
-			body: Joi.object({
+		validator.body(
+			Joi.object({
 				user_id: Joi.string().required(),
-			}),
-		}),
+			})
+		),
 		handleRequest(
 			async (req) =>
 				await UserService.updateUserRole(req.user.id, req.body.user_id, 'BASIC_USER')
