@@ -34,8 +34,8 @@ class UserService {
 
 	static async updateUser(id, image, no_telp) {
 		try {
-			if (image === undefined) {
-				if (no_telp === undefined) {
+			if (image === null) {
+				if (no_telp === null) {
 					throw new StandardError(
 						400,
 						'EMPTY_REQUEST_BODY',
@@ -45,6 +45,7 @@ class UserService {
 					await UserRepository.updateUserNumber(id, no_telp);
 				}
 			} else {
+				image = image[0];
 				const user = await UserRepository.getUserById(id);
 				const oldPath = user.image;
 				console.log(image);
@@ -52,7 +53,7 @@ class UserService {
 				const imageUrl = await ImageUserStorage.upload(image);
 				await ImageUserStorage.delete(oldPath);
 
-				if (no_telp === undefined) {
+				if (no_telp === null) {
 					await UserRepository.updateUserImage(id, imageUrl);
 				} else {
 					await UserRepository.updateUserImageAndNumber(id, imageUrl, no_telp);
