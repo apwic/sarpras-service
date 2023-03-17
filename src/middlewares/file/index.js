@@ -61,5 +61,26 @@ let uploadFileMulter = multer({
 	},
 ]);
 
-const uploadFile = util.promisify(uploadFileMulter);
-module.exports = uploadFile;
+const uploader = util.promisify(uploadFileMulter);
+
+const fileParser = (req, res, next) => {
+	console.log(req.files);
+
+	if (req.files.file) {
+		req.body.file = req.files.file;
+	}
+
+	if (req.files.image) {
+		req.body.image = req.files.image;
+	}
+
+	if (req.files.video) {
+		req.body.video = req.files.video;
+	}
+
+	next();
+};
+
+const uploadFile = [uploader, fileParser];
+
+module.exports = { uploadFile };

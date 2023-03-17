@@ -5,6 +5,13 @@ class BookingService {
 	static async getBookingByBookingId(bookingId) {
 		const booking = await BookingRepository.getBookingByBookingId(bookingId);
 
+		if (!booking) {
+			return {
+				message: `Booking with id = ${bookingId} not found`,
+				data: null,
+			};
+		}
+
 		return {
 			message: `Fetching booking with id = ${bookingId} succesful`,
 			data: booking,
@@ -13,6 +20,13 @@ class BookingService {
 
 	static async getBookingByUserId(userId) {
 		const booking = await BookingRepository.getBookingByUserId(userId);
+
+		if (!booking) {
+			return {
+				message: `Booking with user_id = ${userId} not found`,
+				data: [],
+			};
+		}
 
 		return {
 			message: `Fetching booking with user_id = ${userId} succesful`,
@@ -71,14 +85,14 @@ class BookingService {
 	static async createBooking(userId, body, files, category) {
 		const booking = {
 			user_id: userId,
-			verifier_id: null,
-			payment_id: null,
+			verifier_id: body.verifier_id || null,
+			payment_id: body.payment_id || null,
 			facility_id: body.facility_id,
 			category: category,
 			attachment: null,
 			letter: null,
-			cost: body.cost,
-			status: bookingStatus.PENDING,
+			cost: body.cost || null,
+			status: body.status || bookingStatus.PENDING,
 			description: body.description,
 			start_timestamp: body.start_timestamp,
 			end_timestamp: body.end_timestamp,

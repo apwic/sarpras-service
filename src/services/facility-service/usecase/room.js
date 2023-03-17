@@ -4,58 +4,58 @@ const { ImageFacilityStorage } = require('../../../utils/storage');
 const { facilityCategory } = require('../constant');
 
 class RoomUsecase {
-    static async __createFacility(data, userId, category) {
-        const facilityData = {
-            pic_id: data.pic_id || userId,
-            category: category,
-            electricity: data.electricity || null,
-            utility: data.utility || null,
-            price: data.price,
-            description: data.description,
-            not_available: data.not_available || null,
-        };
-    
-        const facility = await FacilityRepository.createFacility(facilityData);
-        return facility;
-    }
-    
-    static async __updateFacility(data, facility) {
-        const facilityData = {
-            id: facility.id,
-            pic_id: data.pic_id || facility.pic_id,
-            category: facility.category,
-            electricity: data.electricity || facility.electricity,
-            utility: data.utility || facility.utility,
-            price: data.price || facility.price,
-            description: data.description || facility.description,
-            not_available: data.not_available || facility.not_available,
-        };
-    
-        await FacilityRepository.updateFacility(facilityData);
-    }
-    
-    static async __uploadImage(images, facility) {
-        const uploadedImages = [];
-    
-        await Promise.all(
-            images.map(async (image) => {
-                const fileURL = await ImageFacilityStorage.upload(facility.id, image);
-                uploadedImages.push(fileURL);
-            })
-        );
-    
-        return uploadedImages;
-    }
-    
-    static async __deleteImage(images) {
-        await Promise.all(
-            images.map(async (image) => {
-                await ImageFacilityStorage.delete(image);
-            })
-        );
-    }
+	static async __createFacility(data, userId, category) {
+		const facilityData = {
+			pic_id: data.pic_id || userId,
+			category: category,
+			electricity: data.electricity || null,
+			utility: data.utility || null,
+			price: data.price,
+			description: data.description,
+			not_available: data.not_available || null,
+		};
 
-    static async create(data, files, userId) {
+		const facility = await FacilityRepository.createFacility(facilityData);
+		return facility;
+	}
+
+	static async __updateFacility(data, facility) {
+		const facilityData = {
+			id: facility.id,
+			pic_id: data.pic_id || facility.pic_id,
+			category: facility.category,
+			electricity: data.electricity || facility.electricity,
+			utility: data.utility || facility.utility,
+			price: data.price || facility.price,
+			description: data.description || facility.description,
+			not_available: data.not_available || facility.not_available,
+		};
+
+		await FacilityRepository.updateFacility(facilityData);
+	}
+
+	static async __uploadImage(images, facility) {
+		const uploadedImages = [];
+
+		await Promise.all(
+			images.map(async (image) => {
+				const fileURL = await ImageFacilityStorage.upload(facility.id, image);
+				uploadedImages.push(fileURL);
+			})
+		);
+
+		return uploadedImages;
+	}
+
+	static async __deleteImage(images) {
+		await Promise.all(
+			images.map(async (image) => {
+				await ImageFacilityStorage.delete(image);
+			})
+		);
+	}
+
+	static async create(data, files, userId) {
 		const facility = await this.__createFacility(data, userId, facilityCategory.ROOM);
 		const images = files.image || [];
 		const uploadedImages = await this.__uploadImage(images, facility);
@@ -64,7 +64,7 @@ class RoomUsecase {
 			id: facility.id,
 			facility_building_id: data.facility_building_id,
 			name: data.name,
-            room_code: data.room_code,
+			room_code: data.room_code,
 			image: uploadedImages,
 			capacity: data.capacity,
 			status_maintenance: data.status_maintenance || false,
@@ -76,7 +76,7 @@ class RoomUsecase {
 		};
 	}
 
-    static async get(id) {
+	static async get(id) {
 		let facility = await FacilityRepository.getFacility(id);
 		let room = await FacilityRepository.getRoom(id);
 
@@ -89,8 +89,8 @@ class RoomUsecase {
 			};
 		}
 
-        const building = await FacilityRepository.getBuilding(room.facility_building_id);
-        delete room.facility_building_id;
+		const building = await FacilityRepository.getBuilding(room.facility_building_id);
+		delete room.facility_building_id;
 
 		const campus = await CampusRepository.getCampus(building.campus_id);
 		delete room.campus_id;
@@ -100,7 +100,7 @@ class RoomUsecase {
 			data: {
 				...facility,
 				...room,
-                building: building,
+				building: building,
 				campus: campus,
 			},
 		};
@@ -144,7 +144,7 @@ class RoomUsecase {
 			id: id,
 			facility_building_id: data.facility_building_id || room.facility_building_id,
 			name: data.name || room.name,
-            room_code: data.room_code || room.room_code,
+			room_code: data.room_code || room.room_code,
 			image: uploadedImages,
 			capacity: data.capacity || room.capacity,
 			status_maintenance: data.status_maintenance || room.status_maintenance,
