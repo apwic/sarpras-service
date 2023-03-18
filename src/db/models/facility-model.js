@@ -199,6 +199,15 @@ const FacilityBuildingModel = (sequelize, { DataTypes }) => {
         });
     };
 
+    FacilityBuilding.associate = function (models) {
+        FacilityBuilding.belongsTo(models.Facility, {
+            foreignKey: 'id',
+        });
+        FacilityBuilding.belongsTo(models.Campus, {
+            foreignKey: 'campus_id',
+        });
+    };
+
     return FacilityBuilding;
 };
 
@@ -243,6 +252,18 @@ const FacilitySelasarModel = (sequelize, { DataTypes }) => {
             default: false,
         },
     });
+
+    FacilitySelasar.associate = function (models) {
+        FacilitySelasar.belongsTo(models.Facility, {
+            foreignKey: 'id',
+        });
+        FacilitySelasar.belongsTo(models.Campus, {
+            foreignKey: 'campus_id',
+        });
+        FacilitySelasar.belongsTo(models.FacilityBuilding, {
+            foreignKey: 'facility_building_id',
+        });
+    };
 
     return FacilitySelasar;
 };
@@ -292,6 +313,18 @@ const FacilityRoomModel = (sequelize, { DataTypes }) => {
             default: false,
         },
     });
+
+    FacilityRoom.associate = function (models) {
+        FacilityRoom.belongsTo(models.Facility, {
+            foreignKey: 'id',
+        });
+        FacilityRoom.belongsTo(models.Campus, {
+            foreignKey: 'campus_id',
+        });
+        FacilityRoom.belongsTo(models.FacilityBuilding, {
+            foreignKey: 'facility_building_id',
+        });
+    };
 
     return FacilityRoom;
 };
@@ -358,7 +391,6 @@ const FacilityVehicleModel = (sequelize, { DataTypes }) => {
         FacilityVehicle.belongsTo(models.Facility, {
             foreignKey: 'id',
         });
-
         FacilityVehicle.belongsTo(models.Campus, {
             foreignKey: 'campus_id',
         });
