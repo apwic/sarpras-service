@@ -20,6 +20,10 @@ class FacilityService {
         return await VehicleUsecase.update(id, data, files);
     }
 
+    static async searchFacilityVehicle(query, filter, page, limit) {
+        return await VehicleUsecase.search(query, filter, page, limit);
+    }
+
     static async createFacilityBuilding(data, files, userId) {
         return await BuildingUsecase.create(data, files, userId);
     }

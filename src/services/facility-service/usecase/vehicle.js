@@ -58,6 +58,37 @@ class VehicleUsecase {
         );
     }
 
+    static async __filterVehicle(filter) {
+        const vehicleFilter = {};
+
+        if (filter.type) {
+            vehicleFilter.type = filter.type;
+        }
+
+        if (filter.status_maintenance) {
+            vehicleFilter.status_maintenance = filter.status_maintenance;
+        }
+
+        if (filter.sim_category) {
+            vehicleFilter.sim_category = filter.sim_category;
+        }
+
+        if (filter.campus_id) {
+            vehicleFilter.campus_id = filter.campus_id;
+        }
+
+        return vehicleFilter;
+    }
+
+    static async __filterFacility(filter) {
+        const facilityFilter = {};
+        if (filter.pic_id) {
+            facilityFilter.pic_id = filter.pic_id;
+        }
+
+        return facilityFilter;
+    }
+
     static async create(data, files, userId) {
         const facility = await this.__createFacility(
             data,
@@ -165,6 +196,34 @@ class VehicleUsecase {
 
         return {
             message: 'Facility Vehicle updated succesfully',
+        };
+    }
+
+    static async search(query, filter, page, limit) {
+        const vehicleFilter = await this.__filterVehicle(filter);
+        const facilityFilter = await this.__filterFacility(filter);
+        const offset = (page - 1) * limit;
+
+        const rows = await FacilityRepository.searchVehicles(
+            query,
+            vehicleFilter,
+            facilityFilter,
+            offset,
+            limit,
+        );
+
+        const totalRows = await FacilityRepository.countVehicles(
+            query,
+            vehicleFilter,
+            facilityFilter,
+        );
+
+        return {
+            message: 'Facility Vehicle retrieved succesfully',
+            data: {
+                total_rows: totalRows,
+                rows: rows,
+            },
         };
     }
 }
