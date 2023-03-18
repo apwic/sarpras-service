@@ -94,7 +94,7 @@ class BookingService {
             attachment: null,
             letter: null,
             cost: body.cost || null,
-            status: body.status || bookingStatus.PENDING,
+            status: bookingStatus.PENDING,
             description: body.description,
             start_timestamp: body.start_timestamp,
             end_timestamp: body.end_timestamp,

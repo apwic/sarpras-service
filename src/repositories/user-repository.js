@@ -1,4 +1,4 @@
-const {models } = require('../db/index');
+const { models } = require('../db/index');
 const StandardError = require('../utils/standard-error');
 
 class UserRepository {
