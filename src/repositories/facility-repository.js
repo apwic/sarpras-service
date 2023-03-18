@@ -1,4 +1,6 @@
 const { models } = require('../db/index');
+const { Op } = require('sequelize');
+
 const StandardError = require('../utils/standard-error');
 
 class FacilityRepository {
@@ -169,6 +171,100 @@ class FacilityRepository {
                 err,
                 {
                     vehicle,
+                },
+            );
+        }
+    }
+
+    static async searchVehicles(
+        query,
+        vehicleFilter,
+        facilityFilter,
+        offset,
+        limit,
+    ) {
+        try {
+            return await models.FacilityVehicle.findAll({
+                where: {
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.like]: `%${query}%`,
+                            },
+                        },
+                        {
+                            license_number: {
+                                [Op.like]: `%${query}%`,
+                            },
+                        },
+                    ],
+                    ...vehicleFilter,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        where: {
+                            ...facilityFilter,
+                        },
+                    },
+                    {
+                        model: models.Campus,
+                    },
+                ],
+                offset,
+                limit,
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    query,
+                },
+            );
+        }
+    }
+
+    static async countVehicles(query, vehicleFilter, facilityFilter) {
+        try {
+            return await models.FacilityVehicle.count({
+                where: {
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.like]: `%${query}%`,
+                            },
+                        },
+                        {
+                            license_number: {
+                                [Op.like]: `%${query}%`,
+                            },
+                        },
+                    ],
+                    ...vehicleFilter,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        where: {
+                            ...facilityFilter,
+                        },
+                    },
+                    {
+                        model: models.Campus,
+                    },
+                ],
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    query,
                 },
             );
         }

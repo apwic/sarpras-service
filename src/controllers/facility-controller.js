@@ -101,6 +101,37 @@ module.exports = () => {
         buildResponse(),
     );
 
+    facilityRouter.get(
+        '/vehicles',
+        validator.query(
+            Joi.object({
+                q: Joi.string().required().allow(''),
+                page: Joi.number().required(),
+                limit: Joi.number().required(),
+                pic_id: Joi.number().optional(),
+                campus_id: Joi.number().optional(),
+                type: Joi.string().optional(),
+                sim_category: Joi.string().optional(),
+                status_maintenance: Joi.boolean().optional(),
+            }),
+        ),
+        handleRequest(async (req) =>
+            FacilityService.searchFacilityVehicle(
+                req.query.q,
+                {
+                    pic_id: req.query.pic_id,
+                    campus_id: req.query.campus_id,
+                    type: req.query.type,
+                    sim_category: req.query.sim_category,
+                    status_maintenance: req.query.status_maintenance,
+                },
+                req.query.page,
+                req.query.limit,
+            ),
+        ),
+        buildResponse(),
+    );
+
     facilityRouter.post(
         '/building',
         [JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],

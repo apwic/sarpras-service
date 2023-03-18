@@ -118,7 +118,18 @@ const CampusModel = (sequelize, { DataTypes }) => {
     Campus.associate = (models) => {
         Campus.hasMany(models.FacilityBuilding, {
             foreignKey: 'campus_id',
-            onDelete: 'CASCADE',
+        });
+
+        Campus.hasMany(models.FacilitySelasar, {
+            foreignKey: 'campus_id',
+        });
+
+        Campus.hasMany(models.FacilityRoom, {
+            foreignKey: 'campus_id',
+        });
+
+        Campus.hasMany(models.FacilityVehicle, {
+            foreignKey: 'campus_id',
         });
     };
 
@@ -342,6 +353,16 @@ const FacilityVehicleModel = (sequelize, { DataTypes }) => {
             default: false,
         },
     });
+
+    FacilityVehicle.associate = function (models) {
+        FacilityVehicle.belongsTo(models.Facility, {
+            foreignKey: 'id',
+        });
+
+        FacilityVehicle.belongsTo(models.Campus, {
+            foreignKey: 'campus_id',
+        });
+    };
 
     return FacilityVehicle;
 };
