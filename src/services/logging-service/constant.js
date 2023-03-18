@@ -1,8 +1,8 @@
 const loggingRoleStatus = {
-	GRANT: 'GRANT',
-	REVOKE: 'REVOKE',
+    GRANT: 'GRANT',
+    REVOKE: 'REVOKE',
 };
 
 module.exports = {
-	loggingRoleStatus,
+    loggingRoleStatus,
 };

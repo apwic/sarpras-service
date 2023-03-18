@@ -1,357 +1,357 @@
 const UtilityModel = (sequelize, { DataTypes }) => {
-	const Utility = sequelize.define('utility', {
-		id: {
-			type: DataTypes.INTEGER,
-			autoIncrement: true,
-			primaryKey: true,
-		},
+    const Utility = sequelize.define('utility', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
 
-		name: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
 
-		price: {
-			type: DataTypes.FLOAT,
-			allowNull: false,
-		},
+        price: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+        },
 
-		image: {
-			type: DataTypes.ARRAY(DataTypes.STRING),
-		},
-	});
+        image: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+        },
+    });
 
-	return Utility;
+    return Utility;
 };
 
 const FacilityModel = (sequelize, { DataTypes }) => {
-	const Facility = sequelize.define('facility', {
-		id: {
-			type: DataTypes.INTEGER,
-			autoIncrement: true,
-			primaryKey: true,
-		},
+    const Facility = sequelize.define('facility', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
 
-		pic_id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'user',
-				key: 'id',
-			},
-		},
+        pic_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'user',
+                key: 'id',
+            },
+        },
 
-		category: {
-			type: DataTypes.ENUM('BUILDING', 'SELASAR', 'ROOM', 'VEHICLE'),
-			allowNull: false,
-		},
+        category: {
+            type: DataTypes.ENUM('BUILDING', 'SELASAR', 'ROOM', 'VEHICLE'),
+            allowNull: false,
+        },
 
-		price: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-		},
+        price: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
 
-		electricity: {
-			type: DataTypes.INTEGER,
-		},
+        electricity: {
+            type: DataTypes.INTEGER,
+        },
 
-		utility: {
-			type: DataTypes.ARRAY(DataTypes.INTEGER),
-		},
+        utility: {
+            type: DataTypes.ARRAY(DataTypes.INTEGER),
+        },
 
-		not_available: {
-			type: DataTypes.ARRAY(DataTypes.DATE),
-		},
+        not_available: {
+            type: DataTypes.ARRAY(DataTypes.DATE),
+        },
 
-		description: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-	});
+        description: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+    });
 
-	Facility.associate = (models) => {
-		Facility.hasOne(models.FacilityBuilding, {
-			foreignKey: 'id',
-			onDelete: 'CASCADE',
-		});
-		Facility.hasOne(models.FacilitySelasar, {
-			foreignKey: 'id',
-			onDelete: 'CASCADE',
-		});
-		Facility.hasOne(models.FacilityRoom, {
-			foreignKey: 'id',
-			onDelete: 'CASCADE',
-		});
-		Facility.hasOne(models.FacilityVehicle, {
-			foreignKey: 'id',
-			onDelete: 'CASCADE',
-		});
-	};
+    Facility.associate = (models) => {
+        Facility.hasOne(models.FacilityBuilding, {
+            foreignKey: 'id',
+            onDelete: 'CASCADE',
+        });
+        Facility.hasOne(models.FacilitySelasar, {
+            foreignKey: 'id',
+            onDelete: 'CASCADE',
+        });
+        Facility.hasOne(models.FacilityRoom, {
+            foreignKey: 'id',
+            onDelete: 'CASCADE',
+        });
+        Facility.hasOne(models.FacilityVehicle, {
+            foreignKey: 'id',
+            onDelete: 'CASCADE',
+        });
+    };
 
-	return Facility;
+    return Facility;
 };
 
 const CampusModel = (sequelize, { DataTypes }) => {
-	const Campus = sequelize.define('campus', {
-		id: {
-			type: DataTypes.INTEGER,
-			autoIncrement: true,
-			primaryKey: true,
-		},
+    const Campus = sequelize.define('campus', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
 
-		name: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
 
-		latitude: {
-			type: DataTypes.FLOAT,
-			allowNull: false,
-		},
+        latitude: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+        },
 
-		longitude: {
-			type: DataTypes.FLOAT,
-			allowNull: false,
-		},
-	});
+        longitude: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+        },
+    });
 
-	Campus.associate = (models) => {
-		Campus.hasMany(models.FacilityBuilding, {
-			foreignKey: 'campus_id',
-			onDelete: 'CASCADE',
-		});
-	};
+    Campus.associate = (models) => {
+        Campus.hasMany(models.FacilityBuilding, {
+            foreignKey: 'campus_id',
+            onDelete: 'CASCADE',
+        });
+    };
 
-	return Campus;
+    return Campus;
 };
 
 const FacilityBuildingModel = (sequelize, { DataTypes }) => {
-	const FacilityBuilding = sequelize.define('facility_building', {
-		id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'facility',
-				key: 'id',
-			},
-			primaryKey: true,
-			unique: true,
-		},
+    const FacilityBuilding = sequelize.define('facility_building', {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'facility',
+                key: 'id',
+            },
+            primaryKey: true,
+            unique: true,
+        },
 
-		campus_id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'campus',
-				key: 'id',
-			},
-		},
+        campus_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'campus',
+                key: 'id',
+            },
+        },
 
-		name: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
 
-		image: {
-			type: DataTypes.ARRAY(DataTypes.STRING),
-		},
+        image: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+        },
 
-		capacity: {
-			type: DataTypes.INTEGER,
-		},
+        capacity: {
+            type: DataTypes.INTEGER,
+        },
 
-		latitude: {
-			type: DataTypes.FLOAT,
-			allowNull: false,
-		},
+        latitude: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+        },
 
-		longitude: {
-			type: DataTypes.FLOAT,
-			allowNull: false,
-		},
+        longitude: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+        },
 
-		status_maintenance: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			default: false,
-		},
-	});
+        status_maintenance: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false,
+        },
+    });
 
-	FacilityBuilding.associate = (models) => {
-		FacilityBuilding.hasMany(models.FacilitySelasar, {
-			foreignKey: 'facility_building_id',
-			onDelete: 'CASCADE',
-		});
-		FacilityBuilding.hasMany(models.FacilityRoom, {
-			foreignKey: 'facility_building_id',
-			onDelete: 'CASCADE',
-		});
-	};
+    FacilityBuilding.associate = (models) => {
+        FacilityBuilding.hasMany(models.FacilitySelasar, {
+            foreignKey: 'facility_building_id',
+            onDelete: 'CASCADE',
+        });
+        FacilityBuilding.hasMany(models.FacilityRoom, {
+            foreignKey: 'facility_building_id',
+            onDelete: 'CASCADE',
+        });
+    };
 
-	return FacilityBuilding;
+    return FacilityBuilding;
 };
 
 const FacilitySelasarModel = (sequelize, { DataTypes }) => {
-	const FacilitySelasar = sequelize.define('facility_selasar', {
-		id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'facility',
-				key: 'id',
-			},
-			primaryKey: true,
-			unique: true,
-		},
+    const FacilitySelasar = sequelize.define('facility_selasar', {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'facility',
+                key: 'id',
+            },
+            primaryKey: true,
+            unique: true,
+        },
 
-		facility_building_id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'facility_building',
-				key: 'id',
-			},
-		},
+        facility_building_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'facility_building',
+                key: 'id',
+            },
+        },
 
-		name: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
 
-		image: {
-			type: DataTypes.ARRAY(DataTypes.STRING),
-		},
+        image: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+        },
 
-		capacity: {
-			type: DataTypes.INTEGER,
-		},
+        capacity: {
+            type: DataTypes.INTEGER,
+        },
 
-		status_maintenance: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			default: false,
-		},
-	});
+        status_maintenance: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false,
+        },
+    });
 
-	return FacilitySelasar;
+    return FacilitySelasar;
 };
 
 const FacilityRoomModel = (sequelize, { DataTypes }) => {
-	const FacilityRoom = sequelize.define('facility_room', {
-		id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'facility',
-				key: 'id',
-			},
-			primaryKey: true,
-			unique: true,
-		},
+    const FacilityRoom = sequelize.define('facility_room', {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'facility',
+                key: 'id',
+            },
+            primaryKey: true,
+            unique: true,
+        },
 
-		facility_building_id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'facility_building',
-				key: 'id',
-			},
-		},
+        facility_building_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'facility_building',
+                key: 'id',
+            },
+        },
 
-		name: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
 
-		room_code: {
-			type: DataTypes.STRING,
-		},
+        room_code: {
+            type: DataTypes.STRING,
+        },
 
-		image: {
-			type: DataTypes.ARRAY(DataTypes.STRING),
-		},
+        image: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+        },
 
-		capacity: {
-			type: DataTypes.INTEGER,
-		},
+        capacity: {
+            type: DataTypes.INTEGER,
+        },
 
-		status_maintenance: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			default: false,
-		},
-	});
+        status_maintenance: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false,
+        },
+    });
 
-	return FacilityRoom;
+    return FacilityRoom;
 };
 
 const FacilityVehicleModel = (sequelize, { DataTypes }) => {
-	const FacilityVehicle = sequelize.define('facility_vehicle', {
-		id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'facility',
-				key: 'id',
-			},
-			primaryKey: true,
-			unique: true,
-		},
+    const FacilityVehicle = sequelize.define('facility_vehicle', {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'facility',
+                key: 'id',
+            },
+            primaryKey: true,
+            unique: true,
+        },
 
-		campus_id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'campus',
-				key: 'id',
-			},
-		},
+        campus_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'campus',
+                key: 'id',
+            },
+        },
 
-		name: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
 
-		type: {
-			type: DataTypes.ENUM('TRUCK', 'BUS', 'CAR'),
-			allowNull: false,
-		},
+        type: {
+            type: DataTypes.ENUM('TRUCK', 'BUS', 'CAR'),
+            allowNull: false,
+        },
 
-		sim_category: {
-			type: DataTypes.ENUM('A', 'B1', 'B2', 'C', 'D'),
-			allowNull: false,
-		},
+        sim_category: {
+            type: DataTypes.ENUM('A', 'B1', 'B2', 'C', 'D'),
+            allowNull: false,
+        },
 
-		license_number: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
+        license_number: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
 
-		vehicle_capacity: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-		},
+        vehicle_capacity: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
 
-		image: {
-			type: DataTypes.ARRAY(DataTypes.STRING),
-		},
+        image: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+        },
 
-		status_maintenance: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			default: false,
-		},
-	});
+        status_maintenance: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false,
+        },
+    });
 
-	return FacilityVehicle;
+    return FacilityVehicle;
 };
 
 module.exports = {
-	FacilityModel,
-	CampusModel,
-	FacilityBuildingModel,
-	FacilitySelasarModel,
-	FacilityRoomModel,
-	FacilityVehicleModel,
-	UtilityModel,
+    FacilityModel,
+    CampusModel,
+    FacilityBuildingModel,
+    FacilitySelasarModel,
+    FacilityRoomModel,
+    FacilityVehicleModel,
+    UtilityModel,
 };

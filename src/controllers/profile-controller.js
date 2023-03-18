@@ -1,6 +1,3 @@
-const Joi = require('joi');
-const validator = require('express-joi-validation').createValidator({});
-
 const handleRequest = require('../utils/handle-request');
 const buildResponse = require('../utils/build-response');
 
@@ -11,21 +8,25 @@ const { uploadFile } = require('../middlewares/file');
 const profileRouter = require('express').Router();
 
 module.exports = () => {
-	profileRouter.get(
-		'/',
-		[JWTMiddleware.verifyToken],
-		handleRequest(async (req) => UserService.getUserById(req.user.id)),
-		buildResponse()
-	);
+    profileRouter.get(
+        '/',
+        [JWTMiddleware.verifyToken],
+        handleRequest(async (req) => UserService.getUserById(req.user.id)),
+        buildResponse(),
+    );
 
-	profileRouter.put(
-		'/edit',
-		[JWTMiddleware.verifyToken, uploadFile],
-		handleRequest(async (req) =>
-			UserService.updateUser(req.user.id, req.body.image || null, req.body.no_telp || null)
-		),
-		buildResponse()
-	);
+    profileRouter.put(
+        '/edit',
+        [JWTMiddleware.verifyToken, uploadFile],
+        handleRequest(async (req) =>
+            UserService.updateUser(
+                req.user.id,
+                req.body.image || null,
+                req.body.no_telp || null,
+            ),
+        ),
+        buildResponse(),
+    );
 
-	return profileRouter;
+    return profileRouter;
 };

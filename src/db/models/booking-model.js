@@ -1,201 +1,201 @@
 const PaymentModel = (sequelize, { DataTypes }) => {
-	const Payment = sequelize.define('payment', {
-		id: {
-			type: DataTypes.INTEGER,
-			autoIncrement: true,
-			primaryKey: true,
-		},
+    const Payment = sequelize.define('payment', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
 
-		amount: {
-			type: DataTypes.FLOAT,
-			allowNull: false,
-		},
+        amount: {
+            type: DataTypes.FLOAT,
+            allowNull: false,
+        },
 
-		image_proof: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-	});
+        image_proof: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+    });
 
-	Payment.associate = (models) => {
-		Payment.hasOne(models.Booking, {
-			foreignKey: 'payment_id',
-			onDelete: 'CASCADE',
-		});
-	};
+    Payment.associate = (models) => {
+        Payment.hasOne(models.Booking, {
+            foreignKey: 'payment_id',
+            onDelete: 'CASCADE',
+        });
+    };
 
-	return Payment;
+    return Payment;
 };
 
 const BookingModel = (sequelize, { DataTypes }) => {
-	const Booking = sequelize.define('booking', {
-		id: {
-			type: DataTypes.INTEGER,
-			autoIncrement: true,
-			primaryKey: true,
-		},
+    const Booking = sequelize.define('booking', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
 
-		user_id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'user',
-				key: 'id',
-			},
-		},
+        user_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'user',
+                key: 'id',
+            },
+        },
 
-		verifier_id: {
-			type: DataTypes.INTEGER,
-			references: {
-				model: 'user',
-				key: 'id',
-			},
-		},
+        verifier_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'user',
+                key: 'id',
+            },
+        },
 
-		payment_id: {
-			type: DataTypes.INTEGER,
-			references: {
-				model: 'payment',
-				key: 'id',
-			},
-		},
+        payment_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'payment',
+                key: 'id',
+            },
+        },
 
-		facility_id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'facility',
-				key: 'id',
-			},
-		},
+        facility_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'facility',
+                key: 'id',
+            },
+        },
 
-		category: {
-			type: DataTypes.ENUM('BUILDING', 'ROOM', 'SELASAR', 'VEHICLE'),
-			allowNull: false,
-		},
+        category: {
+            type: DataTypes.ENUM('BUILDING', 'ROOM', 'SELASAR', 'VEHICLE'),
+            allowNull: false,
+        },
 
-		attachment: {
-			type: DataTypes.ARRAY(DataTypes.STRING),
-		},
+        attachment: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+        },
 
-		letter: {
-			type: DataTypes.STRING,
-		},
+        letter: {
+            type: DataTypes.STRING,
+        },
 
-		cost: {
-			type: DataTypes.FLOAT,
-		},
+        cost: {
+            type: DataTypes.FLOAT,
+        },
 
-		rekening_va: {
-			type: DataTypes.STRING,
-		},
+        rekening_va: {
+            type: DataTypes.STRING,
+        },
 
-		status: {
-			type: DataTypes.ENUM(
-				'PENDING',
-				'CANCELED',
-				'REJECTED',
-				'ON_VERIFICATION',
-				'WAITING_FOR_PAYMENT',
-				'PAYMENT_SUCCESS',
-				'ENDED',
-				'WAITING_FOR_RATING'
-			),
-			allowNull: false,
-		},
+        status: {
+            type: DataTypes.ENUM(
+                'PENDING',
+                'CANCELED',
+                'REJECTED',
+                'ON_VERIFICATION',
+                'WAITING_FOR_PAYMENT',
+                'PAYMENT_SUCCESS',
+                'ENDED',
+                'WAITING_FOR_RATING',
+            ),
+            allowNull: false,
+        },
 
-		description: {
-			type: DataTypes.STRING,
-		},
+        description: {
+            type: DataTypes.STRING,
+        },
 
-		start_timestamp: {
-			type: DataTypes.DATE,
-			allowNull: false,
-		},
+        start_timestamp: {
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
 
-		end_timestamp: {
-			type: DataTypes.DATE,
-			allowNull: false,
-		},
-	});
+        end_timestamp: {
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
+    });
 
-	Booking.associate = (models) => {
-		Booking.hasOne(models.ReviewBooking, {
-			foreignKey: 'booking_id',
-			onDelete: 'CASCADE',
-		});
-		Booking.hasMany(models.LoggingBooking, {
-			foreignKey: 'booking_id',
-			onDelete: 'CASCADE',
-		});
-	};
+    Booking.associate = (models) => {
+        Booking.hasOne(models.ReviewBooking, {
+            foreignKey: 'booking_id',
+            onDelete: 'CASCADE',
+        });
+        Booking.hasMany(models.LoggingBooking, {
+            foreignKey: 'booking_id',
+            onDelete: 'CASCADE',
+        });
+    };
 
-	return Booking;
+    return Booking;
 };
 
 const ReviewBookingModel = (sequelize, { DataTypes }) => {
-	const ReviewBooking = sequelize.define('review_booking', {
-		id: {
-			type: DataTypes.INTEGER,
-			autoIncrement: true,
-			primaryKey: true,
-		},
+    const ReviewBooking = sequelize.define('review_booking', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
 
-		booking_id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'booking',
-				key: 'id',
-			},
-		},
+        booking_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'booking',
+                key: 'id',
+            },
+        },
 
-		rating: {
-			type: DataTypes.INTEGER,
-			defaultValue: 0,
-			validate: {
-				min: 0,
-				max: 5,
-			},
-		},
+        rating: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
+            validate: {
+                min: 0,
+                max: 5,
+            },
+        },
 
-		description: {
-			type: DataTypes.STRING,
-		},
-	});
+        description: {
+            type: DataTypes.STRING,
+        },
+    });
 
-	return ReviewBooking;
+    return ReviewBooking;
 };
 
 const LoggingBookingModel = (sequelize, { DataTypes }) => {
-	const LoggingBooking = sequelize.define('logging_booking', {
-		id: {
-			type: DataTypes.INTEGER,
-			autoIncrement: true,
-			primaryKey: true,
-		},
+    const LoggingBooking = sequelize.define('logging_booking', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
 
-		booking_id: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			references: {
-				model: 'booking',
-				key: 'id',
-			},
-		},
+        booking_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'booking',
+                key: 'id',
+            },
+        },
 
-		description: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-	});
+        description: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+    });
 
-	return LoggingBooking;
+    return LoggingBooking;
 };
 
 module.exports = {
-	PaymentModel,
-	BookingModel,
-	LoggingBookingModel,
-	ReviewBookingModel,
+    PaymentModel,
+    BookingModel,
+    LoggingBookingModel,
+    ReviewBookingModel,
 };
