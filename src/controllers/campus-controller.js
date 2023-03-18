@@ -5,11 +5,11 @@ const CampusService = require('../services/campus-service');
 const campusRouter = require('express').Router();
 
 module.exports = () => {
-	campusRouter.get(
-		'/',
-		handleRequest(async (req) => await CampusService.getCampuses()),
-		buildResponse()
-	);
+    campusRouter.get(
+        '/',
+        handleRequest(async () => await CampusService.getCampuses()),
+        buildResponse(),
+    );
 
-	return campusRouter;
+    return campusRouter;
 };
