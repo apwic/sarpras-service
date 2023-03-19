@@ -58,6 +58,29 @@ class BuildingUsecase {
         );
     }
 
+    static async __filterBuilding(filter) {
+        const vehicleFilter = {};
+
+        if (filter.status_maintenance) {
+            vehicleFilter.status_maintenance = filter.status_maintenance;
+        }
+
+        if (filter.campus_id) {
+            vehicleFilter.campus_id = filter.campus_id;
+        }
+
+        return vehicleFilter;
+    }
+
+    static async __filterFacility(filter) {
+        const facilityFilter = {};
+        if (filter.pic_id) {
+            facilityFilter.pic_id = filter.pic_id;
+        }
+
+        return facilityFilter;
+    }
+
     static async create(data, files, userId) {
         const facility = await this.__createFacility(
             data,
@@ -162,6 +185,34 @@ class BuildingUsecase {
 
         return {
             message: 'Facility Building updated succesfully',
+        };
+    }
+
+    static async search(query, filter, page, limit) {
+        const buildingFilter = await this.__filterBuilding(filter);
+        const facilityFilter = await this.__filterFacility(filter);
+        const offset = (page - 1) * limit;
+
+        const rows = await FacilityRepository.searchBuildings(
+            query,
+            buildingFilter,
+            facilityFilter,
+            offset,
+            limit,
+        );
+
+        const totalRows = await FacilityRepository.countBuildings(
+            query,
+            buildingFilter,
+            facilityFilter,
+        );
+
+        return {
+            message: 'Facility Building retrieved succesfully',
+            data: {
+                total_rows: totalRows,
+                rows: rows,
+            },
         };
     }
 }

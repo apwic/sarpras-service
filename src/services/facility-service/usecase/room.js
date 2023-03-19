@@ -58,6 +58,29 @@ class RoomUsecase {
         );
     }
 
+    static async __filterRoom(filter) {
+        const vehicleFilter = {};
+
+        if (filter.facility_building_id) {
+            vehicleFilter.facility_building_id = filter.facility_building_id;
+        }
+
+        if (filter.status_maintenance) {
+            vehicleFilter.status_maintenance = filter.status_maintenance;
+        }
+
+        return vehicleFilter;
+    }
+
+    static async __filterFacility(filter) {
+        const facilityFilter = {};
+        if (filter.pic_id) {
+            facilityFilter.pic_id = filter.pic_id;
+        }
+
+        return facilityFilter;
+    }
+
     static async create(data, files, userId) {
         const facility = await this.__createFacility(
             data,
@@ -167,6 +190,32 @@ class RoomUsecase {
 
         return {
             message: 'Facility Room updated succesfully',
+        };
+    }
+
+    static async search(query, filter, page, limit) {
+        const roomFilter = await this.__filterRoom(filter);
+        const facilityFilter = await this.__filterFacility(filter);
+        const offset = (page - 1) * limit;
+
+        const rooms = await FacilityRepository.searchRooms(
+            query,
+            roomFilter,
+            facilityFilter,
+            offset,
+            limit,
+        );
+
+        const total = await FacilityRepository.countRooms(
+            query,
+            roomFilter,
+            facilityFilter,
+        );
+
+        return {
+            message: 'Facility Room retrieved succesfully',
+            data: rooms,
+            total: total,
         };
     }
 }

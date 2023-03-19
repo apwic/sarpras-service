@@ -38,7 +38,6 @@ class UserService {
             image = image[0];
             const user = await UserRepository.getUserById(id);
             const oldPath = user.image;
-            console.log(image);
 
             const imageUrl = await ImageUserStorage.upload(image);
             await ImageUserStorage.delete(oldPath);

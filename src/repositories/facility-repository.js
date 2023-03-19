@@ -346,6 +346,90 @@ class FacilityRepository {
         }
     }
 
+    static async searchBuildings(
+        query,
+        buildingFilter,
+        facilityFilter,
+        offset,
+        limit,
+    ) {
+        try {
+            return await models.FacilityBuilding.findAll({
+                where: {
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.like]: `%${query}%`,
+                            },
+                        },
+                    ],
+                    ...buildingFilter,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        where: {
+                            ...facilityFilter,
+                        },
+                    },
+                    {
+                        model: models.Campus,
+                    },
+                ],
+                offset,
+                limit,
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    query,
+                },
+            );
+        }
+    }
+
+    static async countBuildings(query, buildingFilter, facilityFilter) {
+        try {
+            return await models.FacilityBuilding.count({
+                where: {
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.like]: `%${query}%`,
+                            },
+                        },
+                    ],
+                    ...buildingFilter,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        where: {
+                            ...facilityFilter,
+                        },
+                    },
+                    {
+                        model: models.Campus,
+                    },
+                ],
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    query,
+                },
+            );
+        }
+    }
+
     static async createRoom(room) {
         try {
             return await models.FacilityRoom.create({
@@ -420,6 +504,104 @@ class FacilityRepository {
         }
     }
 
+    static async searchRooms(query, roomFilter, facilityFilter, offset, limit) {
+        try {
+            return await models.FacilityRoom.findAll({
+                where: {
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.like]: `%${query}%`,
+                            },
+                        },
+                        {
+                            room_code: {
+                                [Op.like]: `%${query}%`,
+                            },
+                        },
+                    ],
+                    ...roomFilter,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        where: {
+                            ...facilityFilter,
+                        },
+                    },
+                    {
+                        model: models.FacilityBuilding,
+                        include: [
+                            {
+                                model: models.Campus,
+                            },
+                        ],
+                    },
+                ],
+                offset,
+                limit,
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    query,
+                },
+            );
+        }
+    }
+
+    static async countRooms(query, roomFilter, facilityFilter) {
+        try {
+            return await models.FacilityRoom.count({
+                where: {
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.like]: `%${query}%`,
+                            },
+                        },
+                        {
+                            room_code: {
+                                [Op.like]: `%${query}%`,
+                            },
+                        },
+                    ],
+                    ...roomFilter,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        where: {
+                            ...facilityFilter,
+                        },
+                    },
+                    {
+                        model: models.FacilityBuilding,
+                        include: [
+                            {
+                                model: models.Campus,
+                            },
+                        ],
+                    },
+                ],
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    query,
+                },
+            );
+        }
+    }
+
     static async createSelasar(selasar) {
         try {
             return await models.FacilitySelasar.create({
@@ -487,6 +669,100 @@ class FacilityRepository {
                 err,
                 {
                     selasar,
+                },
+            );
+        }
+    }
+
+    static async searchSelasars(
+        query,
+        selasarFilter,
+        facilityFilter,
+        offset,
+        limit,
+    ) {
+        try {
+            return await models.FacilitySelasar.findAll({
+                where: {
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.like]: `%${query}%`,
+                            },
+                        },
+                    ],
+                    ...selasarFilter,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        where: {
+                            ...facilityFilter,
+                        },
+                    },
+                    {
+                        model: models.FacilityBuilding,
+                        include: [
+                            {
+                                model: models.Campus,
+                            },
+                        ],
+                    },
+                ],
+                offset,
+                limit,
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    query,
+                },
+            );
+        }
+    }
+
+    static async countSelasars(query, selasarFilter, facilityFilter) {
+        try {
+            return await models.FacilitySelasar.count({
+                where: {
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.like]: `%${query}%`,
+                            },
+                        },
+                    ],
+                    ...selasarFilter,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        where: {
+                            ...facilityFilter,
+                        },
+                    },
+                    {
+                        model: models.FacilityBuilding,
+                        include: [
+                            {
+                                model: models.Campus,
+                            },
+                        ],
+                    },
+                ],
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    query,
                 },
             );
         }

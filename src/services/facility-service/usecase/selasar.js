@@ -58,6 +58,29 @@ class RoomUsecase {
         );
     }
 
+    static async __filterSelasar(filter) {
+        const vehicleFilter = {};
+
+        if (filter.facility_building_id) {
+            vehicleFilter.facility_building_id = filter.facility_building_id;
+        }
+
+        if (filter.status_maintenance) {
+            vehicleFilter.status_maintenance = filter.status_maintenance;
+        }
+
+        return vehicleFilter;
+    }
+
+    static async __filterFacility(filter) {
+        const facilityFilter = {};
+        if (filter.pic_id) {
+            facilityFilter.pic_id = filter.pic_id;
+        }
+
+        return facilityFilter;
+    }
+
     static async create(data, files, userId) {
         const facility = await this.__createFacility(
             data,
@@ -165,6 +188,34 @@ class RoomUsecase {
 
         return {
             message: 'Facility Selasar updated succesfully',
+        };
+    }
+
+    static async search(query, filter, page, limit) {
+        const selasarFilter = await this.__filterSelasar(filter);
+        const facilityFilter = await this.__filterFacility(filter);
+        const offset = (page - 1) * limit;
+
+        const rows = await FacilityRepository.searchSelasars(
+            query,
+            selasarFilter,
+            facilityFilter,
+            offset,
+            limit,
+        );
+
+        const totalRows = await FacilityRepository.countSelasars(
+            query,
+            selasarFilter,
+            facilityFilter,
+        );
+
+        return {
+            message: 'Facility Selasar retrieved succesfully',
+            data: {
+                total_rows: totalRows,
+                rows: rows,
+            },
         };
     }
 }

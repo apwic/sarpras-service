@@ -64,8 +64,6 @@ let uploadFileMulter = multer({
 const uploader = util.promisify(uploadFileMulter);
 
 const fileParser = (req, res, next) => {
-    console.log(req.files);
-
     if (req.files.file) {
         req.body.file = req.files.file;
     }
