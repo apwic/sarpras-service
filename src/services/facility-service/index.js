@@ -40,6 +40,10 @@ class FacilityService {
         return await BuildingUsecase.update(id, data, files);
     }
 
+    static async searchFacilityBuilding(query, filter, page, limit) {
+        return await BuildingUsecase.search(query, filter, page, limit);
+    }
+
     static async createFacilityRoom(data, files, userId) {
         return await RoomUsecase.create(data, files, userId);
     }
@@ -56,6 +60,10 @@ class FacilityService {
         return await RoomUsecase.update(id, data, files);
     }
 
+    static async searchFacilityRoom(query, filter, page, limit) {
+        return await RoomUsecase.search(query, filter, page, limit);
+    }
+
     static async createFacilitySelasar(data, files, userId) {
         return await SelasarUsecase.create(data, files, userId);
     }
@@ -70,6 +78,10 @@ class FacilityService {
 
     static async updateFacilitySelasar(id, data, files) {
         return await SelasarUsecase.update(id, data, files);
+    }
+
+    static async searchFacilitySelasar(query, filter, page, limit) {
+        return await SelasarUsecase.search(query, filter, page, limit);
     }
 }
 

@@ -120,14 +120,6 @@ const CampusModel = (sequelize, { DataTypes }) => {
             foreignKey: 'campus_id',
         });
 
-        Campus.hasMany(models.FacilitySelasar, {
-            foreignKey: 'campus_id',
-        });
-
-        Campus.hasMany(models.FacilityRoom, {
-            foreignKey: 'campus_id',
-        });
-
         Campus.hasMany(models.FacilityVehicle, {
             foreignKey: 'campus_id',
         });
@@ -257,9 +249,6 @@ const FacilitySelasarModel = (sequelize, { DataTypes }) => {
         FacilitySelasar.belongsTo(models.Facility, {
             foreignKey: 'id',
         });
-        FacilitySelasar.belongsTo(models.Campus, {
-            foreignKey: 'campus_id',
-        });
         FacilitySelasar.belongsTo(models.FacilityBuilding, {
             foreignKey: 'facility_building_id',
         });
@@ -317,9 +306,6 @@ const FacilityRoomModel = (sequelize, { DataTypes }) => {
     FacilityRoom.associate = function (models) {
         FacilityRoom.belongsTo(models.Facility, {
             foreignKey: 'id',
-        });
-        FacilityRoom.belongsTo(models.Campus, {
-            foreignKey: 'campus_id',
         });
         FacilityRoom.belongsTo(models.FacilityBuilding, {
             foreignKey: 'facility_building_id',

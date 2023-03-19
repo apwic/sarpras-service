@@ -106,8 +106,8 @@ module.exports = () => {
         validator.query(
             Joi.object({
                 q: Joi.string().required().allow(''),
-                page: Joi.number().required(),
-                limit: Joi.number().required(),
+                page: Joi.number().min(1).required(),
+                limit: Joi.number().min(1).required(),
                 pic_id: Joi.number().optional(),
                 campus_id: Joi.number().optional(),
                 type: Joi.string().optional(),
@@ -220,6 +220,33 @@ module.exports = () => {
         buildResponse(),
     );
 
+    facilityRouter.get(
+        '/buildings',
+        validator.query(
+            Joi.object({
+                q: Joi.string().required().allow(''),
+                page: Joi.number().min(1).required(),
+                limit: Joi.number().min(1).required(),
+                pic_id: Joi.number().optional(),
+                campus_id: Joi.number().optional(),
+                status_maintenance: Joi.boolean().optional(),
+            }),
+        ),
+        handleRequest(async (req) =>
+            FacilityService.searchFacilityBuilding(
+                req.query.q,
+                {
+                    pic_id: req.query.pic_id,
+                    campus_id: req.query.campus_id,
+                    status_maintenance: req.query.status_maintenance,
+                },
+                req.query.page,
+                req.query.limit,
+            ),
+        ),
+        buildResponse(),
+    );
+
     facilityRouter.post(
         '/room',
         [JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
@@ -306,6 +333,33 @@ module.exports = () => {
         buildResponse(),
     );
 
+    facilityRouter.get(
+        '/rooms',
+        validator.query(
+            Joi.object({
+                q: Joi.string().required().allow(''),
+                page: Joi.number().min(1).required(),
+                limit: Joi.number().min(1).required(),
+                pic_id: Joi.number().optional(),
+                facility_building_id: Joi.number().optional(),
+                status_maintenance: Joi.boolean().optional(),
+            }),
+        ),
+        handleRequest(async (req) =>
+            FacilityService.searchFacilityRoom(
+                req.query.q,
+                {
+                    pic_id: req.query.pic_id,
+                    facility_building_id: req.query.facility_building_id,
+                    status_maintenance: req.query.status_maintenance,
+                },
+                req.query.page,
+                req.query.limit,
+            ),
+        ),
+        buildResponse(),
+    );
+
     facilityRouter.post(
         '/selasar',
         [JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
@@ -385,6 +439,33 @@ module.exports = () => {
                 req.params.id,
                 req.body,
                 req.files,
+            ),
+        ),
+        buildResponse(),
+    );
+
+    facilityRouter.get(
+        '/selasars',
+        validator.query(
+            Joi.object({
+                q: Joi.string().required().allow(''),
+                page: Joi.number().min(1).required(),
+                limit: Joi.number().min(1).required(),
+                pic_id: Joi.number().optional(),
+                facility_building_id: Joi.number().optional(),
+                status_maintenance: Joi.boolean().optional(),
+            }),
+        ),
+        handleRequest(async (req) =>
+            FacilityService.searchFacilitySelasar(
+                req.query.q,
+                {
+                    pic_id: req.query.pic_id,
+                    facility_building_id: req.query.facility_building_id,
+                    status_maintenance: req.query.status_maintenance,
+                },
+                req.query.page,
+                req.query.limit,
             ),
         ),
         buildResponse(),
