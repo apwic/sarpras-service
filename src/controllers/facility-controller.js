@@ -251,7 +251,7 @@ module.exports = () => {
 
     facilityRouter.post(
         '/room',
-        [JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
+        [JWTMiddleware.verifyToken, uploadFile],
         validator.body(
             Joi.object({
                 pic_id: Joi.number().optional(),
