@@ -42,6 +42,57 @@ class BookingRepository {
         }
     }
 
+    static async getBookingByMonth(start, end) {
+        try {
+            return await models.Booking.findAll({
+                attributes: [
+                    'id',
+                    'user_id',
+                    'facility_id',
+                    'category',
+                    'status',
+                    'description',
+                    [
+                        sequelize.literal(
+                            "TO_CHAR(start_timestamp::DATE, 'yyyy-mm-dd')",
+                        ),
+                        'start_timestamp',
+                    ],
+                    [
+                        sequelize.literal(
+                            "TO_CHAR(end_timestamp::DATE, 'yyyy-mm-dd')",
+                        ),
+                        'end_timestamp',
+                    ],
+                ],
+                where: {
+                    [Op.and]: [
+                        sequelize.fn('start_timestamp >=', start),
+                        sequelize.fn('start_timestamp <', end),
+                    ],
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        attributes: ['id'],
+                    },
+                ],
+                order: ['start_timestamp'],
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    start,
+                    end,
+                },
+            );
+        }
+    }
+
     static async getBookingCountByCategoryAndMonth(category, month) {
         try {
             return await models.Booking.count({

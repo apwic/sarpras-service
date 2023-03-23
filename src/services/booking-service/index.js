@@ -84,6 +84,25 @@ class BookingService {
         };
     }
 
+    static async getBookingSchedule(startDate, endDate) {
+        const booking = await BookingRepository.getBookingByMonth(
+            startDate,
+            endDate,
+        );
+
+        if (!booking) {
+            return {
+                message: `Booking from ${startDate} to ${endDate} not found`,
+                data: null,
+            };
+        }
+
+        return {
+            message: `Fetching booking from ${startDate} to ${endDate} succesful`,
+            data: booking,
+        };
+    }
+
     static async createBooking(userId, body, files, category) {
         const booking = {
             user_id: userId,
