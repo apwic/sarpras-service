@@ -6,10 +6,10 @@ const StandardError = require('../../utils/standard-error');
 class GCPStorageClient {
     static async uploadPromise(file, path) {
         try {
+            const bucket = await getBucket();
             return new Promise((resolve) => {
                 const { buffer } = file;
 
-                const bucket = getBucket();
                 const blob = bucket.file(path);
                 const blobStream = blob.createWriteStream({
                     resumable: false,
@@ -35,7 +35,7 @@ class GCPStorageClient {
 
     static async deletePromise(path) {
         try {
-            const bucket = getBucket();
+            const bucket = await getBucket();
 
             return new Promise((resolve) => {
                 bucket
