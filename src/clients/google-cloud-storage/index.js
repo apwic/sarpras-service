@@ -1,6 +1,6 @@
 const { format } = require('util');
 
-const bucket = require('./connector');
+const { getBucket } = require('./connector');
 const StandardError = require('../../utils/standard-error');
 
 class GCPStorageClient {
@@ -9,6 +9,7 @@ class GCPStorageClient {
             return new Promise((resolve) => {
                 const { buffer } = file;
 
+                const bucket = getBucket();
                 const blob = bucket.file(path);
                 const blobStream = blob.createWriteStream({
                     resumable: false,
@@ -34,6 +35,8 @@ class GCPStorageClient {
 
     static async deletePromise(path) {
         try {
+            const bucket = getBucket();
+
             return new Promise((resolve) => {
                 bucket
                     .file(path)
