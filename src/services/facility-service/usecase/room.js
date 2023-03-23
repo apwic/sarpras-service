@@ -1,7 +1,9 @@
 const CampusRepository = require('../../../repositories/campus-repository');
 const FacilityRepository = require('../../../repositories/facility-repository');
 const { ImageFacilityStorage } = require('../../../utils/storage');
+const LoggingService = require('../../logging-service');
 const { facilityCategory } = require('../constant');
+const { catchThrows } = require('../../../utils/promise');
 
 class RoomUsecase {
     static async __createFacility(data, userId, category) {
@@ -101,6 +103,16 @@ class RoomUsecase {
         };
         await FacilityRepository.createRoom(roomData);
 
+        const newData = await this.get(facility.id);
+        await catchThrows(
+            LoggingService.createLoggingFacility(
+                userId,
+                facility.id,
+                null,
+                newData.data,
+            ),
+        );
+
         return {
             message: 'Facility Room created succesfully',
         };
@@ -138,7 +150,7 @@ class RoomUsecase {
         };
     }
 
-    static async delete(id) {
+    static async delete(id, userId) {
         const facility = await FacilityRepository.getFacility(id);
         const room = await FacilityRepository.getRoom(id);
 
@@ -148,17 +160,27 @@ class RoomUsecase {
             };
         }
 
+        const oldData = await this.get(id);
+
         const images = room.image || [];
         await this.__deleteImage(images);
-
         await FacilityRepository.deleteFacility(id);
+
+        await catchThrows(
+            LoggingService.createLoggingFacility(
+                userId,
+                id,
+                oldData.data,
+                null,
+            ),
+        );
 
         return {
             message: 'Facility Room deleted succesfully',
         };
     }
 
-    static async update(id, data, files) {
+    static async update(id, data, files, userId) {
         const facility = await FacilityRepository.getFacility(id);
         const room = await FacilityRepository.getRoom(id);
 
@@ -167,6 +189,8 @@ class RoomUsecase {
                 message: 'Facility Room not found',
             };
         }
+
+        const oldData = await this.get(id);
 
         const images = room.image || [];
         const newImages = files.image || [];
@@ -187,6 +211,16 @@ class RoomUsecase {
         await FacilityRepository.updateRoom(roomData);
         await this.__updateFacility(data, facility);
         await this.__deleteImage(images);
+
+        const newData = await this.get(id);
+        await catchThrows(
+            LoggingService.createLoggingFacility(
+                userId,
+                id,
+                oldData.data,
+                newData.data,
+            ),
+        );
 
         return {
             message: 'Facility Room updated succesfully',

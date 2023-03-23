@@ -12,12 +12,12 @@ class FacilityService {
         return await VehicleUsecase.get(id);
     }
 
-    static async deleteFacilityVehicle(id) {
-        return await VehicleUsecase.delete(id);
+    static async deleteFacilityVehicle(id, userId) {
+        return await VehicleUsecase.delete(id, userId);
     }
 
-    static async updateFacilityVehicle(id, data, files) {
-        return await VehicleUsecase.update(id, data, files);
+    static async updateFacilityVehicle(id, data, files, userId) {
+        return await VehicleUsecase.update(id, data, files, userId);
     }
 
     static async searchFacilityVehicle(query, filter, page, limit) {
@@ -32,12 +32,12 @@ class FacilityService {
         return await BuildingUsecase.get(id);
     }
 
-    static async deleteFacilityBuilding(id) {
-        return await BuildingUsecase.delete(id);
+    static async deleteFacilityBuilding(id, userId) {
+        return await BuildingUsecase.delete(id, userId);
     }
 
-    static async updateFacilityBuilding(id, data, files) {
-        return await BuildingUsecase.update(id, data, files);
+    static async updateFacilityBuilding(id, data, files, userId) {
+        return await BuildingUsecase.update(id, data, files, userId);
     }
 
     static async searchFacilityBuilding(query, filter, page, limit) {
@@ -52,12 +52,12 @@ class FacilityService {
         return await RoomUsecase.get(id);
     }
 
-    static async deleteFacilityRoom(id) {
-        return await RoomUsecase.delete(id);
+    static async deleteFacilityRoom(id, userId) {
+        return await RoomUsecase.delete(id, userId);
     }
 
-    static async updateFacilityRoom(id, data, files) {
-        return await RoomUsecase.update(id, data, files);
+    static async updateFacilityRoom(id, data, files, userId) {
+        return await RoomUsecase.update(id, data, files, userId);
     }
 
     static async searchFacilityRoom(query, filter, page, limit) {
@@ -72,12 +72,12 @@ class FacilityService {
         return await SelasarUsecase.get(id);
     }
 
-    static async deleteFacilitySelasar(id) {
-        return await SelasarUsecase.delete(id);
+    static async deleteFacilitySelasar(id, userId) {
+        return await SelasarUsecase.delete(id, userId);
     }
 
-    static async updateFacilitySelasar(id, data, files) {
-        return await SelasarUsecase.update(id, data, files);
+    static async updateFacilitySelasar(id, data, files, userId) {
+        return await SelasarUsecase.update(id, data, files, userId);
     }
 
     static async searchFacilitySelasar(query, filter, page, limit) {

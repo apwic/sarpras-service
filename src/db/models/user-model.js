@@ -53,6 +53,12 @@ const UserModel = (sequelize, { DataTypes }) => {
         },
     });
 
+    User.associate = (models) => {
+        User.hasMany(models.LoggingFacility, {
+            foreignKey: 'admin_id',
+        });
+    };
+
     return User;
 };
 

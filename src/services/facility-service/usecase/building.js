@@ -1,7 +1,9 @@
 const CampusRepository = require('../../../repositories/campus-repository');
 const FacilityRepository = require('../../../repositories/facility-repository');
 const { ImageFacilityStorage } = require('../../../utils/storage');
+const LoggingService = require('../../logging-service');
 const { facilityCategory } = require('../constant');
+const { catchThrows } = require('../../../utils/promise');
 
 class BuildingUsecase {
     static async __createFacility(data, userId, category) {
@@ -102,6 +104,16 @@ class BuildingUsecase {
         };
         await FacilityRepository.createBuilding(buildingData);
 
+        const newData = await this.get(facility.id);
+        await catchThrows(
+            LoggingService.createLoggingFacility(
+                userId,
+                facility.id,
+                null,
+                newData.data,
+            ),
+        );
+
         return {
             message: 'Facility Building created succesfully',
         };
@@ -133,7 +145,7 @@ class BuildingUsecase {
         };
     }
 
-    static async delete(id) {
+    static async delete(id, userId) {
         const facility = await FacilityRepository.getFacility(id);
         const building = await FacilityRepository.getBuilding(id);
 
@@ -143,17 +155,28 @@ class BuildingUsecase {
             };
         }
 
+        const oldData = await this.get(id);
+
         const images = building.image || [];
         await this.__deleteImage(images);
 
         await FacilityRepository.deleteFacility(id);
+
+        await catchThrows(
+            LoggingService.createLoggingFacility(
+                userId,
+                facility.id,
+                oldData.data,
+                null,
+            ),
+        );
 
         return {
             message: 'Facility Building deleted succesfully',
         };
     }
 
-    static async update(id, data, files) {
+    static async update(id, data, files, userId) {
         const facility = await FacilityRepository.getFacility(id);
         const building = await FacilityRepository.getBuilding(id);
 
@@ -162,6 +185,8 @@ class BuildingUsecase {
                 message: 'Facility Building not found',
             };
         }
+
+        const oldData = await this.get(id);
 
         const images = building.image || [];
         const newImages = files.image || [];
@@ -182,6 +207,16 @@ class BuildingUsecase {
         await FacilityRepository.updateBuilding(buildingData);
         await this.__updateFacility(data, facility);
         await this.__deleteImage(images);
+
+        const newData = await this.get(id);
+        await catchThrows(
+            LoggingService.createLoggingFacility(
+                userId,
+                facility.id,
+                oldData.data,
+                newData.data,
+            ),
+        );
 
         return {
             message: 'Facility Building updated succesfully',

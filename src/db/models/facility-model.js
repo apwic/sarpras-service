@@ -88,6 +88,7 @@ const FacilityModel = (sequelize, { DataTypes }) => {
         });
         Facility.hasMany(models.LoggingFacility, {
             foreignKey: 'facility_id',
+            onDelete: 'CASCADE',
         });
     };
 
@@ -390,12 +391,6 @@ const FacilityVehicleModel = (sequelize, { DataTypes }) => {
 
 const LoggingFacilityModel = (sequelize, { DataTypes }) => {
     const LoggingFacility = sequelize.define('logging_facility', {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-
         admin_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -420,19 +415,22 @@ const LoggingFacilityModel = (sequelize, { DataTypes }) => {
         },
 
         old_data: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
 
         new_data: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
     });
 
     LoggingFacility.associate = function (models) {
         LoggingFacility.belongsTo(models.Facility, {
-            foreignKey: 'id',
+            foreignKey: 'facility_id',
+        });
+        LoggingFacility.belongsTo(models.User, {
+            foreignKey: 'admin_id',
         });
     };
 

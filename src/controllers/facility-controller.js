@@ -65,7 +65,7 @@ module.exports = () => {
         ),
         [JWTMiddleware.verifyToken, UserValidation.admin],
         handleRequest(async (req) =>
-            FacilityService.deleteFacilityVehicle(req.params.id),
+            FacilityService.deleteFacilityVehicle(req.params.id, req.user.id),
         ),
         buildResponse(),
     );
@@ -96,6 +96,7 @@ module.exports = () => {
                 req.params.id,
                 req.body,
                 req.files,
+                req.user.id,
             ),
         ),
         buildResponse(),
@@ -185,7 +186,7 @@ module.exports = () => {
             }),
         ),
         handleRequest(async (req) =>
-            FacilityService.deleteFacilityBuilding(req.params.id),
+            FacilityService.deleteFacilityBuilding(req.params.id, req.user.id),
         ),
         buildResponse(),
     );
@@ -215,6 +216,7 @@ module.exports = () => {
                 req.params.id,
                 req.body,
                 req.files,
+                req.user.id,
             ),
         ),
         buildResponse(),
@@ -299,7 +301,7 @@ module.exports = () => {
             }),
         ),
         handleRequest(async (req) =>
-            FacilityService.deleteFacilityRoom(req.params.id),
+            FacilityService.deleteFacilityRoom(req.params.id, req.user.id),
         ),
         buildResponse(),
     );
@@ -328,6 +330,7 @@ module.exports = () => {
                 req.params.id,
                 req.body,
                 req.files,
+                req.user.id,
             ),
         ),
         buildResponse(),
@@ -411,7 +414,7 @@ module.exports = () => {
             }),
         ),
         handleRequest(async (req) =>
-            FacilityService.deleteFacilitySelasar(req.params.id),
+            FacilityService.deleteFacilitySelasar(req.params.id, req.user.id),
         ),
         buildResponse(),
     );
@@ -439,6 +442,7 @@ module.exports = () => {
                 req.params.id,
                 req.body,
                 req.files,
+                req.user.id,
             ),
         ),
         buildResponse(),
