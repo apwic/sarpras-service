@@ -20,14 +20,6 @@ class GCPStorageClient {
                         );
                         resolve(publicUrl);
                     })
-                    .on('error', (err) => {
-                        throw new StandardError(
-                            500,
-                            'CLOUD_ERROR',
-                            'Something is wrong with the cloud storage',
-                            err,
-                        );
-                    })
                     .end(buffer);
             });
         } catch (err) {
@@ -48,14 +40,6 @@ class GCPStorageClient {
                     .delete()
                     .then(() => {
                         resolve();
-                    })
-                    .catch((err) => {
-                        throw new StandardError(
-                            500,
-                            'CLOUD_ERROR',
-                            'Something is wrong with the cloud storage',
-                            err,
-                        );
                     });
             });
         } catch (err) {
