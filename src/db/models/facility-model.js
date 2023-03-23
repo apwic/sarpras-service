@@ -1,3 +1,5 @@
+const { vehicleType, simCategory } = require('../enums');
+
 const UtilityModel = (sequelize, { DataTypes }) => {
     const Utility = sequelize.define('utility', {
         id: {
@@ -347,12 +349,12 @@ const FacilityVehicleModel = (sequelize, { DataTypes }) => {
         },
 
         type: {
-            type: DataTypes.ENUM('TRUCK', 'BUS', 'CAR'),
+            type: DataTypes.ENUM(...vehicleType),
             allowNull: false,
         },
 
         sim_category: {
-            type: DataTypes.ENUM('A', 'B1', 'B2', 'C', 'D'),
+            type: DataTypes.ENUM(...simCategory),
             allowNull: false,
         },
 
