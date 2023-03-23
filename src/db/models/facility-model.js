@@ -86,6 +86,10 @@ const FacilityModel = (sequelize, { DataTypes }) => {
             foreignKey: 'id',
             onDelete: 'CASCADE',
         });
+        Facility.hasMany(models.LoggingFacility, {
+            foreignKey: 'facility_id',
+            onDelete: 'CASCADE',
+        });
     };
 
     return Facility;
@@ -385,6 +389,38 @@ const FacilityVehicleModel = (sequelize, { DataTypes }) => {
     return FacilityVehicle;
 };
 
+const LoggingFacilityModel = (sequelize, { DataTypes }) => {
+    const LoggingFacility = sequelize.define('logging_facility', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+
+        facility_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'facility',
+                key: 'id',
+            },
+        },
+
+        description: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+    });
+
+    LoggingFacility.associate = function (models) {
+        LoggingFacility.belongsTo(models.Facility, {
+            foreignKey: 'id',
+        });
+    };
+
+    return LoggingFacility;
+};
+
 module.exports = {
     FacilityModel,
     CampusModel,
@@ -393,4 +429,5 @@ module.exports = {
     FacilityRoomModel,
     FacilityVehicleModel,
     UtilityModel,
+    LoggingFacilityModel,
 };
