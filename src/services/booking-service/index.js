@@ -1,6 +1,8 @@
 const BookingRepository = require('../../repositories/booking-repository');
 const { FileBookingStorage } = require('../../utils/storage');
 const { bookingCategory, bookingStatus } = require('./constant');
+const GoogleCalendarClient = require('../../clients/google-calendar');
+
 class BookingService {
     static async getBookingByBookingId(bookingId) {
         const booking = await BookingRepository.getBookingByBookingId(
@@ -90,6 +92,21 @@ class BookingService {
             endDate,
         );
 
+        const calendar = await GoogleCalendarClient.getCalendarPromise(
+            startDate,
+            endDate,
+        );
+
+        let holiday = [];
+
+        calendar.items.forEach((day) => {
+            holiday.push({
+                summary: day.summary,
+                description: day.description,
+                date: day.start.date,
+            });
+        });
+
         if (!booking) {
             return {
                 message: `Booking from ${startDate} to ${endDate} not found`,
@@ -99,7 +116,10 @@ class BookingService {
 
         return {
             message: `Fetching booking from ${startDate} to ${endDate} succesful`,
-            data: booking,
+            data: {
+                booking: booking,
+                holiday: holiday,
+            },
         };
     }
 

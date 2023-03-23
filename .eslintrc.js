@@ -12,8 +12,13 @@ module.exports = {
         ecmaVersion: 'latest',
     },
     rules: {
-        'prettier/prettier': 'error',
-        'linebreak-style': ['error', 'unix'],
+        'prettier/prettier': [
+            'error',
+            {
+                endOfLine: 'auto',
+            },
+        ],
+        'linebreak-style': 'off',
         quotes: ['error', 'single', { avoidEscape: true }],
         semi: ['error', 'always'],
         'no-console': 'off',
