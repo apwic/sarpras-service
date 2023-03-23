@@ -52,17 +52,13 @@ class BookingRepository {
                     'category',
                     'status',
                     'description',
+                    'start_timestamp',
+                    'end_timestamp',
                     [
                         sequelize.literal(
                             "TO_CHAR(start_timestamp::DATE, 'yyyy-mm-dd')",
                         ),
-                        'start_timestamp',
-                    ],
-                    [
-                        sequelize.literal(
-                            "TO_CHAR(end_timestamp::DATE, 'yyyy-mm-dd')",
-                        ),
-                        'end_timestamp',
+                        'date',
                     ],
                 ],
                 where: {
