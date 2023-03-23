@@ -198,7 +198,7 @@ class RoomUsecase {
         const facilityFilter = await this.__filterFacility(filter);
         const offset = (page - 1) * limit;
 
-        const rooms = await FacilityRepository.searchRooms(
+        const rows = await FacilityRepository.searchRooms(
             query,
             roomFilter,
             facilityFilter,
@@ -206,7 +206,7 @@ class RoomUsecase {
             limit,
         );
 
-        const total = await FacilityRepository.countRooms(
+        const totalRows = await FacilityRepository.countRooms(
             query,
             roomFilter,
             facilityFilter,
@@ -214,8 +214,10 @@ class RoomUsecase {
 
         return {
             message: 'Facility Room retrieved succesfully',
-            data: rooms,
-            total: total,
+            data: {
+                total_rows: totalRows,
+                rows: rows,
+            },
         };
     }
 }
