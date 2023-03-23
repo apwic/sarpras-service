@@ -27,6 +27,7 @@
         "express-joi-validation": "^5.0.1",
         "express-validation": "^4.1.0",
         "fs": "^0.0.1-security",
+        "heic-convert": "^1.2.4",
         "joi": "^17.8.3",
         "jsonwebtoken": "^9.0.0",
         "morgan": "^1.10.0",

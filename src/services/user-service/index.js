@@ -41,7 +41,7 @@ class UserService {
 
             const imageUrl = await ImageUserStorage.upload(image);
 
-            if (oldPath != '') {
+            if (oldPath !== '') {
                 await ImageUserStorage.delete(oldPath);
             }
 
