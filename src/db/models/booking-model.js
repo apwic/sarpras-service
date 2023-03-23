@@ -108,6 +108,10 @@ const BookingModel = (sequelize, { DataTypes }) => {
             type: DataTypes.STRING,
         },
 
+        url: {
+            type: DataTypes.STRING,
+        },
+
         start_timestamp: {
             type: DataTypes.DATE,
             allowNull: false,

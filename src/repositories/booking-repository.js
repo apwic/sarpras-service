@@ -109,6 +109,7 @@ class BookingRepository {
                 cost: booking.cost,
                 status: booking.status,
                 description: booking.description,
+                url: booking.url,
                 start_timestamp: booking.start_timestamp,
                 end_timestamp: booking.end_timestamp,
             });
