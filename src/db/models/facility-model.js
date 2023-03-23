@@ -92,6 +92,10 @@ const FacilityModel = (sequelize, { DataTypes }) => {
             foreignKey: 'facility_id',
             onDelete: 'CASCADE',
         });
+        Facility.hasMany(models.Booking, {
+            foreignKey: 'facility_id',
+            onDelete: 'RESRICT',
+        });
     };
 
     return Facility;

@@ -132,6 +132,9 @@ const BookingModel = (sequelize, { DataTypes }) => {
             foreignKey: 'booking_id',
             onDelete: 'CASCADE',
         });
+        Booking.belongsTo(models.Facility, {
+            foreignKey: 'facility_id',
+        });
     };
 
     return Booking;
