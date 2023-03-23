@@ -7,7 +7,7 @@ class GCPStorageClient {
     static async uploadPromise(file, path) {
         try {
             const bucket = await getBucket();
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 const { buffer } = file;
 
                 const blob = bucket.file(path);
@@ -21,13 +21,23 @@ class GCPStorageClient {
                         );
                         resolve(publicUrl);
                     })
+                    .on('error', (err) => {
+                        reject(
+                            new StandardError(
+                                500,
+                                'CLOUD_ERROR',
+                                'Something is wrong when uploading to the cloud storage',
+                                err,
+                            ),
+                        );
+                    })
                     .end(buffer);
             });
         } catch (err) {
             throw new StandardError(
                 500,
                 'CLOUD_ERROR',
-                'Something is wrong with the cloud storage',
+                'Unexpected error when uploading to the cloud storage',
                 err,
             );
         }
@@ -37,19 +47,29 @@ class GCPStorageClient {
         try {
             const bucket = await getBucket();
 
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 bucket
                     .file(path)
                     .delete()
                     .then(() => {
                         resolve();
+                    })
+                    .catch((err) => {
+                        reject(
+                            new StandardError(
+                                500,
+                                'CLOUD_ERROR',
+                                'Something is wrong when deleting from the cloud storage',
+                                err,
+                            ),
+                        );
                     });
             });
         } catch (err) {
             throw new StandardError(
                 500,
                 'CLOUD_ERROR',
-                'Something is wrong with the cloud storage',
+                'Unexpected error when deleting from the cloud storage',
                 err,
             );
         }
