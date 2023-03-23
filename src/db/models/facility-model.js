@@ -88,7 +88,6 @@ const FacilityModel = (sequelize, { DataTypes }) => {
         });
         Facility.hasMany(models.LoggingFacility, {
             foreignKey: 'facility_id',
-            onDelete: 'CASCADE',
         });
     };
 
@@ -397,6 +396,15 @@ const LoggingFacilityModel = (sequelize, { DataTypes }) => {
             primaryKey: true,
         },
 
+        admin_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'user',
+                key: 'id',
+            },
+        },
+
         facility_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -407,6 +415,16 @@ const LoggingFacilityModel = (sequelize, { DataTypes }) => {
         },
 
         description: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+
+        old_data: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+
+        new_data: {
             type: DataTypes.STRING,
             allowNull: false,
         },
