@@ -189,12 +189,12 @@ class FacilityRepository {
                     [Op.or]: [
                         {
                             name: {
-                                [Op.like]: `%${query}%`,
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
                         {
                             license_number: {
-                                [Op.like]: `%${query}%`,
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
                     ],
@@ -234,12 +234,12 @@ class FacilityRepository {
                     [Op.or]: [
                         {
                             name: {
-                                [Op.like]: `%${query}%`,
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
                         {
                             license_number: {
-                                [Op.like]: `%${query}%`,
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
                     ],
@@ -359,7 +359,7 @@ class FacilityRepository {
                     [Op.or]: [
                         {
                             name: {
-                                [Op.like]: `%${query}%`,
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
                     ],
@@ -399,7 +399,7 @@ class FacilityRepository {
                     [Op.or]: [
                         {
                             name: {
-                                [Op.like]: `%${query}%`,
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
                     ],
@@ -511,12 +511,12 @@ class FacilityRepository {
                     [Op.or]: [
                         {
                             name: {
-                                [Op.like]: `%${query}%`,
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
                         {
                             room_code: {
-                                [Op.like]: `%${query}%`,
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
                     ],
@@ -561,12 +561,12 @@ class FacilityRepository {
                     [Op.or]: [
                         {
                             name: {
-                                [Op.like]: `%${query}%`,
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
                         {
                             room_code: {
-                                [Op.like]: `%${query}%`,
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
                     ],
@@ -687,7 +687,7 @@ class FacilityRepository {
                     [Op.or]: [
                         {
                             name: {
-                                [Op.like]: `%${query}%`,
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
                     ],
@@ -732,7 +732,7 @@ class FacilityRepository {
                     [Op.or]: [
                         {
                             name: {
-                                [Op.like]: `%${query}%`,
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
                     ],
