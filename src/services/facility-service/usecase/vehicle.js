@@ -1,7 +1,9 @@
 const CampusRepository = require('../../../repositories/campus-repository');
 const FacilityRepository = require('../../../repositories/facility-repository');
 const { ImageFacilityStorage } = require('../../../utils/storage');
+const LoggingService = require('../../logging-service');
 const { facilityCategory } = require('../constant');
+const { catchThrows } = require('../../../utils/promise');
 
 class VehicleUsecase {
     static async __createFacility(data, userId, category) {
@@ -111,6 +113,16 @@ class VehicleUsecase {
         };
         await FacilityRepository.createVehicle(vehicleData);
 
+        const newData = await this.get(facility.id);
+        await catchThrows(
+            LoggingService.createLoggingFacility(
+                userId,
+                facility.id,
+                null,
+                newData.data,
+            ),
+        );
+
         return {
             message: 'Facility Vehicle created succesfully',
         };
@@ -142,7 +154,7 @@ class VehicleUsecase {
         };
     }
 
-    static async delete(id) {
+    static async delete(id, userId) {
         const facility = await FacilityRepository.getFacility(id);
         const vehicle = await FacilityRepository.getVehicle(id);
 
@@ -152,17 +164,27 @@ class VehicleUsecase {
             };
         }
 
+        const oldData = await this.get(facility.id);
+
         const images = vehicle.image || [];
         await this.__deleteImage(images);
-
         await FacilityRepository.deleteFacility(id);
+
+        await catchThrows(
+            LoggingService.createLoggingFacility(
+                userId,
+                facility.id,
+                oldData.data,
+                null,
+            ),
+        );
 
         return {
             message: 'Facility Vehicle deleted succesfully',
         };
     }
 
-    static async update(id, data, files) {
+    static async update(id, data, files, userId) {
         const facility = await FacilityRepository.getFacility(id);
         const vehicle = await FacilityRepository.getVehicle(id);
 
@@ -171,6 +193,8 @@ class VehicleUsecase {
                 message: 'Facility Vehicle not found',
             };
         }
+
+        const oldData = this.get(id);
 
         const images = vehicle.image || [];
         const newImages = files.image || [];
@@ -193,6 +217,16 @@ class VehicleUsecase {
         await FacilityRepository.updateVehicle(vehicleData);
         await this.__updateFacility(data, facility);
         await this.__deleteImage(images);
+
+        const newData = await this.get(facility.id);
+        await catchThrows(
+            LoggingService.createLoggingFacility(
+                userId,
+                facility.id,
+                oldData.data,
+                newData.data,
+            ),
+        );
 
         return {
             message: 'Facility Vehicle updated succesfully',
