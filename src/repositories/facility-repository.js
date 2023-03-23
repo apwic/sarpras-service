@@ -346,6 +346,20 @@ class FacilityRepository {
         }
     }
 
+    static async getBuildings() {
+        try {
+            return await models.FacilityBuilding.findAll();
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {},
+            );
+        }
+    }
+
     static async searchBuildings(
         query,
         buildingFilter,

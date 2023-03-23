@@ -2,6 +2,7 @@ const VehicleUsecase = require('./usecase/vehicle');
 const BuildingUsecase = require('./usecase/building');
 const RoomUsecase = require('./usecase/room');
 const SelasarUsecase = require('./usecase/selasar');
+const FilterUsecase = require('./usecase/filter');
 
 class FacilityService {
     static async createFacilityVehicle(data, files, userId) {
@@ -82,6 +83,10 @@ class FacilityService {
 
     static async searchFacilitySelasar(query, filter, page, limit) {
         return await SelasarUsecase.search(query, filter, page, limit);
+    }
+
+    static async getFacilityFilter() {
+        return await FilterUsecase.getFilter();
     }
 }
 

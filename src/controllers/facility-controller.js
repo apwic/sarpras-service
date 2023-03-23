@@ -475,5 +475,13 @@ module.exports = () => {
         buildResponse(),
     );
 
+    facilityRouter.get(
+        '/filter',
+        handleRequest(async (req) =>
+            FacilityService.getFacilityFilter(req.query),
+        ),
+        buildResponse(),
+    );
+
     return facilityRouter;
 };
