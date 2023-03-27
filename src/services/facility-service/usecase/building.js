@@ -1,5 +1,7 @@
 const CampusRepository = require('../../../repositories/campus-repository');
 const FacilityRepository = require('../../../repositories/facility-repository');
+const BookingRepository = require('../../../repositories/booking-repository');
+
 const { ImageFacilityStorage } = require('../../../utils/storage');
 const LoggingService = require('../../logging-service');
 const { facilityCategory } = require('../constant');
@@ -83,6 +85,11 @@ class BuildingUsecase {
         return facilityFilter;
     }
 
+    static async __checkFacilityInBooking(id) {
+        const booking = await BookingRepository.getBookingByFacilityId(id);
+        return booking ? true : false;
+    }
+
     static async create(data, files, userId) {
         const facility = await this.__createFacility(
             data,
@@ -155,12 +162,17 @@ class BuildingUsecase {
             };
         }
 
-        const oldData = await this.get(id);
+        if (await this.__checkFacilityInBooking(id)) {
+            return {
+                message: 'Facility Vehicle have booking',
+            };
+        }
 
+        const oldData = await this.get(id);
         const images = building.image || [];
-        await this.__deleteImage(images);
 
         await FacilityRepository.deleteFacility(id);
+        await this.__deleteImage(images);
 
         await catchThrows(
             LoggingService.createLoggingFacility(

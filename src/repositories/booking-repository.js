@@ -237,6 +237,26 @@ class BookingRepository {
             );
         }
     }
+
+    static async getBookingByFacilityId(facilityId) {
+        try {
+            return await models.Booking.findAll({
+                where: {
+                    facility_id: facilityId,
+                },
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    facilityId,
+                },
+            );
+        }
+    }
 }
 
 module.exports = BookingRepository;
