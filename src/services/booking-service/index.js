@@ -87,7 +87,7 @@ class BookingService {
     }
 
     static async getBookingSchedule(startDate, endDate) {
-        const booking = await BookingRepository.getBookingByMonth(
+        const booking = await BookingRepository.getBookingByTimestamp(
             startDate,
             endDate,
         );

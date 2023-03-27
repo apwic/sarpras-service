@@ -42,6 +42,7 @@ module.exports = () => {
 
     bookingRouter.get(
         '/schedule',
+        [JWTMiddleware.verifyToken],
         validator.query(
             Joi.object({
                 start: Joi.string().required(),
