@@ -42,7 +42,7 @@ class BookingRepository {
         }
     }
 
-    static async getBookingByMonth(start, end) {
+    static async getBookingByTimestamp(start, end) {
         try {
             return await models.Booking.findAll({
                 attributes: [
