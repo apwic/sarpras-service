@@ -1,4 +1,3 @@
-
 const facilityCategory = {
     VEHICLE: 'VEHICLE',
     ROOM: 'ROOM',
