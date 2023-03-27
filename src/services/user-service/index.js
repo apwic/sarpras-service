@@ -4,6 +4,7 @@ const StandardError = require('../../utils/standard-error');
 const { ImageUserStorage } = require('../../utils/storage');
 const LoggingService = require('../logging-service/index');
 const { loggingRoleStatus } = require('../logging-service/constant');
+const { catchThrows } = require('../../utils/promise');
 
 class UserService {
     static async getUserById(id) {
@@ -42,7 +43,7 @@ class UserService {
             const imageUrl = await ImageUserStorage.upload(image);
 
             if (oldPath !== '') {
-                await ImageUserStorage.delete(oldPath);
+                await catchThrows(ImageUserStorage.delete(oldPath));
             }
 
             if (no_telp === null) {
@@ -67,20 +68,24 @@ class UserService {
         await UserRepository.changeRole(staffId, role);
 
         if (role === userRoles.BASIC_USER) {
-            await LoggingService.createLoggingRole(
-                adminId,
-                staffId,
-                oldStaff.role,
-                role,
-                loggingRoleStatus.REVOKE,
+            await catchThrows(
+                LoggingService.createLoggingRole(
+                    adminId,
+                    staffId,
+                    oldStaff.role,
+                    role,
+                    loggingRoleStatus.REVOKE,
+                ),
             );
         } else {
-            await LoggingService.createLoggingRole(
-                adminId,
-                staffId,
-                oldStaff.role,
-                role,
-                loggingRoleStatus.GRANT,
+            await catchThrows(
+                LoggingService.createLoggingRole(
+                    adminId,
+                    staffId,
+                    oldStaff.role,
+                    role,
+                    loggingRoleStatus.GRANT,
+                ),
             );
         }
 

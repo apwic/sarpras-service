@@ -55,7 +55,7 @@ class RoomUsecase {
     static async __deleteImage(images) {
         await Promise.all(
             images.map(async (image) => {
-                await ImageFacilityStorage.delete(image);
+                await catchThrows(ImageFacilityStorage.delete(image));
             }),
         );
     }
