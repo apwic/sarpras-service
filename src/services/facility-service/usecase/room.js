@@ -227,7 +227,9 @@ class RoomUsecase {
             image: uploadedImages,
             capacity: data.capacity || room.capacity,
             status_maintenance:
-                data.status_maintenance || room.status_maintenance,
+                data.status_maintenance !== undefined
+                    ? data.status_maintenance
+                    : room.status_maintenance,
         };
 
         await FacilityRepository.updateRoom(roomData);

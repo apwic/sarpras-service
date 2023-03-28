@@ -225,7 +225,9 @@ class RoomUsecase {
             image: uploadedImages,
             capacity: data.capacity || selasar.capacity,
             status_maintenance:
-                data.status_maintenance || selasar.status_maintenance,
+                data.status_maintenance !== undefined
+                    ? data.status_maintenance
+                    : selasar.status_maintenance,
         };
 
         await FacilityRepository.updateSelasar(selasarData);
