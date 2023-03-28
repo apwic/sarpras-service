@@ -222,7 +222,9 @@ class BuildingUsecase {
             latitude: data.latitude || building.latitude,
             longitude: data.longitude || building.longitude,
             status_maintenance:
-                data.status_maintenance || building.status_maintenance,
+                data.status_maintenance !== undefined
+                    ? data.status_maintenance
+                    : building.status_maintenance,
         };
 
         await FacilityRepository.updateBuilding(buildingData);

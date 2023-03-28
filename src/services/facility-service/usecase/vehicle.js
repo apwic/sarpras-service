@@ -233,7 +233,9 @@ class VehicleUsecase {
             vehicle_capacity: data.vehicle_capacity || vehicle.vehicle_capacity,
             image: uploadedImages,
             status_maintenance:
-                data.status_maintenance || vehicle.status_maintenance,
+                data.status_maintenance !== undefined
+                    ? data.status_maintenance
+                    : vehicle.status_maintenance,
         };
 
         await FacilityRepository.updateVehicle(vehicleData);
