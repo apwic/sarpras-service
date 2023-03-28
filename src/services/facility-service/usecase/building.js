@@ -6,6 +6,7 @@ const { ImageFacilityStorage } = require('../../../utils/storage');
 const LoggingService = require('../../logging-service');
 const { facilityCategory } = require('../constant');
 const { catchThrows } = require('../../../utils/promise');
+const StandardError = require('../../../utils/standard-error');
 
 class BuildingUsecase {
     static async __createFacility(data, userId, category) {
@@ -157,15 +158,23 @@ class BuildingUsecase {
         const building = await FacilityRepository.getBuilding(id);
 
         if (!facility || !building) {
-            return {
-                message: 'Facility is not a building',
-            };
+            throw new StandardError(
+                400,
+                'FACILITY_BUILDING_NOT_FOUND',
+                'Facility Building not found',
+                null,
+                { id: id },
+            );
         }
 
         if (await this.__checkFacilityInBooking(id)) {
-            return {
-                message: 'Facility Vehicle have booking',
-            };
+            throw new StandardError(
+                400,
+                'FACILITY_BUILDING_IN_BOOKING',
+                'Facility Building is in booking, cannot be deleted',
+                null,
+                { id: id },
+            );
         }
 
         const oldData = await this.get(id);
