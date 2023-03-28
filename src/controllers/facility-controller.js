@@ -72,6 +72,7 @@ module.exports = () => {
 
     facilityRouter.put(
         '/vehicle/:id',
+        [JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
         validator.body(
             Joi.object({
                 pic_id: Joi.number().optional(),
@@ -90,7 +91,6 @@ module.exports = () => {
                 status_maintenance: Joi.boolean().optional(),
             }),
         ),
-        [JWTMiddleware.verifyToken, UserValidation.admin, uploadFile],
         handleRequest(async (req) =>
             FacilityService.updateFacilityVehicle(
                 req.params.id,
