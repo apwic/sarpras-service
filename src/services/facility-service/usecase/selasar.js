@@ -6,6 +6,7 @@ const { ImageFacilityStorage } = require('../../../utils/storage');
 const LoggingService = require('../../logging-service');
 const { facilityCategory } = require('../constant');
 const { catchThrows } = require('../../../utils/promise');
+const StandardError = require('../../../utils/standard-error');
 
 class RoomUsecase {
     static async __createFacility(data, userId, category) {
@@ -161,15 +162,23 @@ class RoomUsecase {
         const selasar = await FacilityRepository.getSelasar(id);
 
         if (!facility || !selasar) {
-            return {
-                message: 'Facility is not a selasar',
-            };
+            throw new StandardError(
+                400,
+                'FACILITY_SELASAR_NOT_FOUND',
+                'Facility Selasar not found',
+                null,
+                { id: id },
+            );
         }
 
         if (await this.__checkFacilityInBooking(id)) {
-            return {
-                message: 'Facility Vehicle have booking',
-            };
+            throw new StandardError(
+                400,
+                'FACILITY_SELASAR_IN_BOOKING',
+                'Facility Selasar is in booking, cannot be deleted',
+                null,
+                { id: id },
+            );
         }
 
         const oldData = await this.get(id);
