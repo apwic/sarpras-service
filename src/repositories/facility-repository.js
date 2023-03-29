@@ -9,6 +9,7 @@ class FacilityRepository {
             return await models.Facility.create({
                 pic_id: facility.pic_id,
                 category: facility.category,
+                name: facility.name,
                 electricity: facility.electricity,
                 utility: facility.utility,
                 price: facility.price,
@@ -74,6 +75,7 @@ class FacilityRepository {
                 {
                     pic_id: facility.pic_id,
                     category: facility.category,
+                    name: facility.name,
                     electricity: facility.electricity,
                     utility: facility.utility,
                     price: facility.price,
