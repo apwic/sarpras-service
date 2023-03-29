@@ -57,6 +57,10 @@ const UserModel = (sequelize, { DataTypes }) => {
         User.hasMany(models.LoggingFacility, {
             foreignKey: 'admin_id',
         });
+        User.hasMany(models.Booking, {
+            foreignKey: 'user_id',
+            onDelete: 'RESTRICT',
+        });
     };
 
     return User;

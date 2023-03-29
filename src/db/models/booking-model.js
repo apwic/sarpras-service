@@ -135,6 +135,9 @@ const BookingModel = (sequelize, { DataTypes }) => {
         Booking.belongsTo(models.Facility, {
             foreignKey: 'facility_id',
         });
+        Booking.belongsTo(models.User, {
+            foreignKey: 'user_id',
+        });
     };
 
     return Booking;
