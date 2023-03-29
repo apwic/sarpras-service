@@ -95,7 +95,7 @@ module.exports = () => {
     );
 
     bookingRouter.get(
-        's',
+        '',
         [JWTMiddleware.verifyToken, UserValidation.bookingStaff],
         validator.query(
             Joi.object({
@@ -106,6 +106,19 @@ module.exports = () => {
                 status: Joi.string().optional(),
             }),
         ),
+        handleRequest(
+            async (req) =>
+                await BookingService.searchBookings(
+                    req.query.q,
+                    {
+                        category: req.query.category,
+                        status: req.query.status,
+                    },
+                    req.query.page,
+                    req.query.limit,
+                ),
+        ),
+        buildResponse(),
     );
 
     bookingRouter.post(

@@ -70,6 +70,38 @@ class BookingService {
         };
     }
 
+    static async searchBookings(query, filter, page, limit) {
+        const offset = (page - 1) * limit;
+        const bookingFilter = this.__filter(filter);
+
+        const booking = await BookingRepository.searchBookings(
+            query,
+            bookingFilter,
+            offset,
+            limit,
+        );
+
+        const totalRows = await BookingRepository.countBookings(
+            query,
+            bookingFilter,
+        );
+
+        if (!booking) {
+            return {
+                message: 'Booking not found',
+                data: [],
+            };
+        }
+
+        return {
+            message: 'Fetching booking succesful',
+            data: {
+                total_rows: totalRows,
+                rows: booking,
+            },
+        };
+    }
+
     static async getBookingStat(month, year) {
         return {
             message: `Fetching booking with month = ${month} and year = ${year} succesful`,

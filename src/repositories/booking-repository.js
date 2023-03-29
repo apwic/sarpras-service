@@ -88,6 +88,74 @@ class BookingRepository {
         }
     }
 
+    static async searchBookings(query, filter, offset, limit) {
+        try {
+            return await models.Booking.findAll({
+                where: {
+                    ...filter,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        attributes: ['name', 'description'],
+                        where: {
+                            name: {
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
+                            },
+                        },
+                    },
+                ],
+                offset,
+                limit,
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    query,
+                    filter,
+                    offset,
+                    limit,
+                },
+            );
+        }
+    }
+
+    static async countBookings(query, filter) {
+        try {
+            return await models.Booking.count({
+                where: {
+                    ...filter,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        attributes: ['name', 'description'],
+                        where: {
+                            name: {
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
+                            },
+                        },
+                    },
+                ],
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    query,
+                    filter,
+                },
+            );
+        }
+    }
+
     static async getBookingByTimestamp(start, end) {
         try {
             return await models.Booking.findAll({
