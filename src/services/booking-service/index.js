@@ -4,6 +4,20 @@ const { bookingCategory, bookingStatus } = require('./constant');
 const GoogleCalendarClient = require('../../clients/google-calendar');
 
 class BookingService {
+    static __filter(filter) {
+        const bookingFilter = {};
+
+        if (filter.status) {
+            bookingFilter.status = filter.status;
+        }
+
+        if (filter.category) {
+            bookingFilter.category = filter.category;
+        }
+
+        return bookingFilter;
+    }
+
     static async getBookingByBookingId(bookingId) {
         const booking = await BookingRepository.getBookingByBookingId(
             bookingId,
@@ -22,8 +36,23 @@ class BookingService {
         };
     }
 
-    static async getBookingByUserId(userId) {
-        const booking = await BookingRepository.getBookingByUserId(userId);
+    static async searchMyBooking(userId, query, filter, page, limit) {
+        const offset = (page - 1) * limit;
+        const bookingFilter = this.__filter(filter);
+
+        const booking = await BookingRepository.searchBookingByUserId(
+            userId,
+            query,
+            bookingFilter,
+            offset,
+            limit,
+        );
+
+        const totalRows = await BookingRepository.countBookingByUserId(
+            userId,
+            query,
+            bookingFilter,
+        );
 
         if (!booking) {
             return {
@@ -34,7 +63,10 @@ class BookingService {
 
         return {
             message: `Fetching booking with user_id = ${userId} succesful`,
-            data: booking,
+            data: {
+                total_rows: totalRows,
+                rows: booking,
+            },
         };
     }
 

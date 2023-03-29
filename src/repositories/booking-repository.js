@@ -22,12 +22,58 @@ class BookingRepository {
         }
     }
 
-    static async getBookingByUserId(userId) {
+    static async searchBookingByUserId(userId, query, filter, offset, limit) {
         try {
             return await models.Booking.findAll({
                 where: {
                     user_id: userId,
+                    ...filter,
                 },
+                include: [
+                    {
+                        model: models.Facility,
+                        attributes: ['name', 'description'],
+                        where: {
+                            name: {
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
+                            },
+                        },
+                    },
+                ],
+                offset,
+                limit,
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    userId,
+                },
+            );
+        }
+    }
+
+    static async countBookingByUserId(userId, query, filter) {
+        try {
+            return await models.Booking.count({
+                where: {
+                    user_id: userId,
+                    ...filter,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        attributes: ['name', 'description'],
+                        where: {
+                            name: {
+                                [Op.iLike]: `%${query.toLowerCase()}%`,
+                            },
+                        },
+                    },
+                ],
             });
         } catch (err) {
             throw new StandardError(
