@@ -490,6 +490,36 @@ class FacilityRepository {
         }
     }
 
+    static async getBookedRoomByBuildingId(buildingId) {
+        try {
+            return await models.FacilityRoom.findAll({
+                where: {
+                    facility_building_id: buildingId,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        include: [
+                            {
+                                model: models.Booking,
+                            },
+                        ],
+                    },
+                ],
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    buildingId,
+                },
+            );
+        }
+    }
+
     static async updateRoom(room) {
         try {
             await models.FacilityRoom.update(
@@ -656,6 +686,36 @@ class FacilityRepository {
                 err,
                 {
                     id,
+                },
+            );
+        }
+    }
+
+    static async getBookedSelasarByBuildingId(buildingId) {
+        try {
+            return await models.FacilitySelasar.findAll({
+                where: {
+                    facility_building_id: buildingId,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        include: [
+                            {
+                                model: models.Booking,
+                            },
+                        ],
+                    },
+                ],
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    buildingId,
                 },
             );
         }

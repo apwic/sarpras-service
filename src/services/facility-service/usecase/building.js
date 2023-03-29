@@ -89,7 +89,18 @@ class BuildingUsecase {
 
     static async __checkFacilityInBooking(id) {
         const booking = await BookingRepository.getBookingByFacilityId(id);
-        return booking ? true : false;
+        return booking.length ? true : false;
+    }
+
+    static async __checkSelasarAndRoomInBooking(buildingId) {
+        const bookedSelasarBuilding =
+            await FacilityRepository.getBookedSelasarByBuildingId(buildingId);
+        const bookedRoomBuilding =
+            await FacilityRepository.getBookedRoomByBuildingId(buildingId);
+
+        return bookedSelasarBuilding.length || bookedRoomBuilding.length
+            ? true
+            : false;
     }
 
     static async create(data, files, userId) {
@@ -167,6 +178,13 @@ class BuildingUsecase {
         if (await this.__checkFacilityInBooking(id)) {
             return {
                 error_message: 'Facility Building is used in booking',
+            };
+        }
+
+        if (await this.__checkSelasarAndRoomInBooking(id)) {
+            return {
+                error_message:
+                    'Facility Building is used in selasar or room booking',
             };
         }
 
