@@ -9,14 +9,34 @@ const JWTMiddleware = require('../middlewares/jwt');
 
 const BookingService = require('../services/booking-service');
 const { bookingCategory } = require('../services/booking-service/constant');
+const UserValidation = require('../middlewares/user-validation');
 const bookingRouter = require('express').Router();
 
 module.exports = () => {
     bookingRouter.get(
         '/my',
         [JWTMiddleware.verifyToken],
+        validator.query(
+            Joi.object({
+                q: Joi.string().required().allow(''),
+                page: Joi.number().min(1).required(),
+                limit: Joi.number().min(1).required(),
+                category: Joi.string().optional(),
+                status: Joi.string().optional(),
+            }),
+        ),
         handleRequest(
-            async (req) => await BookingService.getBookingByUserId(req.user.id),
+            async (req) =>
+                await BookingService.searchMyBooking(
+                    req.user.id,
+                    req.query.q,
+                    {
+                        category: req.query.category,
+                        status: req.query.status,
+                    },
+                    req.query.page,
+                    req.query.limit,
+                ),
         ),
         buildResponse(),
     );
@@ -72,6 +92,20 @@ module.exports = () => {
                 await BookingService.getBookingByBookingId(req.params.id),
         ),
         buildResponse(),
+    );
+
+    bookingRouter.get(
+        's',
+        [JWTMiddleware.verifyToken, UserValidation.bookingStaff],
+        validator.query(
+            Joi.object({
+                q: Joi.string().required().allow(''),
+                page: Joi.number().min(1).required(),
+                limit: Joi.number().min(1).required(),
+                category: Joi.string().optional(),
+                status: Joi.string().optional(),
+            }),
+        ),
     );
 
     bookingRouter.post(
