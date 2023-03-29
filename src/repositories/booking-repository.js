@@ -184,7 +184,11 @@ class BookingRepository {
                 include: [
                     {
                         model: models.Facility,
-                        attributes: ['id'],
+                        attributes: ['id', 'name', 'color'],
+                    },
+                    {
+                        model: models.User,
+                        attributes: ['id', 'name', 'email'],
                     },
                 ],
                 order: ['start_timestamp'],

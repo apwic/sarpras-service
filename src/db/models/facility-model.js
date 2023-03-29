@@ -74,6 +74,10 @@ const FacilityModel = (sequelize, { DataTypes }) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+
+        color: {
+            type: DataTypes.STRING,
+        },
     });
 
     Facility.associate = (models) => {
