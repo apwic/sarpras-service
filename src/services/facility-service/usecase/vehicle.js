@@ -97,7 +97,7 @@ class VehicleUsecase {
 
     static async __checkFacilityInBooking(id) {
         const booking = await BookingRepository.getBookingByFacilityId(id);
-        return booking ? true : false;
+        return booking.length ? true : false;
     }
 
     static async create(data, files, userId) {
