@@ -13,6 +13,7 @@ class RoomUsecase {
         const facilityData = {
             pic_id: data.pic_id || userId,
             category: category,
+            name: data.name,
             electricity: data.electricity || null,
             utility: data.utility || null,
             price: data.price,
@@ -29,6 +30,7 @@ class RoomUsecase {
             id: facility.id,
             pic_id: data.pic_id || facility.pic_id,
             category: facility.category,
+            name: data.name || facility.name,
             electricity: data.electricity || facility.electricity,
             utility: data.utility || facility.utility,
             price: data.price || facility.price,
