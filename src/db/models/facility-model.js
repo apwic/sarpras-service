@@ -21,6 +21,12 @@ const UtilityModel = (sequelize, { DataTypes }) => {
         image: {
             type: DataTypes.ARRAY(DataTypes.STRING),
         },
+
+        is_deleted: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false,
+        },
     });
 
     return Utility;
@@ -78,6 +84,12 @@ const FacilityModel = (sequelize, { DataTypes }) => {
         color: {
             type: DataTypes.STRING,
         },
+
+        is_deleted: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false,
+        },
     });
 
     Facility.associate = (models) => {
@@ -131,6 +143,12 @@ const CampusModel = (sequelize, { DataTypes }) => {
         longitude: {
             type: DataTypes.FLOAT,
             allowNull: false,
+        },
+
+        is_deleted: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false,
         },
     });
 
@@ -193,6 +211,12 @@ const FacilityBuildingModel = (sequelize, { DataTypes }) => {
         },
 
         status_maintenance: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false,
+        },
+
+        is_deleted: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             default: false,
@@ -262,6 +286,12 @@ const FacilitySelasarModel = (sequelize, { DataTypes }) => {
             allowNull: false,
             default: false,
         },
+
+        is_deleted: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false,
+        },
     });
 
     FacilitySelasar.associate = function (models) {
@@ -316,6 +346,12 @@ const FacilityRoomModel = (sequelize, { DataTypes }) => {
         },
 
         status_maintenance: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false,
+        },
+
+        is_deleted: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             default: false,
@@ -386,6 +422,12 @@ const FacilityVehicleModel = (sequelize, { DataTypes }) => {
         },
 
         status_maintenance: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false,
+        },
+
+        is_deleted: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             default: false,
