@@ -8,6 +8,16 @@ class BookingRepository {
                 where: {
                     id: bookingId,
                 },
+                include: [
+                    {
+                        model: models.Facility,
+                        attributes: ['id', 'name', 'color', 'description'],
+                    },
+                    {
+                        model: models.User,
+                        attributes: ['id', 'name', 'email'],
+                    },
+                ],
             });
         } catch (err) {
             throw new StandardError(
@@ -32,7 +42,7 @@ class BookingRepository {
                 include: [
                     {
                         model: models.Facility,
-                        attributes: ['name', 'description'],
+                        attributes: ['id', 'name', 'description'],
                         where: {
                             name: {
                                 [Op.iLike]: `%${query.toLowerCase()}%`,
@@ -97,12 +107,16 @@ class BookingRepository {
                 include: [
                     {
                         model: models.Facility,
-                        attributes: ['name', 'description'],
+                        attributes: ['id', 'name', 'description'],
                         where: {
                             name: {
                                 [Op.iLike]: `%${query.toLowerCase()}%`,
                             },
                         },
+                    },
+                    {
+                        model: models.User,
+                        attributes: ['id', 'name', 'email'],
                     },
                 ],
                 offset,
