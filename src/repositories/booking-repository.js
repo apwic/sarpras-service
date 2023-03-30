@@ -177,8 +177,14 @@ class BookingRepository {
                 ],
                 where: {
                     [Op.and]: [
-                        sequelize.fn('start_timestamp >=', start),
-                        sequelize.fn('start_timestamp <', end),
+                        sequelize.fn(
+                            "TO_CHAR(start_timestamp::DATE, 'yyyy-mm-dd') >=",
+                            start,
+                        ),
+                        sequelize.fn(
+                            "TO_CHAR(start_timestamp::DATE, 'yyyy-mm-dd') <=",
+                            end,
+                        ),
                     ],
                 },
                 include: [
