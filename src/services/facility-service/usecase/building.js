@@ -67,7 +67,7 @@ class BuildingUsecase {
     static async __filterBuilding(filter) {
         const vehicleFilter = {};
 
-        if (filter.status_maintenance) {
+        if (filter.status_maintenance !== undefined) {
             vehicleFilter.status_maintenance = filter.status_maintenance;
         }
 

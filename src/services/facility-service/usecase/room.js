@@ -71,7 +71,7 @@ class RoomUsecase {
             vehicleFilter.facility_building_id = filter.facility_building_id;
         }
 
-        if (filter.status_maintenance) {
+        if (filter.status_maintenance !== undefined) {
             vehicleFilter.status_maintenance = filter.status_maintenance;
         }
 
