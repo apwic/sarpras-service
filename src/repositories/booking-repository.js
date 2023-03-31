@@ -292,6 +292,7 @@ class BookingRepository {
                 attachment: booking.attachment,
                 letter: booking.letter,
                 cost: booking.cost,
+                price: booking.price,
                 status: booking.status,
                 description: booking.description,
                 url: booking.url,

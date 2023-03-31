@@ -1,4 +1,5 @@
 const BookingRepository = require('../../repositories/booking-repository');
+const FacilityRepository = require('../../repositories/facility-repository');
 const { FileBookingStorage } = require('../../utils/storage');
 const { bookingCategory, bookingStatus } = require('./constant');
 const GoogleCalendarClient = require('../../clients/google-calendar');
@@ -188,6 +189,14 @@ class BookingService {
     }
 
     static async createBooking(userId, body, files, category) {
+        const facility = await FacilityRepository.getFacility(body.facility_id);
+
+        if (!facility) {
+            return {
+                error_message: 'Fasilitas tidak ditemukan!',
+            };
+        }
+
         const booking = {
             user_id: userId,
             verifier_id: body.verifier_id || null,
@@ -197,6 +206,7 @@ class BookingService {
             attachment: null,
             letter: null,
             cost: body.cost || null,
+            price: facility.price,
             status: bookingStatus.PENDING,
             description: body.description,
             url: body.url || null,
