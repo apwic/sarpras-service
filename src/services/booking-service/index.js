@@ -25,13 +25,13 @@ class BookingService {
 
         if (!booking) {
             return {
-                message: `Booking with id = ${bookingId} not found`,
+                message: `Booking dengan id = ${bookingId} tidak ditemukan!`,
                 data: null,
             };
         }
 
         return {
-            message: `Fetching booking with id = ${bookingId} succesful`,
+            message: `Booking dengan id = ${bookingId} berhasil ditemukan!`,
             data: booking,
         };
     }
@@ -56,13 +56,13 @@ class BookingService {
 
         if (!booking) {
             return {
-                message: `Booking with user_id = ${userId} not found`,
+                message: `Booking dengan user_id = ${userId} tidak ditemukan!`,
                 data: [],
             };
         }
 
         return {
-            message: `Fetching booking with user_id = ${userId} succesful`,
+            message: `Booking dengan user_id = ${userId} berhasil ditemukan!`,
             data: {
                 total_rows: totalRows,
                 rows: booking,
@@ -88,13 +88,13 @@ class BookingService {
 
         if (!booking) {
             return {
-                message: 'Booking not found',
+                message: 'Booking tidak ditemukan!',
                 data: [],
             };
         }
 
         return {
-            message: 'Fetching booking succesful',
+            message: 'Booking berhasil diteukan!',
             data: {
                 total_rows: totalRows,
                 rows: booking,
@@ -104,7 +104,7 @@ class BookingService {
 
     static async getBookingStat(month, year) {
         return {
-            message: `Fetching booking with month = ${month} and year = ${year} succesful`,
+            message: `Booking dengan month = ${month} dan year = ${year} berhasil ditemukan!`,
             data: {
                 vehicle: {
                     month: await BookingRepository.getBookingCountByCategoryAndMonth(
@@ -173,13 +173,13 @@ class BookingService {
 
         if (!booking) {
             return {
-                message: `Booking from ${startDate} to ${endDate} not found`,
+                message: `Booking dari ${startDate} sampai ${endDate} tidak ditemukan!`,
                 data: null,
             };
         }
 
         return {
-            message: `Fetching booking from ${startDate} to ${endDate} succesful`,
+            message: `Booking dari ${startDate} sampai ${endDate} berhasil ditemukan!`,
             data: {
                 booking: booking,
                 holiday: holiday,
@@ -221,7 +221,7 @@ class BookingService {
         await BookingRepository.updateAttachment(bookingId, uploadedFiles);
 
         return {
-            message: 'Booking created succesfully',
+            message: 'Booking berhasil dibuat!',
         };
     }
 
@@ -235,7 +235,7 @@ class BookingService {
         await BookingRepository.createReviewBooking(review);
 
         return {
-            message: 'Review Booking created succesfully',
+            message: 'Review Booking berhasil dibuat!',
         };
     }
 
@@ -245,7 +245,7 @@ class BookingService {
         );
 
         return {
-            message: `Fetching review booking with booking_id = ${bookingId} succesful`,
+            message: `Review booking dengan booking_id = ${bookingId} berhasil ditemukan!`,
             data: review,
         };
     }

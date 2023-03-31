@@ -123,7 +123,7 @@ class RoomUsecase {
         );
 
         return {
-            message: 'Facility Room created succesfully',
+            message: 'Fasilitas Ruangan berhasil dibuat!',
         };
     }
 
@@ -136,7 +136,7 @@ class RoomUsecase {
 
         if (!facility || !room) {
             return {
-                message: 'Facility Room not found',
+                message: 'Fasilitas Ruangan tidak ditemukan!',
             };
         }
 
@@ -149,7 +149,7 @@ class RoomUsecase {
         delete room.campus_id;
 
         return {
-            message: 'Facility Room retrieved succesfully',
+            message: 'Fasilitas Ruangan berhasil ditemukan!',
             data: {
                 ...facility,
                 ...room,
@@ -165,13 +165,13 @@ class RoomUsecase {
 
         if (!facility || !room) {
             return {
-                error_message: 'Facility Room not found',
+                error_message: 'Fasilitas Ruangan tidak ditemukan!',
             };
         }
 
         if (await this.__checkFacilityInBooking(id)) {
             return {
-                error_message: 'Facility Room is in booking',
+                error_message: 'Fasilitas Ruangan dipakai pada booking',
             };
         }
 
@@ -191,7 +191,7 @@ class RoomUsecase {
         );
 
         return {
-            message: 'Facility Room deleted succesfully',
+            message: 'Fasilitas Ruangan berhasil dihapus!',
         };
     }
 
@@ -201,7 +201,7 @@ class RoomUsecase {
 
         if (!facility || !room) {
             return {
-                message: 'Facility Room not found',
+                message: 'Fasilitas Ruangan tidak ditemukan!',
             };
         }
 
@@ -240,7 +240,7 @@ class RoomUsecase {
         );
 
         return {
-            message: 'Facility Room updated succesfully',
+            message: 'Fasilitas Ruangan berhasil diubah!',
         };
     }
 
@@ -264,7 +264,7 @@ class RoomUsecase {
         );
 
         return {
-            message: 'Facility Room retrieved succesfully',
+            message: 'Fasilitas Ruangan berhasil ditemukan!',
             data: {
                 total_rows: totalRows,
                 rows: rows,

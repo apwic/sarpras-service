@@ -5,7 +5,7 @@ class CampusService {
         const campus = await CampusRepository.getCampuses();
 
         return {
-            message: 'Campus retrieved succesfully',
+            message: 'Campus berhasil ditemukan!',
             data: campus,
         };
     }

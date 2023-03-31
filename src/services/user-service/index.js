@@ -11,7 +11,7 @@ class UserService {
         const user = await UserRepository.getUserById(id);
 
         return {
-            message: 'Fetching user successful',
+            message: 'User berhasil ditemukan!',
             data: user,
         };
     }
@@ -20,7 +20,7 @@ class UserService {
         const createdUser = await UserRepository.createUser(user);
 
         return {
-            message: `Create user with id = ${createdUser.id} successful`,
+            message: `User dengan id = ${createdUser.id} berhasil dibuat!`,
         };
     }
 
@@ -58,7 +58,7 @@ class UserService {
         }
 
         return {
-            message: `Update user with id = ${id} successful`,
+            message: `User dengan id = ${id} berhasil diubah!`,
         };
     }
 
@@ -90,13 +90,13 @@ class UserService {
         }
 
         return {
-            message: `Update user role with role ${role} successful`,
+            message: `User role dengan role ${role} berhasil diubah!`,
         };
     }
 
     static async getUserRoles() {
         return {
-            message: 'Fetching users role successful',
+            message: 'User role berhasil ditemukan!',
             data: {
                 booking_staff: await UserRepository.getUserByRole(
                     userRoles.BOOKING_STAFF,
@@ -125,7 +125,7 @@ class UserService {
         const users = await UserRepository.getUserByRole(userRoles.BASIC_USER);
 
         return {
-            message: 'Fetching unassigned users successful',
+            message: 'User unassigned berhasil ditemukan!',
             data: users,
         };
     }

@@ -122,7 +122,7 @@ class RoomUsecase {
         );
 
         return {
-            message: 'Facility Selasar created succesfully',
+            message: 'Fasilitas Selasar berhasil dibuat!',
         };
     }
 
@@ -135,7 +135,7 @@ class RoomUsecase {
 
         if (!facility || !selasar) {
             return {
-                message: 'Facility Selasar not found',
+                message: 'Fasilitas Selasar tidak ditemukan!',
             };
         }
 
@@ -148,7 +148,7 @@ class RoomUsecase {
         delete selasar.campus_id;
 
         return {
-            message: 'Facility Selasar retrieved succesfully',
+            message: 'Fasilitas Selasar berhasil ditemukan!',
             data: {
                 ...facility,
                 ...selasar,
@@ -164,13 +164,13 @@ class RoomUsecase {
 
         if (!facility || !selasar) {
             return {
-                error_message: 'Facility Selasar not found',
+                error_message: 'Fasilitas Selasar tidak ditemukan!',
             };
         }
 
         if (await this.__checkFacilityInBooking(id)) {
             return {
-                error_message: 'Facility Selasar is in booking',
+                error_message: 'Fasilitas Selasar dipakai pada booking',
             };
         }
 
@@ -190,7 +190,7 @@ class RoomUsecase {
         );
 
         return {
-            message: 'Facility selasar deleted succesfully',
+            message: 'Fasilitas Selasar berhasil dihapus!',
         };
     }
 
@@ -200,7 +200,7 @@ class RoomUsecase {
 
         if (!facility || !selasar) {
             return {
-                message: 'Facility selasar not found',
+                message: 'Fasilitas Selasar tidak ditemukan!',
             };
         }
 
@@ -238,7 +238,7 @@ class RoomUsecase {
         );
 
         return {
-            message: 'Facility Selasar updated succesfully',
+            message: 'Fasilitas Selasar berhasil diubah!',
         };
     }
 
@@ -263,7 +263,7 @@ class RoomUsecase {
         );
 
         return {
-            message: 'Facility Selasar retrieved succesfully',
+            message: 'Fasilitas Selasar berhasil ditemukan!',
             data: {
                 total_rows: totalRows,
                 rows: rows,

@@ -135,7 +135,7 @@ class BuildingUsecase {
         );
 
         return {
-            message: 'Facility Building created succesfully',
+            message: 'Fasilitas Gedung berhasil dibuat!',
         };
     }
 
@@ -148,7 +148,7 @@ class BuildingUsecase {
 
         if (!facility || !building) {
             return {
-                message: 'Facility Building not found',
+                message: 'Fasilitas Gedung tidak ditemukan!',
             };
         }
 
@@ -156,7 +156,7 @@ class BuildingUsecase {
         delete building.campus_id;
 
         return {
-            message: 'Facility Building retrieved succesfully',
+            message: 'Fasilitas Gedung berhasil ditemukan!',
             data: {
                 ...facility,
                 ...building,
@@ -171,20 +171,20 @@ class BuildingUsecase {
 
         if (!facility || !building) {
             return {
-                error_message: 'Facility Building not found',
+                error_message: 'Fasilitas Gedung tidak ditemukan!',
             };
         }
 
         if (await this.__checkFacilityInBooking(id)) {
             return {
-                error_message: 'Facility Building is used in booking',
+                error_message: 'Fasilitas Gedung digunakan pada booking!',
             };
         }
 
         if (await this.__checkSelasarAndRoomInBooking(id)) {
             return {
                 error_message:
-                    'Facility Building is used in selasar or room booking',
+                    'Fasilitas Gedung digunakan pada booking selasar atau ruangan!',
             };
         }
 
@@ -204,7 +204,7 @@ class BuildingUsecase {
         );
 
         return {
-            message: 'Facility Building deleted succesfully',
+            message: 'Fasilitas Gedung berhasil dihapus!',
         };
     }
 
@@ -214,7 +214,7 @@ class BuildingUsecase {
 
         if (!facility || !building) {
             return {
-                message: 'Facility Building not found',
+                message: 'Fasilitas Gedung tidak ditemukan!',
             };
         }
 
@@ -253,7 +253,7 @@ class BuildingUsecase {
         );
 
         return {
-            message: 'Facility Building updated succesfully',
+            message: 'Fasilitas Gedung berhasil diubah!',
         };
     }
 
@@ -277,7 +277,7 @@ class BuildingUsecase {
         );
 
         return {
-            message: 'Facility Building retrieved succesfully',
+            message: 'Fasilitas Gedung berhasil ditemukan!',
             data: {
                 total_rows: totalRows,
                 rows: rows,
