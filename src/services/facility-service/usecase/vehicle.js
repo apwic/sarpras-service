@@ -133,7 +133,7 @@ class VehicleUsecase {
         );
 
         return {
-            message: 'Facility Vehicle created succesfully',
+            message: 'Fasilitas Kendaraan berhasil dibuat!',
         };
     }
 
@@ -146,7 +146,7 @@ class VehicleUsecase {
 
         if (!facility || !vehicle) {
             return {
-                message: 'Facility Vehicle not found',
+                message: 'Fasilitas Kendaraan tidak ditemukan!',
             };
         }
 
@@ -154,7 +154,7 @@ class VehicleUsecase {
         delete vehicle.campus_id;
 
         return {
-            message: 'Facility Vehicle retrieved succesfully',
+            message: 'Fasilitas Kendaraan berhasil ditemukan!',
             data: {
                 ...facility,
                 ...vehicle,
@@ -169,13 +169,13 @@ class VehicleUsecase {
 
         if (!facility || !vehicle) {
             return {
-                error_message: 'Facility Vehicle not found',
+                error_message: 'Fasilitas Kendaraan tidak ditemukan!',
             };
         }
 
         if (await this.__checkFacilityInBooking(id)) {
             return {
-                error_message: 'Facility Vehicle cannot be deleted',
+                error_message: 'Fasilitas Kendaraan tidak dapat dihapus!',
             };
         }
 
@@ -195,7 +195,7 @@ class VehicleUsecase {
         );
 
         return {
-            message: 'Facility Vehicle deleted succesfully',
+            message: 'Fasilitas Kendaraan berhasil dihapus!',
         };
     }
 
@@ -205,7 +205,7 @@ class VehicleUsecase {
 
         if (!facility || !vehicle) {
             return {
-                message: 'Facility Vehicle not found',
+                message: 'Fasilitas Kendaraan tidak ditemukan!',
             };
         }
 
@@ -246,7 +246,7 @@ class VehicleUsecase {
         );
 
         return {
-            message: 'Facility Vehicle updated succesfully',
+            message: 'Fasilitas Kendaraan berhasil diubah!',
         };
     }
 
@@ -270,7 +270,7 @@ class VehicleUsecase {
         );
 
         return {
-            message: 'Facility Vehicle retrieved succesfully',
+            message: 'Fasilitas Kendaraan berhasil ditemukan!',
             data: {
                 total_rows: totalRows,
                 rows: rows,
