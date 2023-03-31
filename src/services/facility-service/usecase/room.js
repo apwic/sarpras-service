@@ -176,10 +176,9 @@ class RoomUsecase {
         }
 
         const oldData = await this.get(id);
-        const images = room.image || [];
 
         await FacilityRepository.deleteFacility(id);
-        await this.__deleteImage(images);
+        await FacilityRepository.deleteRoom(id);
 
         await catchThrows(
             LoggingService.createLoggingFacility(

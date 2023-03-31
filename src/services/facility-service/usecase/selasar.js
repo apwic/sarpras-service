@@ -175,10 +175,9 @@ class RoomUsecase {
         }
 
         const oldData = await this.get(id);
-        const images = selasar.image || [];
 
         await FacilityRepository.deleteFacility(id);
-        await this.__deleteImage(images);
+        await FacilityRepository.deleteSelasar(id);
 
         await catchThrows(
             LoggingService.createLoggingFacility(
@@ -245,7 +244,7 @@ class RoomUsecase {
     static async search(query, filter, page, limit) {
         const selasarFilter = await this.__filterSelasar(filter);
         const facilityFilter = await this.__filterFacility(filter);
-        console.log(selasarFilter);
+
         const offset = (page - 1) * limit;
 
         const rows = await FacilityRepository.searchSelasars(

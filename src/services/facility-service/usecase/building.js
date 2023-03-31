@@ -189,10 +189,9 @@ class BuildingUsecase {
         }
 
         const oldData = await this.get(id);
-        const images = building.image || [];
 
         await FacilityRepository.deleteFacility(id);
-        await this.__deleteImage(images);
+        await FacilityRepository.deleteBuilding(id);
 
         await catchThrows(
             LoggingService.createLoggingFacility(
