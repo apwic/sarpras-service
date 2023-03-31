@@ -180,10 +180,9 @@ class VehicleUsecase {
         }
 
         const oldData = await this.get(facility.id);
-        const images = vehicle.image || [];
 
         await FacilityRepository.deleteFacility(id);
-        await this.__deleteImage(images);
+        await FacilityRepository.deleteVehicle(id);
 
         await catchThrows(
             LoggingService.createLoggingFacility(
