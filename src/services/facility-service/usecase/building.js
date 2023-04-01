@@ -67,7 +67,7 @@ class BuildingUsecase {
     static async __filterBuilding(filter) {
         const vehicleFilter = {};
 
-        if (filter.status_maintenance) {
+        if (filter.status_maintenance !== undefined) {
             vehicleFilter.status_maintenance = filter.status_maintenance;
         }
 
@@ -189,10 +189,9 @@ class BuildingUsecase {
         }
 
         const oldData = await this.get(id);
-        const images = building.image || [];
 
         await FacilityRepository.deleteFacility(id);
-        await this.__deleteImage(images);
+        await FacilityRepository.deleteBuilding(id);
 
         await catchThrows(
             LoggingService.createLoggingFacility(
