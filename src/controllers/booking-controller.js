@@ -233,6 +233,32 @@ module.exports = () => {
         buildResponse(),
     );
 
+    bookingRouter.put(
+        '/:id',
+        [JWTMiddleware.verifyToken, UserValidation.admin],
+        validator.params(
+            Joi.object({
+                id: Joi.number().required(),
+            }),
+        ),
+        validator.body(
+            Joi.object({
+                facility_id: Joi.number().optional(),
+                status: Joi.string().required(),
+                cost: Joi.string().optional(),
+            }),
+        ),
+        handleRequest(
+            async (req) =>
+                await BookingService.updateBooking(
+                    req.user.id,
+                    req.params.id,
+                    req.body,
+                ),
+        ),
+        buildResponse(),
+    );
+
     bookingRouter.post(
         '/review',
         [JWTMiddleware.verifyToken],

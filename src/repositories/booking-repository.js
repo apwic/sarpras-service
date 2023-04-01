@@ -312,6 +312,34 @@ class BookingRepository {
         }
     }
 
+    static async updateBooking(id, booking) {
+        try {
+            return await models.Booking.update(
+                {
+                    verifier_id: booking.verifier_id,
+                    facility_id: booking.facility_id,
+                    status: booking.status,
+                    cost: booking.cost,
+                },
+                {
+                    where: {
+                        id: id,
+                    },
+                },
+            );
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    status,
+                },
+            );
+        }
+    }
+
     static async updateAttachment(id, attachment) {
         try {
             return await models.Booking.update(
