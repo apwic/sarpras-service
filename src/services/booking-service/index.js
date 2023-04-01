@@ -235,6 +235,51 @@ class BookingService {
         };
     }
 
+    static async updateBooking(verifierId, bookingId, body) {
+        const booking = await BookingRepository.getBookingByBookingId(
+            bookingId,
+        );
+
+        if (!booking) {
+            return {
+                error_message: `Booking dengan id = ${bookingId} tidak ditemukan!`,
+            };
+        }
+
+        if (body.facility_id) {
+            const facility = await FacilityRepository.getFacility(
+                body.facility_id,
+            );
+
+            if (!facility) {
+                return {
+                    error_message:
+                        'Fasilitas tidak ditemukan, booking gagal diubah!',
+                };
+            }
+
+            if (facility.category !== booking.category) {
+                return {
+                    error_message:
+                        'Fasilitas tidak sesuai dengan kategori booking, booking gagal diubah!',
+                };
+            }
+        }
+
+        const bookingData = {
+            verifier_id: verifierId,
+            facility_id: body.facility_id || booking.facility_id,
+            status: body.status,
+            cost: body.cost || booking.cost,
+        };
+
+        await BookingRepository.updateBooking(bookingId, bookingData);
+
+        return {
+            message: `Booking dengan id = ${bookingId} berhasil diubah!`,
+        };
+    }
+
     static async createReviewBooking(body) {
         const review = {
             booking_id: body.booking_id,
