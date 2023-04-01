@@ -71,7 +71,7 @@ class RoomUsecase {
             vehicleFilter.facility_building_id = filter.facility_building_id;
         }
 
-        if (filter.status_maintenance) {
+        if (filter.status_maintenance !== undefined) {
             vehicleFilter.status_maintenance = filter.status_maintenance;
         }
 
@@ -176,10 +176,9 @@ class RoomUsecase {
         }
 
         const oldData = await this.get(id);
-        const images = room.image || [];
 
         await FacilityRepository.deleteFacility(id);
-        await this.__deleteImage(images);
+        await FacilityRepository.deleteRoom(id);
 
         await catchThrows(
             LoggingService.createLoggingFacility(

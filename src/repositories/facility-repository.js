@@ -34,6 +34,7 @@ class FacilityRepository {
             return await models.Facility.findOne({
                 where: {
                     id,
+                    is_deleted: false,
                 },
             });
         } catch (err) {
@@ -51,11 +52,16 @@ class FacilityRepository {
 
     static async deleteFacility(id) {
         try {
-            await models.Facility.destroy({
-                where: {
-                    id,
+            await models.Facility.update(
+                {
+                    is_deleted: true,
                 },
-            });
+                {
+                    where: {
+                        id,
+                    },
+                },
+            );
         } catch (err) {
             throw new StandardError(
                 500,
@@ -131,6 +137,7 @@ class FacilityRepository {
             return await models.FacilityVehicle.findOne({
                 where: {
                     id,
+                    is_deleted: false,
                 },
             });
         } catch (err) {
@@ -201,6 +208,7 @@ class FacilityRepository {
                         },
                     ],
                     ...vehicleFilter,
+                    is_deleted: false,
                 },
                 include: [
                     {
@@ -246,6 +254,7 @@ class FacilityRepository {
                         },
                     ],
                     ...vehicleFilter,
+                    is_deleted: false,
                 },
                 include: [
                     {
@@ -302,6 +311,7 @@ class FacilityRepository {
             return await models.FacilityBuilding.findOne({
                 where: {
                     id,
+                    is_deleted: false,
                 },
             });
         } catch (err) {
@@ -350,7 +360,11 @@ class FacilityRepository {
 
     static async getBuildings() {
         try {
-            return await models.FacilityBuilding.findAll();
+            return await models.FacilityBuilding.findAll({
+                where: {
+                    is_deleted: false,
+                },
+            });
         } catch (err) {
             throw new StandardError(
                 500,
@@ -380,6 +394,7 @@ class FacilityRepository {
                         },
                     ],
                     ...buildingFilter,
+                    is_deleted: false,
                 },
                 include: [
                     {
@@ -420,6 +435,7 @@ class FacilityRepository {
                         },
                     ],
                     ...buildingFilter,
+                    is_deleted: false,
                 },
                 include: [
                     {
@@ -475,6 +491,7 @@ class FacilityRepository {
             return await models.FacilityRoom.findOne({
                 where: {
                     id,
+                    is_deleted: false,
                 },
             });
         } catch (err) {
@@ -495,6 +512,7 @@ class FacilityRepository {
             return await models.FacilityRoom.findAll({
                 where: {
                     facility_building_id: buildingId,
+                    is_deleted: false,
                 },
                 include: [
                     {
@@ -567,6 +585,7 @@ class FacilityRepository {
                         },
                     ],
                     ...roomFilter,
+                    is_deleted: false,
                 },
                 include: [
                     {
@@ -617,6 +636,7 @@ class FacilityRepository {
                         },
                     ],
                     ...roomFilter,
+                    is_deleted: false,
                 },
                 include: [
                     {
@@ -676,6 +696,7 @@ class FacilityRepository {
             return await models.FacilitySelasar.findOne({
                 where: {
                     id,
+                    is_deleted: false,
                 },
             });
         } catch (err) {
@@ -696,6 +717,7 @@ class FacilityRepository {
             return await models.FacilitySelasar.findAll({
                 where: {
                     facility_building_id: buildingId,
+                    is_deleted: false,
                 },
                 include: [
                     {
@@ -768,6 +790,7 @@ class FacilityRepository {
                         },
                     ],
                     ...selasarFilter,
+                    is_deleted: false,
                 },
                 include: [
                     {
@@ -813,6 +836,7 @@ class FacilityRepository {
                         },
                     ],
                     ...selasarFilter,
+                    is_deleted: false,
                 },
                 include: [
                     {
@@ -839,6 +863,162 @@ class FacilityRepository {
                 err,
                 {
                     query,
+                },
+            );
+        }
+    }
+
+    static async deleteVehicle(id) {
+        try {
+            await models.FacilityVehicle.update(
+                {
+                    is_deleted: true,
+                },
+                {
+                    where: {
+                        id,
+                    },
+                },
+            );
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    id,
+                },
+            );
+        }
+    }
+
+    static async deleteRoom(id) {
+        try {
+            await models.FacilityRoom.update(
+                {
+                    is_deleted: true,
+                },
+                {
+                    where: {
+                        id,
+                    },
+                },
+            );
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    id,
+                },
+            );
+        }
+    }
+
+    static async deleteSelasar(id) {
+        try {
+            await models.FacilitySelasar.update(
+                {
+                    is_deleted: true,
+                },
+                {
+                    where: {
+                        id,
+                    },
+                },
+            );
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    id,
+                },
+            );
+        }
+    }
+
+    static async deleteBuilding(id) {
+        try {
+            await models.FacilityBuilding.update(
+                {
+                    is_deleted: true,
+                },
+                {
+                    where: {
+                        id,
+                    },
+                },
+            );
+
+            const roomBuilding = this.getRoomByBuildingId(id);
+            Promise.all(
+                roomBuilding.map(async (room) => {
+                    this.deleteRoom(room.id);
+                }),
+            );
+
+            const selasarBuilding = this.getSelasarByBuildingId(id);
+            Promise.all(
+                selasarBuilding.map(async (selasar) => {
+                    this.deleteSelasar(selasar.id);
+                }),
+            );
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    id,
+                },
+            );
+        }
+    }
+
+    static async getRoomByBuildingId(buildingId) {
+        try {
+            return await models.FacilityRoom.findAll({
+                where: {
+                    facility_building_id: buildingId,
+                    is_deleted: false,
+                },
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    buildingId,
+                },
+            );
+        }
+    }
+
+    static async getSelasarByBuildingId(buildingId) {
+        try {
+            return await models.FacilitySelasar.findAll({
+                where: {
+                    facility_building_id: buildingId,
+                    is_deleted: false,
+                },
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    buildingId,
                 },
             );
         }
