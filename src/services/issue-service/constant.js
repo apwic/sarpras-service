@@ -12,7 +12,15 @@ const issueCategory = {
     LOSS: 'LOSS',
 };
 
+const issueStaffRoles = [
+    'SANITATION_STAFF',
+    'DEFECT_STAFF',
+    'SAFETY_STAFF',
+    'LOSS_STAFF',
+];
+
 module.exports = {
     issueStatus,
     issueCategory,
+    issueStaffRoles,
 };
