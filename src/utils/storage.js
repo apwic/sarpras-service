@@ -52,6 +52,18 @@ async function deleteFile(filePath) {
     return await GCPStorageClient.deletePromise(filePath);
 }
 
+async function uploadImageIssue(file) {
+    if (file.mimetype === 'image/heic') {
+        await heicConvert(file);
+    }
+
+    const fileName = `image/issue/${
+        crypto.randomBytes(20).toString('hex') +
+        path.parse(file.originalname).ext
+    }`;
+    return await GCPStorageClient.uploadPromise(file, fileName);
+}
+
 const ImageUserStorage = {
     upload: uploadImageUser,
     delete: deleteFile,
@@ -67,8 +79,14 @@ const ImageFacilityStorage = {
     delete: deleteFile,
 };
 
+const ImageIssueStorage = {
+    upload: uploadImageIssue,
+    delete: deleteFile,
+};
+
 module.exports = {
     ImageUserStorage,
     FileBookingStorage,
     ImageFacilityStorage,
+    ImageIssueStorage,
 };
