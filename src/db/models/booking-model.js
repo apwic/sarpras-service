@@ -195,6 +195,15 @@ const LoggingBookingModel = (sequelize, { DataTypes }) => {
             primaryKey: true,
         },
 
+        staff_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'user',
+                key: 'id',
+            },
+        },
+
         booking_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -208,7 +217,24 @@ const LoggingBookingModel = (sequelize, { DataTypes }) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+
+        old_data: {
+            type: DataTypes.TEXT,
+        },
+
+        new_data: {
+            type: DataTypes.TEXT,
+        },
     });
+
+    LoggingBooking.associate = function (models) {
+        LoggingBooking.belongsTo(models.Booking, {
+            foreignKey: 'booking_id',
+        });
+        LoggingBooking.belongsTo(models.User, {
+            foreignKey: 'staff_id',
+        });
+    };
 
     return LoggingBooking;
 };

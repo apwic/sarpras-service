@@ -68,6 +68,18 @@ class LoggingService {
         };
         await LoggingRepository.createLoggingFacility(logging);
     }
+
+    static async createLoggingBooking(staffId, bookingId, old_data, new_data) {
+        const logging = {
+            staff_id: staffId,
+            booking_id: bookingId,
+            description: `Booking with booking_id = ${bookingId} has been updated`,
+            old_data: JSON.stringify(old_data),
+            new_data: JSON.stringify(new_data),
+        };
+
+        await LoggingRepository.createLoggingBooking(logging);
+    }
 }
 
 module.exports = LoggingService;
