@@ -119,4 +119,6 @@ module.exports = () => {
         ),
         buildResponse(),
     );
+
+    return issueRouter;
 };
