@@ -89,6 +89,12 @@ const BookingModel = (sequelize, { DataTypes }) => {
 
         cost: {
             type: DataTypes.FLOAT,
+            default: 0,
+            allowNull: false,
+        },
+
+        total_price: {
+            type: DataTypes.FLOAT,
         },
 
         rekening_va: {

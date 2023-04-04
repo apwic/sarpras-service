@@ -281,6 +281,34 @@ class BookingRepository {
         }
     }
 
+    static async getTimestampDifference(id) {
+        try {
+            return await models.Booking.findOne({
+                attributes: [
+                    [
+                        sequelize.literal(
+                            "DATE_PART('day', AGE(end_timestamp, start_timestamp))",
+                        ),
+                        'diff',
+                    ],
+                ],
+                where: {
+                    id: id,
+                },
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    id,
+                },
+            );
+        }
+    }
+
     static async createBooking(booking) {
         try {
             return await models.Booking.create({
@@ -321,6 +349,7 @@ class BookingRepository {
                     status: booking.status,
                     price: booking.price,
                     cost: booking.cost,
+                    total_price: booking.total_price,
                 },
                 {
                     where: {
@@ -335,7 +364,8 @@ class BookingRepository {
                 'Error occured in database',
                 err,
                 {
-                    status,
+                    id,
+                    booking,
                 },
             );
         }

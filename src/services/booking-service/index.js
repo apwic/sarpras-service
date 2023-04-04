@@ -19,6 +19,26 @@ class BookingService {
         return bookingFilter;
     }
 
+    static async __updateTotalPrice(bookingId) {
+        const bookingData = await BookingRepository.getBookingByBookingId(
+            bookingId,
+        );
+        const timeDiff = await BookingRepository.getTimestampDifference(
+            bookingId,
+        );
+
+        let diff = timeDiff.dataValues.diff;
+        if (diff === 0) {
+            diff = 1;
+        }
+
+        const totalPrice = bookingData.price * diff + bookingData.cost;
+
+        await BookingRepository.updateBooking(bookingData.id, {
+            total_price: totalPrice,
+        });
+    }
+
     static async getBookingByBookingId(bookingId) {
         const booking = await BookingRepository.getBookingByBookingId(
             bookingId,
@@ -205,7 +225,7 @@ class BookingService {
             category: category,
             attachment: null,
             letter: null,
-            cost: body.cost || null,
+            cost: body.cost || 0,
             price: facility.price,
             status: bookingStatus.PENDING,
             description: body.description,
@@ -229,6 +249,7 @@ class BookingService {
         );
 
         await BookingRepository.updateAttachment(bookingId, uploadedFiles);
+        await this.__updateTotalPrice(bookingId);
 
         return {
             message: 'Booking berhasil dibuat!',
@@ -279,6 +300,7 @@ class BookingService {
         };
 
         await BookingRepository.updateBooking(bookingId, bookingData);
+        await this.__updateTotalPrice(bookingId);
 
         return {
             message: `Booking dengan id = ${bookingId} berhasil diubah!`,
