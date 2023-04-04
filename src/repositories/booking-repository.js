@@ -319,6 +319,7 @@ class BookingRepository {
                     verifier_id: booking.verifier_id,
                     facility_id: booking.facility_id,
                     status: booking.status,
+                    price: booking.price,
                     cost: booking.cost,
                 },
                 {

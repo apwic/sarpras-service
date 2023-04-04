@@ -240,6 +240,8 @@ class BookingService {
             bookingId,
         );
 
+        let price = null;
+
         if (!booking) {
             return {
                 error_message: `Booking dengan id = ${bookingId} tidak ditemukan!`,
@@ -264,12 +266,15 @@ class BookingService {
                         'Fasilitas tidak sesuai dengan kategori booking, booking gagal diubah!',
                 };
             }
+
+            price = facility.price;
         }
 
         const bookingData = {
             verifier_id: verifierId,
             facility_id: body.facility_id || booking.facility_id,
             status: body.status,
+            price: price || booking.price,
             cost: body.cost || booking.cost,
         };
 
