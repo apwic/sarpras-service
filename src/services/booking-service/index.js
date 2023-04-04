@@ -304,6 +304,13 @@ class BookingService {
             bookingId,
         );
 
+        if (!review) {
+            return {
+                message: `Review booking dengan booking_id = ${bookingId} tidak ditemukan!`,
+                data: null,
+            };
+        }
+
         return {
             message: `Review booking dengan booking_id = ${bookingId} berhasil ditemukan!`,
             data: review,
