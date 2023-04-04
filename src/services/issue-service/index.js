@@ -41,6 +41,28 @@ class IssueService {
         return false;
     }
 
+    static async __filterIssue(filter) {
+        const issueFilter = {};
+
+        if (filter.user_creator_id) {
+            issueFilter.user_creator_id = filter.user_creator_id;
+        }
+
+        if (filter.user_assigned_id) {
+            issueFilter.user_assigned_id = filter.user_assigned_id;
+        }
+
+        if (filter.category) {
+            issueFilter.category = filter.category;
+        }
+
+        if (filter.status) {
+            issueFilter.status = filter.status;
+        }
+
+        return issueFilter;
+    }
+
     static async createIssue(data, files, userId) {
         const images = files.image || [];
         const uploadedImages = await this.__uploadImage(images);
@@ -126,6 +148,35 @@ class IssueService {
 
         return {
             message: 'Laporan berhasil dihapus',
+        };
+    }
+
+    static async getMyIssues(userId) {
+        const issues = await IssueRepository.getIssuesByUserId(userId);
+
+        return {
+            message: 'Laporan berhasil didapatkan',
+            data: issues,
+        };
+    }
+
+    static async searchIssues(query, filter, page, limit) {
+        const issueFilter = await this.__filterIssue(filter);
+        const offset = (page - 1) * limit;
+
+        const data = await IssueRepository.searchIssues(
+            query,
+            issueFilter,
+            offset,
+            limit,
+        );
+
+        return {
+            message: 'Laporan berhasil didapatkan',
+            data: {
+                total_rows: data.count,
+                rows: data.rows,
+            },
         };
     }
 }

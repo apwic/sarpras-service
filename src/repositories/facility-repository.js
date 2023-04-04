@@ -207,6 +207,7 @@ class FacilityRepository {
                             },
                         },
                     ],
+                    sort: [['created_at', 'DESC']],
                     ...vehicleFilter,
                     is_deleted: false,
                 },
@@ -396,6 +397,7 @@ class FacilityRepository {
                     ...buildingFilter,
                     is_deleted: false,
                 },
+                sort: [['created_at', 'DESC']],
                 include: [
                     {
                         model: models.Facility,
@@ -587,6 +589,7 @@ class FacilityRepository {
                     ...roomFilter,
                     is_deleted: false,
                 },
+                sort: [['created_at', 'DESC']],
                 include: [
                     {
                         model: models.Facility,
@@ -792,6 +795,7 @@ class FacilityRepository {
                     ...selasarFilter,
                     is_deleted: false,
                 },
+                sort: [['created_at', 'DESC']],
                 include: [
                     {
                         model: models.Facility,
