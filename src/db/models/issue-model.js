@@ -17,7 +17,6 @@ const IssueModel = (sequelize, { DataTypes }) => {
 
         user_assigned_id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
             references: {
                 model: 'user',
                 key: 'id',
@@ -45,6 +44,11 @@ const IssueModel = (sequelize, { DataTypes }) => {
 
         description: {
             type: DataTypes.STRING,
+        },
+
+        is_deleted: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         },
     });
 

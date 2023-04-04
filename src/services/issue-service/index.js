@@ -121,7 +121,7 @@ class IssueService {
             };
         }
 
-        await IssueRepository.deleteIssue(id);
+        await IssueRepository.deleteIssueById(id);
         catchThrows(this.__deleteImage(issue.image));
 
         return {
