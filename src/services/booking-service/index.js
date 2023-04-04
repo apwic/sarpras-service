@@ -1,8 +1,11 @@
 const BookingRepository = require('../../repositories/booking-repository');
 const FacilityRepository = require('../../repositories/facility-repository');
-const { FileBookingStorage } = require('../../utils/storage');
+
 const { bookingCategory, bookingStatus } = require('./constant');
+const { FileBookingStorage } = require('../../utils/storage');
+const { catchThrows } = require('../../utils/promise');
 const GoogleCalendarClient = require('../../clients/google-calendar');
+const LoggingService = require('../logging-service');
 
 class BookingService {
     static __filter(filter) {
@@ -257,13 +260,13 @@ class BookingService {
     }
 
     static async updateBooking(verifierId, bookingId, body) {
-        const booking = await BookingRepository.getBookingByBookingId(
+        const old_data = await BookingRepository.getBookingByBookingId(
             bookingId,
         );
 
         let price = null;
 
-        if (!booking) {
+        if (!old_data) {
             return {
                 error_message: `Booking dengan id = ${bookingId} tidak ditemukan!`,
             };
@@ -281,7 +284,7 @@ class BookingService {
                 };
             }
 
-            if (facility.category !== booking.category) {
+            if (facility.category !== old_data.category) {
                 return {
                     error_message:
                         'Fasilitas tidak sesuai dengan kategori booking, booking gagal diubah!',
@@ -293,14 +296,27 @@ class BookingService {
 
         const bookingData = {
             verifier_id: verifierId,
-            facility_id: body.facility_id || booking.facility_id,
+            facility_id: body.facility_id || old_data.facility_id,
             status: body.status,
-            price: price || booking.price,
-            cost: body.cost || booking.cost,
+            price: price || old_data.price,
+            cost: body.cost || old_data.cost,
         };
 
         await BookingRepository.updateBooking(bookingId, bookingData);
         await this.__updateTotalPrice(bookingId);
+
+        const new_data = await BookingRepository.getBookingByBookingId(
+            bookingId,
+        );
+
+        await catchThrows(
+            LoggingService.createLoggingBooking(
+                verifierId,
+                bookingId,
+                old_data,
+                new_data,
+            ),
+        );
 
         return {
             message: `Booking dengan id = ${bookingId} berhasil diubah!`,

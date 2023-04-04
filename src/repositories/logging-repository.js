@@ -83,6 +83,28 @@ class LoggingRepository {
             );
         }
     }
+
+    static async createLoggingBooking(logging) {
+        try {
+            return await models.LoggingBooking.create({
+                staff_id: logging.staff_id,
+                booking_id: logging.booking_id,
+                description: logging.description,
+                old_data: logging.old_data,
+                new_data: logging.new_data,
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    logging,
+                },
+            );
+        }
+    }
 }
 
 module.exports = LoggingRepository;
