@@ -1,3 +1,4 @@
 node_modules
 .env
 src/clients/google-cloud-storage/config/keys.json
+.DS_Store
