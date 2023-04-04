@@ -1,4 +1,5 @@
 const { models } = require('../db/index');
+const { Op } = require('sequelize');
 
 const StandardError = require('../utils/standard-error');
 
@@ -32,6 +33,7 @@ class IssueRepository {
             return await models.Issue.findOne({
                 where: {
                     id,
+                    is_deleted: false,
                 },
             });
         } catch (err) {
@@ -52,6 +54,7 @@ class IssueRepository {
             return await models.Issue.findAll({
                 where: {
                     user_creator_id: id,
+                    is_deleted: false,
                 },
             });
         } catch (err) {
@@ -118,6 +121,45 @@ class IssueRepository {
                 err,
                 {
                     id,
+                },
+            );
+        }
+    }
+
+    static async searchIssues(query, filter, offset, limit) {
+        try {
+            return await models.Issue.findAndCountAll({
+                where: {
+                    is_deleted: false,
+                    ...filter,
+                    [Op.or]: [
+                        {
+                            title: {
+                                [Op.iLike]: `%${query}%`,
+                            },
+                        },
+                        {
+                            description: {
+                                [Op.iLike]: `%${query}%`,
+                            },
+                        },
+                    ],
+                },
+                sort: [['created_at', 'DESC']],
+                offset,
+                limit,
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error when searching issue',
+                err,
+                {
+                    query,
+                    filter,
+                    offset,
+                    limit,
                 },
             );
         }
