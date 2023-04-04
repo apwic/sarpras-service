@@ -235,7 +235,7 @@ module.exports = () => {
 
     bookingRouter.put(
         '/:id',
-        [JWTMiddleware.verifyToken, UserValidation.admin],
+        [JWTMiddleware.verifyToken, UserValidation.bookingStaff],
         validator.params(
             Joi.object({
                 id: Joi.number().required(),
