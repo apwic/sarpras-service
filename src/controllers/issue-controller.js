@@ -23,6 +23,7 @@ module.exports = () => {
                     .valid('SANITATION', 'DEFECT', 'SAFETY', 'LOSS')
                     .required(),
                 description: Joi.string().required(),
+                location: Joi.string().required(),
                 image: Joi.array().required(),
             }),
         ),
@@ -134,6 +135,7 @@ module.exports = () => {
                     .optional(),
                 description: Joi.string().optional(),
                 image: Joi.array().required(),
+                location: Joi.string().optional(),
             }),
         ),
         handleRequest(async (req) =>
