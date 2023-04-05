@@ -126,6 +126,14 @@ const LoggingIssueModel = (sequelize, { DataTypes }) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+
+        old_data: {
+            type: DataTypes.TEXT,
+        },
+
+        new_data: {
+            type: DataTypes.TEXT,
+        },
     });
 
     return LoggingIssue;
