@@ -14,6 +14,7 @@ class IssueRepository {
                 status: issue.status,
                 image: issue.image,
                 description: issue.description,
+                location: issue.location,
             });
         } catch (err) {
             throw new StandardError(
@@ -81,6 +82,7 @@ class IssueRepository {
                     status: issue.status,
                     image: issue.image,
                     description: issue.description,
+                    location: issue.location,
                 },
                 {
                     where: {
@@ -140,6 +142,11 @@ class IssueRepository {
                         },
                         {
                             description: {
+                                [Op.iLike]: `%${query}%`,
+                            },
+                        },
+                        {
+                            location: {
                                 [Op.iLike]: `%${query}%`,
                             },
                         },

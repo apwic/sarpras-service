@@ -46,6 +46,11 @@ const IssueModel = (sequelize, { DataTypes }) => {
             type: DataTypes.STRING,
         },
 
+        location: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+
         is_deleted: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,

@@ -75,6 +75,7 @@ class IssueService {
             status: issueStatus.PENDING,
             image: uploadedImages,
             description: data.description,
+            location: data.location,
         };
 
         await IssueRepository.createIssue(issueData);
@@ -123,6 +124,7 @@ class IssueService {
             status: data.status || oldIssue.status,
             image: uploadedImages,
             description: data.description || oldIssue.description,
+            location: data.location || oldIssue.location,
         };
 
         await IssueRepository.updateIssue(issueData);
