@@ -74,6 +74,36 @@ module.exports = () => {
         buildResponse(),
     );
 
+    issueRouter.post(
+        '/review',
+        [JWTMiddleware.verifyToken, UserValidation.basicUser],
+        validator.body(
+            Joi.object({
+                issue_id: Joi.number().required(),
+                rating: Joi.number().min(1).max(5).required(),
+                description: Joi.string().required(),
+            }),
+        ),
+        handleRequest(async (req) =>
+            IssueService.reviewIssue(req.body, req.user.id),
+        ),
+        buildResponse(),
+    );
+
+    issueRouter.get(
+        '/:id/review',
+        [JWTMiddleware.verifyToken],
+        validator.params(
+            Joi.object({
+                id: Joi.number().required(),
+            }),
+        ),
+        handleRequest(async (req) =>
+            IssueService.getReviewIssue(req.params.id, req.user.id),
+        ),
+        buildResponse(),
+    );
+
     issueRouter.get(
         '/:id',
         [JWTMiddleware.verifyToken],
