@@ -195,6 +195,66 @@ class IssueService {
             },
         };
     }
+
+    static async reviewIssue(body, userId) {
+        const review = {
+            issue_id: body.issue_id,
+            rating: body.rating,
+            description: body.description,
+        };
+
+        const issue = await IssueRepository.getIssue(body.issue_id);
+
+        if (!issue) {
+            return {
+                error_message: 'Laporan tidak ditemukan',
+            };
+        }
+
+        if (issue.status !== issueStatus.DONE) {
+            return {
+                error_message: 'Laporan belum selesai',
+            };
+        }
+
+        if (issue.user_creator_id !== userId) {
+            return {
+                error_message:
+                    'Anda tidak memiliki akses untuk memberikan review',
+            };
+        }
+
+        const findIssueReview = await IssueRepository.getReviewIssueByIssueId(
+            body.issue_id,
+        );
+
+        if (findIssueReview) {
+            return {
+                error_message: 'Anda sudah memberikan review',
+            };
+        }
+
+        await IssueRepository.createReviewIssue(review);
+
+        return {
+            message: 'Review berhasil dibuat',
+        };
+    }
+
+    static async getReviewIssue(issueId) {
+        const review = await IssueRepository.getReviewIssueByIssueId(issueId);
+
+        if (!review) {
+            return {
+                error_message: 'Review tidak ditemukan',
+            };
+        }
+
+        return {
+            message: 'Review berhasil didapatkan',
+            data: review,
+        };
+    }
 }
 
 module.exports = IssueService;

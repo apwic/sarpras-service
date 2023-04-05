@@ -171,6 +171,46 @@ class IssueRepository {
             );
         }
     }
+
+    static async createReviewIssue(review) {
+        try {
+            return await models.ReviewIssue.create({
+                issue_id: review.issue_id,
+                rating: review.rating,
+                description: review.description,
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error when creating review issue',
+                err,
+                {
+                    review,
+                },
+            );
+        }
+    }
+
+    static async getReviewIssueByIssueId(issueId) {
+        try {
+            return await models.ReviewIssue.findOne({
+                where: {
+                    issue_id: issueId,
+                },
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error when getting review issue by issue id',
+                err,
+                {
+                    issueId,
+                },
+            );
+        }
+    }
 }
 
 module.exports = IssueRepository;
