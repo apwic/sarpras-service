@@ -26,6 +26,16 @@ class LoggingService {
         }
     }
 
+    static __loggingIssueDesc(issueId, old_data, new_data) {
+        if (old_data && new_data) {
+            return `Issue with issue_id = ${issueId} has been updated`;
+        } else if (new_data) {
+            return `Issue with issue_id = ${issueId} has been created`;
+        } else {
+            return `Issue with issue_id = ${issueId} has been deleted`;
+        }
+    }
+
     static async createLoggingRole(
         adminId,
         staffId,
@@ -79,6 +89,18 @@ class LoggingService {
         };
 
         await LoggingRepository.createLoggingBooking(logging);
+    }
+
+    static async createLoggingIssue(userId, issueId, old_data, new_data) {
+        const logging = {
+            user_id: userId,
+            issue_id: issueId,
+            description: this.__loggingIssueDesc(issueId, old_data, new_data),
+            old_data: JSON.stringify(old_data),
+            new_data: JSON.stringify(new_data),
+        };
+
+        await LoggingRepository.createLoggingIssue(logging);
     }
 }
 

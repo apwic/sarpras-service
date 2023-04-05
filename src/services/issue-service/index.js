@@ -5,6 +5,8 @@ const { catchThrows } = require('../../utils/promise');
 const { ImageIssueStorage } = require('../../utils/storage');
 const { issueStatus, issueStaffRoles } = require('./constant');
 
+const LoggingService = require('../logging-service');
+
 class IssueService {
     static async __uploadImage(images) {
         const uploadedImages = [];
@@ -78,7 +80,11 @@ class IssueService {
             location: data.location,
         };
 
-        await IssueRepository.createIssue(issueData);
+        const issue = await IssueRepository.createIssue(issueData);
+
+        await catchThrows(
+            LoggingService.createLoggingIssue(userId, issue.id, null, issue),
+        );
 
         return {
             message: 'Laporan berhasil dibuat',
@@ -128,7 +134,11 @@ class IssueService {
         };
 
         await IssueRepository.updateIssue(issueData);
-        catchThrows(this.__deleteImage(oldIssue.image));
+        await catchThrows(this.__deleteImage(oldIssue.image));
+
+        await catchThrows(
+            LoggingService.createLoggingIssue(userId, id, oldIssue, issueData),
+        );
 
         return {
             message: 'Laporan berhasil diubah',
@@ -146,7 +156,11 @@ class IssueService {
         }
 
         await IssueRepository.deleteIssueById(id);
-        catchThrows(this.__deleteImage(issue.image));
+        await catchThrows(this.__deleteImage(issue.image));
+
+        await catchThrows(
+            LoggingService.createLoggingIssue(userId, id, issue, null),
+        );
 
         return {
             message: 'Laporan berhasil dihapus',

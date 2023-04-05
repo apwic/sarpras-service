@@ -105,6 +105,28 @@ class LoggingRepository {
             );
         }
     }
+
+    static async createLoggingIssue(logging) {
+        try {
+            return await models.LoggingIssue.create({
+                user_id: logging.user_id,
+                issue_id: logging.issue_id,
+                description: logging.description,
+                old_data: logging.old_data,
+                new_data: logging.new_data,
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    logging,
+                },
+            );
+        }
+    }
 }
 
 module.exports = LoggingRepository;
