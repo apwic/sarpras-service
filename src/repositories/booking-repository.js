@@ -39,7 +39,6 @@ class BookingRepository {
                     user_id: userId,
                     ...filter,
                 },
-                sort: [['created_at', 'DESC']],
                 include: [
                     {
                         model: models.Facility,
@@ -51,6 +50,7 @@ class BookingRepository {
                         },
                     },
                 ],
+                order: [['createdAt', 'DESC']],
                 offset,
                 limit,
             });
@@ -105,7 +105,6 @@ class BookingRepository {
                 where: {
                     ...filter,
                 },
-                sort: [['updated_at', 'DESC']],
                 include: [
                     {
                         model: models.Facility,
@@ -121,6 +120,7 @@ class BookingRepository {
                         attributes: ['id', 'name', 'email'],
                     },
                 ],
+                order: [['updatedAt', 'DESC']],
                 offset,
                 limit,
             });
