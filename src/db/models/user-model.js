@@ -65,10 +65,6 @@ const UserModel = (sequelize, { DataTypes }) => {
             foreignKey: 'user_creator_id',
             onDelete: 'RESTRICT',
         });
-        User.hasMany(models.Issue, {
-            foreignKey: 'user_assigned_id',
-            onDelete: 'RESTRICT',
-        });
     };
 
     return User;

@@ -15,12 +15,8 @@ const IssueModel = (sequelize, { DataTypes }) => {
             },
         },
 
-        user_assigned_id: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'user',
-                key: 'id',
-            },
+        user_assigned_name: {
+            type: DataTypes.STRING,
         },
 
         title: {
@@ -69,10 +65,6 @@ const IssueModel = (sequelize, { DataTypes }) => {
         Issue.belongsTo(models.User, {
             foreignKey: 'user_creator_id',
             as: 'creator',
-        });
-        Issue.belongsTo(models.User, {
-            foreignKey: 'user_assigned_id',
-            as: 'assigned',
         });
     };
 
