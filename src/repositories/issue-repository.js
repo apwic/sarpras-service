@@ -234,6 +234,7 @@ class IssueRepository {
             return await models.ReviewIssue.findOne({
                 where: {
                     issue_id: issueId,
+                    is_deleted: false,
                 },
                 include: [
                     {

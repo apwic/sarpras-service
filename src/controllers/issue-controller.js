@@ -70,7 +70,34 @@ module.exports = () => {
     issueRouter.get(
         '/my',
         [JWTMiddleware.verifyToken, UserValidation.basicUser],
-        handleRequest(async (req) => IssueService.getMyIssues(req.user.id)),
+        validator.query(
+            Joi.object({
+                q: Joi.string().required().allow(''),
+                page: Joi.number().min(1).required(),
+                limit: Joi.number().min(1).required(),
+                status: Joi.string()
+                    .valid('PENDING', 'IN_PROGRESS', 'DONE', 'CANCELED')
+                    .optional(),
+                category: Joi.string()
+                    .valid('SANITATION', 'DEFECT', 'SAFETY', 'LOSS')
+                    .optional(),
+                user_assigned_id: Joi.number().optional(),
+            }),
+        ),
+        handleRequest(async (req) =>
+            IssueService.getMyIssues(
+                req.query.q,
+                {
+                    status: req.query.status,
+                    category: req.query.category,
+                    user_creator_id: req.query.user_creator_id,
+                    user_assigned_id: req.query.user_assigned_id,
+                },
+                req.query.page,
+                req.query.limit,
+                req.user.id,
+            ),
+        ),
         buildResponse(),
     );
 
