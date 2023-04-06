@@ -69,7 +69,7 @@ class IssueRepository {
                     user_creator_id: id,
                     is_deleted: false,
                 },
-                sort: [['created_at', 'DESC']],
+                order: [['createdAt', 'DESC']],
                 include: [
                     {
                         model: models.User,
@@ -189,7 +189,7 @@ class IssueRepository {
                         as: 'assigned',
                     },
                 ],
-                sort: [['created_at', 'DESC']],
+                order: [['createdAt', 'DESC']],
                 offset,
                 limit,
             });
