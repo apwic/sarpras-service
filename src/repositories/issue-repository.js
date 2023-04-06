@@ -36,6 +36,18 @@ class IssueRepository {
                     id,
                     is_deleted: false,
                 },
+                include: [
+                    {
+                        model: models.User,
+                        attributes: ['id', 'name', 'email'],
+                        as: 'creator',
+                    },
+                    {
+                        model: models.User,
+                        attributes: ['id', 'name', 'email'],
+                        as: 'assigned',
+                    },
+                ],
             });
         } catch (err) {
             throw new StandardError(
@@ -58,6 +70,18 @@ class IssueRepository {
                     is_deleted: false,
                 },
                 sort: [['created_at', 'DESC']],
+                include: [
+                    {
+                        model: models.User,
+                        attributes: ['id', 'name', 'email'],
+                        as: 'creator',
+                    },
+                    {
+                        model: models.User,
+                        attributes: ['id', 'name', 'email'],
+                        as: 'assigned',
+                    },
+                ],
             });
         } catch (err) {
             throw new StandardError(
@@ -153,6 +177,18 @@ class IssueRepository {
                         },
                     ],
                 },
+                include: [
+                    {
+                        model: models.User,
+                        attributes: ['id', 'name', 'email'],
+                        as: 'creator',
+                    },
+                    {
+                        model: models.User,
+                        attributes: ['id', 'name', 'email'],
+                        as: 'assigned',
+                    },
+                ],
                 sort: [['created_at', 'DESC']],
                 offset,
                 limit,
@@ -199,6 +235,18 @@ class IssueRepository {
                 where: {
                     issue_id: issueId,
                 },
+                include: [
+                    {
+                        model: models.User,
+                        attributes: ['id', 'name', 'email'],
+                        as: 'creator',
+                    },
+                    {
+                        model: models.User,
+                        attributes: ['id', 'name', 'email'],
+                        as: 'assigned',
+                    },
+                ],
             });
         } catch (err) {
             throw new StandardError(
