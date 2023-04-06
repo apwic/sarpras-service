@@ -245,7 +245,7 @@ module.exports = () => {
             Joi.object({
                 facility_id: Joi.number().optional(),
                 status: Joi.string().required(),
-                cost: Joi.string().optional(),
+                cost: Joi.number().optional(),
             }),
         ),
         handleRequest(
