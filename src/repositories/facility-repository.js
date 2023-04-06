@@ -207,10 +207,10 @@ class FacilityRepository {
                             },
                         },
                     ],
-                    sort: [['created_at', 'DESC']],
                     ...vehicleFilter,
                     is_deleted: false,
                 },
+                sort: [['created_at', 'DESC']],
                 include: [
                     {
                         model: models.Facility,
