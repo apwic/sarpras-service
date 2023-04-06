@@ -8,7 +8,7 @@ class IssueRepository {
         try {
             return await models.Issue.create({
                 user_creator_id: issue.user_creator_id,
-                user_assigned_id: issue.user_assigned_id,
+                user_assigned_name: issue.user_assigned_name,
                 title: issue.title,
                 category: issue.category,
                 status: issue.status,
@@ -42,11 +42,6 @@ class IssueRepository {
                         attributes: ['id', 'name', 'email'],
                         as: 'creator',
                     },
-                    {
-                        model: models.User,
-                        attributes: ['id', 'name', 'email'],
-                        as: 'assigned',
-                    },
                 ],
             });
         } catch (err) {
@@ -76,11 +71,6 @@ class IssueRepository {
                         attributes: ['id', 'name', 'email'],
                         as: 'creator',
                     },
-                    {
-                        model: models.User,
-                        attributes: ['id', 'name', 'email'],
-                        as: 'assigned',
-                    },
                 ],
             });
         } catch (err) {
@@ -101,7 +91,7 @@ class IssueRepository {
             return await models.Issue.update(
                 {
                     user_creator_id: issue.user_creator_id,
-                    user_assigned_id: issue.user_assigned_id,
+                    user_assigned_name: issue.user_assigned_name,
                     title: issue.title,
                     category: issue.category,
                     status: issue.status,
@@ -175,6 +165,11 @@ class IssueRepository {
                                 [Op.iLike]: `%${query}%`,
                             },
                         },
+                        {
+                            user_assigned_name: {
+                                [Op.iLike]: `%${query}%`,
+                            },
+                        },
                     ],
                 },
                 include: [
@@ -182,11 +177,6 @@ class IssueRepository {
                         model: models.User,
                         attributes: ['id', 'name', 'email'],
                         as: 'creator',
-                    },
-                    {
-                        model: models.User,
-                        attributes: ['id', 'name', 'email'],
-                        as: 'assigned',
                     },
                 ],
                 order: [['createdAt', 'DESC']],
@@ -241,11 +231,6 @@ class IssueRepository {
                         model: models.User,
                         attributes: ['id', 'name', 'email'],
                         as: 'creator',
-                    },
-                    {
-                        model: models.User,
-                        attributes: ['id', 'name', 'email'],
-                        as: 'assigned',
                     },
                 ],
             });

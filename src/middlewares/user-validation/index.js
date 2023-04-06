@@ -18,14 +18,14 @@ function generateRoleError(req) {
 
 class UserValidation {
     static basicUser(req, res, next) {
-        const { role } = req.user;
-        const BASIC_USER_ROLE = 'BASIC_USER';
+        // const { role } = req.user;
+        // const BASIC_USER_ROLE = 'BASIC_USER';
 
-        if (role !== BASIC_USER_ROLE) {
-            const err = generateRoleError(req);
-            LogHelper.error(err.message);
-            return res.status(403).json(err);
-        }
+        // if (role !== BASIC_USER_ROLE) {
+        //     const err = generateRoleError(req);
+        //     LogHelper.error(err.message);
+        //     return res.status(403).json(err);
+        // }
 
         next();
     }
@@ -70,19 +70,19 @@ class UserValidation {
     }
 
     static issueStaff(req, res, next) {
-        const { role } = req.user;
-        const ISSUE_STAFF_ROLES = [
-            'SANITATION_STAFF',
-            'DEFECT_STAFF',
-            'SAFETY_STAFF',
-            'LOSS_STAFF',
-        ];
+        // const { role } = req.user;
+        // const ISSUE_STAFF_ROLES = [
+        //     'SANITATION_STAFF',
+        //     'DEFECT_STAFF',
+        //     'SAFETY_STAFF',
+        //     'LOSS_STAFF',
+        // ];
 
-        if (!ISSUE_STAFF_ROLES.includes(role)) {
-            const err = generateRoleError(req);
-            LogHelper.error(err.message);
-            return res.status(403).json(err);
-        }
+        // if (!ISSUE_STAFF_ROLES.includes(role)) {
+        //     const err = generateRoleError(req);
+        //     LogHelper.error(err.message);
+        //     return res.status(403).json(err);
+        // }
 
         next();
     }

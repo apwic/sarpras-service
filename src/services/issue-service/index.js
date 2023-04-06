@@ -50,8 +50,8 @@ class IssueService {
             issueFilter.user_creator_id = filter.user_creator_id;
         }
 
-        if (filter.user_assigned_id) {
-            issueFilter.user_assigned_id = filter.user_assigned_id;
+        if (filter.user_assigned_name) {
+            issueFilter.user_assigned_name = filter.user_assigned_name;
         }
 
         if (filter.category) {
@@ -71,7 +71,7 @@ class IssueService {
 
         const issueData = {
             user_creator_id: userId,
-            user_assigned_id: data.user_assigned_id || null,
+            user_assigned_name: data.user_assigned_name || null,
             title: data.title,
             category: data.category,
             status: issueStatus.PENDING,
@@ -123,8 +123,8 @@ class IssueService {
         const issueData = {
             id,
             user_creator_id: oldIssue.user_creator_id,
-            user_assigned_id:
-                data.user_assigned_id || oldIssue.user_assigned_id,
+            user_assigned_name:
+                data.user_assigned_name || oldIssue.user_assigned_name,
             title: data.title || oldIssue.title,
             category: data.category || oldIssue.category,
             status: data.status || oldIssue.status,

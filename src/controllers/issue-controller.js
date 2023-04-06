@@ -17,7 +17,6 @@ module.exports = () => {
         [JWTMiddleware.verifyToken, UserValidation.basicUser, uploadFile],
         validator.body(
             Joi.object({
-                user_assigned_id: Joi.number().optional(),
                 title: Joi.string().required(),
                 category: Joi.string()
                     .valid('SANITATION', 'DEFECT', 'SAFETY', 'LOSS')
@@ -48,7 +47,7 @@ module.exports = () => {
                     .valid('SANITATION', 'DEFECT', 'SAFETY', 'LOSS')
                     .optional(),
                 user_creator_id: Joi.number().optional(),
-                user_assigned_id: Joi.number().optional(),
+                user_assigned_name: Joi.string().optional(),
             }),
         ),
         handleRequest(async (req) =>
@@ -58,7 +57,7 @@ module.exports = () => {
                     status: req.query.status,
                     category: req.query.category,
                     user_creator_id: req.query.user_creator_id,
-                    user_assigned_id: req.query.user_assigned_id,
+                    user_assigned_name: req.query.user_assigned_name,
                 },
                 req.query.page,
                 req.query.limit,
@@ -81,7 +80,7 @@ module.exports = () => {
                 category: Joi.string()
                     .valid('SANITATION', 'DEFECT', 'SAFETY', 'LOSS')
                     .optional(),
-                user_assigned_id: Joi.number().optional(),
+                user_assigned_name: Joi.string().optional(),
             }),
         ),
         handleRequest(async (req) =>
@@ -91,7 +90,7 @@ module.exports = () => {
                     status: req.query.status,
                     category: req.query.category,
                     user_creator_id: req.query.user_creator_id,
-                    user_assigned_id: req.query.user_assigned_id,
+                    user_assigned_name: req.query.user_assigned_name,
                 },
                 req.query.page,
                 req.query.limit,
@@ -155,7 +154,7 @@ module.exports = () => {
         ),
         validator.body(
             Joi.object({
-                user_assigned_id: Joi.number().optional(),
+                user_assigned_name: Joi.string().optional(),
                 category: Joi.string()
                     .valid('SANITATION', 'DEFECT', 'SAFETY', 'LOSS')
                     .optional(),
