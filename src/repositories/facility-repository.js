@@ -210,7 +210,7 @@ class FacilityRepository {
                     ...vehicleFilter,
                     is_deleted: false,
                 },
-                order: [['created_at', 'DESC']],
+                order: [['createdAt', 'DESC']],
                 include: [
                     {
                         model: models.Facility,
