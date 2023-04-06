@@ -167,13 +167,10 @@ class IssueService {
         };
     }
 
-    static async getMyIssues(userId) {
-        const issues = await IssueRepository.getIssuesByUserId(userId);
+    static async getMyIssues(query, filter, page, limit, userId) {
+        filter.user_creator_id = userId;
 
-        return {
-            message: 'Laporan berhasil didapatkan',
-            data: issues,
-        };
+        return await this.searchIssues(query, filter, page, limit);
     }
 
     static async searchIssues(query, filter, page, limit) {
