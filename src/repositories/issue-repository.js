@@ -57,6 +57,7 @@ class IssueRepository {
                     user_creator_id: id,
                     is_deleted: false,
                 },
+                sort: [['created_at', 'DESC']],
             });
         } catch (err) {
             throw new StandardError(
