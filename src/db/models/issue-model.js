@@ -69,11 +69,11 @@ const IssueModel = (sequelize, { DataTypes }) => {
 
         Issue.belongsTo(models.User, {
             foreignKey: 'user_assigned_id',
-            as: 'user_creator',
+            as: 'user_assigned',
         });
         Issue.belongsTo(models.User, {
             foreignKey: 'user_creator_id',
-            as: 'user_assigned',
+            as: 'user_creator',
         });
     };
 
