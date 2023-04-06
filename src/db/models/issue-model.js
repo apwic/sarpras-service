@@ -66,6 +66,15 @@ const IssueModel = (sequelize, { DataTypes }) => {
             foreignKey: 'issue_id',
             onDelete: 'CASCADE',
         });
+
+        Issue.belongsTo(models.User, {
+            foreignKey: 'user_assigned_id',
+            as: 'user_creator',
+        });
+        Issue.belongsTo(models.User, {
+            foreignKey: 'user_creator_id',
+            as: 'user_assigned',
+        });
     };
 
     return Issue;

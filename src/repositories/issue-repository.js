@@ -153,6 +153,13 @@ class IssueRepository {
                         },
                     ],
                 },
+                include: [
+                    {
+                        model: models.User,
+                        as: 'user_assigned',
+                        attributes: ['id', 'name', 'email'],
+                    },
+                ],
                 sort: [['created_at', 'DESC']],
                 offset,
                 limit,
