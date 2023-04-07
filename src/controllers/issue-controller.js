@@ -161,7 +161,6 @@ module.exports = () => {
                 status: Joi.string()
                     .valid('PENDING', 'IN_PROGRESS', 'DONE')
                     .optional(),
-                image: Joi.array().required(),
             }),
         ),
         handleRequest(async (req) =>
@@ -190,7 +189,6 @@ module.exports = () => {
                     .valid('SANITATION', 'DEFECT', 'SAFETY', 'LOSS')
                     .optional(),
                 description: Joi.string().optional(),
-                image: Joi.array().required(),
                 location: Joi.string().optional(),
             }),
         ),
