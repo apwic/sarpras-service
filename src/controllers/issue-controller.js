@@ -146,7 +146,7 @@ module.exports = () => {
 
     issueRouter.put(
         '/:id/staff',
-        [JWTMiddleware.verifyToken, UserValidation.issueStaff, uploadFile],
+        [JWTMiddleware.verifyToken, UserValidation.issueStaff],
         validator.params(
             Joi.object({
                 id: Joi.number().required(),
@@ -164,19 +164,14 @@ module.exports = () => {
             }),
         ),
         handleRequest(async (req) =>
-            IssueService.updateIssue(
-                req.params.id,
-                req.body,
-                req.files,
-                req.user.id,
-            ),
+            IssueService.updateIssue(req.params.id, req.body, req.user.id),
         ),
         buildResponse(),
     );
 
     issueRouter.put(
         '/:id/basic',
-        [JWTMiddleware.verifyToken, UserValidation.basicUser, uploadFile],
+        [JWTMiddleware.verifyToken, UserValidation.basicUser],
         validator.params(
             Joi.object({
                 id: Joi.number().required(),
@@ -193,12 +188,7 @@ module.exports = () => {
             }),
         ),
         handleRequest(async (req) =>
-            IssueService.updateIssue(
-                req.params.id,
-                req.body,
-                req.files,
-                req.user.id,
-            ),
+            IssueService.updateIssue(req.params.id, req.body, req.user.id),
         ),
         buildResponse(),
     );
