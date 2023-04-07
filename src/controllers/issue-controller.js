@@ -154,7 +154,7 @@ module.exports = () => {
         ),
         validator.body(
             Joi.object({
-                user_assigned_name: Joi.string().optional(),
+                user_assigned_name: Joi.string().optional().allow(null),
                 category: Joi.string()
                     .valid('SANITATION', 'DEFECT', 'SAFETY', 'LOSS')
                     .optional(),
