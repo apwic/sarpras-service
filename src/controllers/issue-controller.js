@@ -159,7 +159,7 @@ module.exports = () => {
                     .valid('SANITATION', 'DEFECT', 'SAFETY', 'LOSS')
                     .optional(),
                 status: Joi.string()
-                    .valid('PENDING', 'IN_PROGRESS', 'DONE')
+                    .valid('CANCELED', 'PENDING', 'IN_PROGRESS', 'DONE')
                     .optional(),
             }),
         ),
