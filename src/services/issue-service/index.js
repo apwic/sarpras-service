@@ -117,9 +117,6 @@ class IssueService {
             };
         }
 
-        const images = files.image || [];
-        const uploadedImages = await this.__uploadImage(images);
-
         const issueData = {
             id,
             user_creator_id: oldIssue.user_creator_id,
@@ -128,13 +125,12 @@ class IssueService {
             title: data.title || oldIssue.title,
             category: data.category || oldIssue.category,
             status: data.status || oldIssue.status,
-            image: uploadedImages,
+            image: oldIssue.image,
             description: data.description || oldIssue.description,
             location: data.location || oldIssue.location,
         };
 
         await IssueRepository.updateIssue(issueData);
-        await catchThrows(this.__deleteImage(oldIssue.image));
 
         await catchThrows(
             LoggingService.createLoggingIssue(userId, id, oldIssue, issueData),
