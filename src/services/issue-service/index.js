@@ -107,7 +107,7 @@ class IssueService {
         };
     }
 
-    static async updateIssue(id, data, files, userId) {
+    static async updateIssue(id, data, userId) {
         const oldIssue = await IssueRepository.getIssue(id);
 
         if (!(await this.__accessValidation(oldIssue, userId))) {
