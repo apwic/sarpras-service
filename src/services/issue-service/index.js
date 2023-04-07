@@ -117,11 +117,19 @@ class IssueService {
             };
         }
 
+        let userAssignedName;
+
+        if (data.user_assigned_name === '') {
+            userAssignedName = null;
+        } else {
+            userAssignedName =
+                data.user_assigned_name || oldIssue.user_assigned_name;
+        }
+
         const issueData = {
             id,
             user_creator_id: oldIssue.user_creator_id,
-            user_assigned_name:
-                data.user_assigned_name || oldIssue.user_assigned_name,
+            user_assigned_name: userAssignedName,
             title: data.title || oldIssue.title,
             category: data.category || oldIssue.category,
             status: data.status || oldIssue.status,
