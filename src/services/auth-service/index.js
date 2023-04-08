@@ -36,7 +36,7 @@ class AuthService {
 
     static async TestLogin() {
         return {
-            token: JWTMiddleware.createToken(1),
+            token: JWTMiddleware.createToken(4),
         };
     }
 }
