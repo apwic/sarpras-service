@@ -299,7 +299,10 @@ class BookingService {
             facility_id: body.facility_id || old_data.facility_id,
             status: body.status,
             price: price || old_data.price,
-            cost: body.cost || old_data.cost,
+            cost:
+                body.cost === undefined || body.cost === null
+                    ? old_data.cost
+                    : body.cost,
         };
 
         await BookingRepository.updateBooking(bookingId, bookingData);
