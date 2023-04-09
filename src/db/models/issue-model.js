@@ -30,7 +30,13 @@ const IssueModel = (sequelize, { DataTypes }) => {
         },
 
         status: {
-            type: DataTypes.ENUM('PENDING', 'IN_PROGRESS', 'DONE', 'CANCELED'),
+            type: DataTypes.ENUM(
+                'PENDING',
+                'IN_PROGRESS',
+                'WAITING_FOR_RATING',
+                'DONE',
+                'CANCELED',
+            ),
             allowNull: false,
         },
 

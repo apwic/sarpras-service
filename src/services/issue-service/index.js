@@ -101,9 +101,16 @@ class IssueService {
             };
         }
 
+        const review = await IssueRepository.getReviewIssueByIssueId(id);
+
+        const issueData = {
+            ...issue.dataValues,
+            review,
+        };
+
         return {
             message: 'Laporan berhasil didapatkan',
-            data: issue,
+            data: issueData,
         };
     }
 
@@ -236,6 +243,10 @@ class IssueService {
         }
 
         await IssueRepository.createReviewIssue(review);
+        await IssueRepository.updateIssueStatus(
+            body.issue_id,
+            issueStatus.DONE,
+        );
 
         return {
             message: 'Review berhasil dibuat',

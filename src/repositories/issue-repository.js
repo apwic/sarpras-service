@@ -118,6 +118,32 @@ class IssueRepository {
         }
     }
 
+    static async updateIssueStatus(id, status) {
+        try {
+            return await models.Issue.update(
+                {
+                    status,
+                },
+                {
+                    where: {
+                        id,
+                    },
+                },
+            );
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error when updating issue status by id',
+                err,
+                {
+                    id,
+                    status,
+                },
+            );
+        }
+    }
+
     static async deleteIssueById(id) {
         try {
             return await models.Issue.update(
@@ -224,15 +250,7 @@ class IssueRepository {
             return await models.ReviewIssue.findOne({
                 where: {
                     issue_id: issueId,
-                    is_deleted: false,
                 },
-                include: [
-                    {
-                        model: models.User,
-                        attributes: ['id', 'name', 'email'],
-                        as: 'creator',
-                    },
-                ],
             });
         } catch (err) {
             throw new StandardError(
