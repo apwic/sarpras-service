@@ -342,6 +342,10 @@ class BookingService {
 
         await BookingRepository.createReviewBooking(review);
 
+        await BookingRepository.updateBooking(body.booking_id, {
+            status: bookingStatus.DONE,
+        });
+
         return {
             message: 'Review Booking berhasil dibuat!',
         };
