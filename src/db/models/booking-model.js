@@ -184,6 +184,12 @@ const ReviewBookingModel = (sequelize, { DataTypes }) => {
         },
     });
 
+    ReviewBooking.associate = (models) => {
+        ReviewBooking.belongsTo(models.Booking, {
+            foreignKey: 'booking_id',
+        });
+    };
+
     return ReviewBooking;
 };
 
