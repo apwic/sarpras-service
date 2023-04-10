@@ -54,9 +54,16 @@ class BookingService {
             };
         }
 
+        const review = await BookingRepository.getReviewBookingByBookingId(
+            bookingId,
+        );
+
         return {
             message: `Booking dengan id = ${bookingId} berhasil ditemukan!`,
-            data: booking,
+            data: {
+                ...booking.dataValues,
+                review,
+            },
         };
     }
 
