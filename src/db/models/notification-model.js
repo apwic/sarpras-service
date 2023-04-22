@@ -31,6 +31,8 @@ const NotificationModel = (sequelize, { DataTypes }) => {
             foreignKey: 'user_id',
         });
     };
+
+    return Notification;
 };
 
 module.exports = { NotificationModel };
