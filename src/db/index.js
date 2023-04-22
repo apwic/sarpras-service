@@ -29,6 +29,7 @@ const {
     LoggingBookingModel,
     ReviewBookingModel,
 } = require('./models/booking-model');
+const { NotificationModel } = require('./models/notification-model');
 
 const sequelize = new Sequelize(
     DATABASE_NAME,
@@ -63,6 +64,7 @@ const models = {
     Booking: BookingModel(sequelize, Sequelize),
     LoggingBooking: LoggingBookingModel(sequelize, Sequelize),
     ReviewBooking: ReviewBookingModel(sequelize, Sequelize),
+    Notification: NotificationModel(sequelize, Sequelize),
 };
 
 Object.keys(models).forEach((key) => {
