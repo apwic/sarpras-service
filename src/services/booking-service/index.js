@@ -1,7 +1,7 @@
 const BookingRepository = require('../../repositories/booking-repository');
 const FacilityRepository = require('../../repositories/facility-repository');
 
-const { bookingCategory, bookingStatus } = require('./constant');
+const { bookingCategory, bookingStatus, userRoles } = require('./constant');
 const { FileBookingStorage } = require('../../utils/storage');
 const { catchThrows } = require('../../utils/promise');
 const GoogleCalendarClient = require('../../clients/google-calendar');
@@ -261,6 +261,14 @@ class BookingService {
 
         await BookingRepository.updateAttachment(bookingId, uploadedFiles);
         await this.__updateTotalPrice(bookingId);
+
+        const notificationMessage = `Booking dengan id = ${bookingId} telah dibuat!`;
+        await catchThrows(
+            NotificationService.createNotificationForRole(
+                userRoles.BOOKING_STAFF,
+                notificationMessage,
+            ),
+        );
 
         return {
             message: 'Booking berhasil dibuat!',
