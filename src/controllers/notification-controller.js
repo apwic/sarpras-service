@@ -11,11 +11,11 @@ const notificationRouter = require('express').Router();
 
 module.exports = () => {
     notificationRouter.get(
-        '/get-latest',
+        '/my',
         [JWTMiddleware.verifyToken],
         validator.query(
             Joi.object({
-                limit: Joi.number().integer().min(1),
+                limit: Joi.number().integer().min(1).required(),
             }),
         ),
         handleRequest(async (req) =>
