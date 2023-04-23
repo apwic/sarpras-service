@@ -961,16 +961,16 @@ class FacilityRepository {
             );
 
             const roomBuilding = this.getRoomByBuildingId(id);
-            Promise.all(
+            await Promise.all(
                 roomBuilding.map(async (room) => {
-                    this.deleteRoom(room.id);
+                    await this.deleteRoom(room.id);
                 }),
             );
 
             const selasarBuilding = this.getSelasarByBuildingId(id);
-            Promise.all(
+            await Promise.all(
                 selasarBuilding.map(async (selasar) => {
-                    this.deleteSelasar(selasar.id);
+                    await this.deleteSelasar(selasar.id);
                 }),
             );
         } catch (err) {
