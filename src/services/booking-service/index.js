@@ -6,6 +6,7 @@ const { FileBookingStorage } = require('../../utils/storage');
 const { catchThrows } = require('../../utils/promise');
 const GoogleCalendarClient = require('../../clients/google-calendar');
 const LoggingService = require('../logging-service');
+const NotificationService = require('../notification-service');
 
 class BookingService {
     static __filter(filter) {
@@ -314,6 +315,16 @@ class BookingService {
 
         await BookingRepository.updateBooking(bookingId, bookingData);
         await this.__updateTotalPrice(bookingId);
+
+        if (body.status !== old_data.status) {
+            const norificationMessage = `Status booking dengan id = ${bookingId} berhasil diubah menjadi ${body.status}`;
+            await catchThrows(
+                NotificationService.createNotification(
+                    old_data.user_id,
+                    norificationMessage,
+                ),
+            );
+        }
 
         const new_data = await BookingRepository.getBookingByBookingId(
             bookingId,

@@ -6,6 +6,7 @@ const { ImageIssueStorage } = require('../../utils/storage');
 const { issueStatus, issueStaffRoles } = require('./constant');
 
 const LoggingService = require('../logging-service');
+const NotificationService = require('../notification-service');
 
 class IssueService {
     static async __uploadImage(images) {
@@ -146,6 +147,17 @@ class IssueService {
         };
 
         await IssueRepository.updateIssue(issueData);
+
+        if (data.status !== oldIssue.status) {
+            const message = `Status laporan anda dengan judul ${issueData.title} telah berubah menjadi ${issueData.status}`;
+
+            await catchThrows(
+                NotificationService.createNotification(
+                    oldIssue.user_creator_id,
+                    message,
+                ),
+            );
+        }
 
         await catchThrows(
             LoggingService.createLoggingIssue(userId, id, oldIssue, issueData),

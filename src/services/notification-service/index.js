@@ -1,13 +1,34 @@
 const NotificationRepository = require('../../repositories/notification-repository');
+const UserRepository = require('../../repositories/user-repository');
 const { catchThrows } = require('../../utils/promise');
 
 class NotificationService {
-    static async createNotification(notification) {
+    static async createNotification(userId, message) {
         const createdNotification =
-            await NotificationRepository.createNotification(notification);
+            await NotificationRepository.createNotification({
+                user_id: userId,
+                message,
+            });
 
         return {
             message: `Notification with id = ${createdNotification.id} successfully created!`,
+        };
+    }
+
+    static async createNotificationForRole(role, message) {
+        const users = await UserRepository.getUserByRole(role);
+
+        await Promise.all(
+            users.map((user) =>
+                NotificationRepository.createNotification({
+                    user_id: user.id,
+                    message,
+                }),
+            ),
+        );
+
+        return {
+            message: 'Notifications successfully created!',
         };
     }
 
