@@ -15,6 +15,7 @@ class FacilityRepository {
                 price: facility.price,
                 description: facility.description,
                 not_available: facility.not_available,
+                is_deleted: false,
             });
         } catch (err) {
             throw new StandardError(
@@ -118,6 +119,7 @@ class FacilityRepository {
                 vehicle_capacity: vehicle.vehicle_capacity,
                 image: vehicle.image,
                 status_maintenance: vehicle.status_maintenance,
+                is_deleted: false,
             });
         } catch (err) {
             throw new StandardError(
@@ -293,6 +295,7 @@ class FacilityRepository {
                 latitude: building.latitude,
                 longitude: building.longitude,
                 status_maintenance: building.status_maintenance,
+                is_deleted: false,
             });
         } catch (err) {
             throw new StandardError(
@@ -474,6 +477,7 @@ class FacilityRepository {
                 image: room.image,
                 capacity: room.capacity,
                 status_maintenance: room.status_maintenance,
+                is_deleted: false,
             });
         } catch (err) {
             throw new StandardError(
@@ -680,6 +684,7 @@ class FacilityRepository {
                 image: selasar.image,
                 capacity: selasar.capacity,
                 status_maintenance: selasar.status_maintenance,
+                is_deleted: false,
             });
         } catch (err) {
             throw new StandardError(
