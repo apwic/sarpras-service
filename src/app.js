@@ -14,6 +14,7 @@ const bookingController = require('./controllers/booking-controller');
 const facilityController = require('./controllers/facility-controller');
 const campusController = require('./controllers/campus-controller');
 const issueController = require('./controllers/issue-controller');
+const notificationController = require('./controllers/notification-controller');
 
 async function setupRoutes(app) {
     app.use('/', rootController());
@@ -24,6 +25,7 @@ async function setupRoutes(app) {
     app.use('/facility', facilityController());
     app.use('/campus', campusController());
     app.use('/issue', issueController());
+    app.use('/notification', notificationController());
 }
 
 async function createApp() {
