@@ -262,7 +262,7 @@ class BookingService {
         await BookingRepository.updateAttachment(bookingId, uploadedFiles);
         await this.__updateTotalPrice(bookingId);
 
-        const notificationMessage = `Booking dengan id = ${bookingId} telah dibuat!`;
+        const notificationMessage = `Booking baru untuk fasilitas ${facility.name} telah dibuat!`;
         await catchThrows(
             NotificationService.createNotificationForRole(
                 userRoles.BOOKING_STAFF,
@@ -278,6 +278,9 @@ class BookingService {
     static async updateBooking(verifierId, bookingId, body) {
         const old_data = await BookingRepository.getBookingByBookingId(
             bookingId,
+        );
+        const old_facility = await FacilityRepository.getFacility(
+            old_data.facility_id,
         );
 
         let price = null;
@@ -325,7 +328,7 @@ class BookingService {
         await this.__updateTotalPrice(bookingId);
 
         if (body.status !== old_data.status) {
-            const notificationMessage = `Status booking dengan id = ${bookingId} berhasil diubah menjadi ${body.status}`;
+            const notificationMessage = `Status booking anda untuk ${old_facility.name} berhasil diubah menjadi ${body.status}`;
             await catchThrows(
                 NotificationService.createNotification(
                     old_data.user_id,
