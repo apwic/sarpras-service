@@ -325,11 +325,11 @@ class BookingService {
         await this.__updateTotalPrice(bookingId);
 
         if (body.status !== old_data.status) {
-            const norificationMessage = `Status booking dengan id = ${bookingId} berhasil diubah menjadi ${body.status}`;
+            const notificationMessage = `Status booking dengan id = ${bookingId} berhasil diubah menjadi ${body.status}`;
             await catchThrows(
                 NotificationService.createNotification(
                     old_data.user_id,
-                    norificationMessage,
+                    notificationMessage,
                 ),
             );
         }

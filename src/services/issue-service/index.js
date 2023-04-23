@@ -83,6 +83,15 @@ class IssueService {
 
         const issue = await IssueRepository.createIssue(issueData);
 
+        const staffRole = issue.category + '_STAFF';
+        const notificationMessage = `Laporan baru dengan judul ${issue.title} telah dibuat`;
+        await catchThrows(
+            NotificationService.createNotificationForRole(
+                staffRole,
+                notificationMessage,
+            ),
+        );
+
         await catchThrows(
             LoggingService.createLoggingIssue(userId, issue.id, null, issue),
         );
