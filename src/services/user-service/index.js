@@ -3,6 +3,7 @@ const { userRoles } = require('./constant');
 const StandardError = require('../../utils/standard-error');
 const { ImageUserStorage } = require('../../utils/storage');
 const LoggingService = require('../logging-service/index');
+const NotificationService = require('../notification-service/index');
 const { loggingRoleStatus } = require('../logging-service/constant');
 const { catchThrows } = require('../../utils/promise');
 
@@ -66,6 +67,14 @@ class UserService {
         const oldStaff = await UserRepository.getUserById(staffId);
 
         await UserRepository.changeRole(staffId, role);
+
+        const notificationMessage = `Anda telah dijadikan ${role} oleh admin!`;
+        await catchThrows(
+            NotificationService.createNotification(
+                staffId,
+                notificationMessage,
+            ),
+        );
 
         if (role === userRoles.BASIC_USER) {
             await catchThrows(
