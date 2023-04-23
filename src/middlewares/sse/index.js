@@ -17,7 +17,6 @@ module.exports = function handleSseRequest(handlerFunction) {
             if (responseData.error_code) {
                 responseData = [];
             }
-            console.log(responseData);
             const data = `data: ${JSON.stringify(responseData)}\n\n`;
             res.write(data);
         }, 5000);
