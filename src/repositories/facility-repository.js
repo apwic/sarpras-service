@@ -515,21 +515,21 @@ class FacilityRepository {
 
     static async getBookedRoomByBuildingId(buildingId) {
         try {
-            return await models.FacilityRoom.findAll({
+            const rooms = await models.FacilityRoom.findAll({
                 where: {
                     facility_building_id: buildingId,
                     is_deleted: false,
                 },
-                include: [
-                    {
-                        model: models.Facility,
-                        include: [
-                            {
-                                model: models.Booking,
-                            },
-                        ],
+            });
+
+            const roomIds = rooms.map((room) => room.id);
+
+            return await models.Booking.findAll({
+                where: {
+                    facility_id: {
+                        [Op.in]: roomIds,
                     },
-                ],
+                },
             });
         } catch (err) {
             throw new StandardError(
@@ -722,21 +722,21 @@ class FacilityRepository {
 
     static async getBookedSelasarByBuildingId(buildingId) {
         try {
-            return await models.FacilitySelasar.findAll({
+            const selasars = await models.FacilitySelasar.findAll({
                 where: {
                     facility_building_id: buildingId,
                     is_deleted: false,
                 },
-                include: [
-                    {
-                        model: models.Facility,
-                        include: [
-                            {
-                                model: models.Booking,
-                            },
-                        ],
+            });
+
+            const selasarIds = selasars.map((selasar) => selasar.id);
+
+            return await models.Booking.findAll({
+                where: {
+                    facility_id: {
+                        [Op.in]: selasarIds,
                     },
-                ],
+                },
             });
         } catch (err) {
             throw new StandardError(
@@ -965,14 +965,14 @@ class FacilityRepository {
                 },
             );
 
-            const roomBuilding = this.getRoomByBuildingId(id);
+            const roomBuilding = await this.getRoomByBuildingId(id);
             await Promise.all(
                 roomBuilding.map(async (room) => {
                     await this.deleteRoom(room.id);
                 }),
             );
 
-            const selasarBuilding = this.getSelasarByBuildingId(id);
+            const selasarBuilding = await this.getSelasarByBuildingId(id);
             await Promise.all(
                 selasarBuilding.map(async (selasar) => {
                     await this.deleteSelasar(selasar.id);
