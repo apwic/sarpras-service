@@ -15,6 +15,7 @@ class IssueRepository {
                 image: issue.image,
                 description: issue.description,
                 location: issue.location,
+                is_deleted: false,
             });
         } catch (err) {
             throw new StandardError(
