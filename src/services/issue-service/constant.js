@@ -3,6 +3,7 @@ const issueStatus = {
     IN_PROGRESS: 'IN_PROGRESS',
     DONE: 'DONE',
     CANCELED: 'CANCELED',
+    WAITING_FOR_RATING: 'WAITING_FOR_RATING',
 };
 
 const issueCategory = {

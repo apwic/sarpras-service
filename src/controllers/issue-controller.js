@@ -41,7 +41,13 @@ module.exports = () => {
                 page: Joi.number().min(1).required(),
                 limit: Joi.number().min(1).required(),
                 status: Joi.string()
-                    .valid('PENDING', 'IN_PROGRESS', 'DONE', 'CANCELED')
+                    .valid(
+                        'PENDING',
+                        'IN_PROGRESS',
+                        'DONE',
+                        'CANCELED',
+                        'WAITING_FOR_RATING',
+                    )
                     .optional(),
                 category: Joi.string()
                     .valid('SANITATION', 'DEFECT', 'SAFETY', 'LOSS')
@@ -75,7 +81,13 @@ module.exports = () => {
                 page: Joi.number().min(1).required(),
                 limit: Joi.number().min(1).required(),
                 status: Joi.string()
-                    .valid('PENDING', 'IN_PROGRESS', 'DONE', 'CANCELED')
+                    .valid(
+                        'PENDING',
+                        'IN_PROGRESS',
+                        'DONE',
+                        'CANCELED',
+                        'WAITING_FOR_RATING',
+                    )
                     .optional(),
                 category: Joi.string()
                     .valid('SANITATION', 'DEFECT', 'SAFETY', 'LOSS')
