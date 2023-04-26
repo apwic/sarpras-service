@@ -135,7 +135,6 @@ class IssueService {
         }
 
         let userAssignedName;
-
         if (data.user_assigned_name === '') {
             userAssignedName = null;
         } else {
@@ -154,7 +153,6 @@ class IssueService {
             description: data.description || oldIssue.description,
             location: data.location || oldIssue.location,
         };
-
         await IssueRepository.updateIssue(issueData);
 
         if (data.status !== oldIssue.status) {
@@ -240,7 +238,7 @@ class IssueService {
             };
         }
 
-        if (issue.status !== issueStatus.DONE) {
+        if (issue.status !== issueStatus.WAITING_FOR_RATING) {
             return {
                 error_message: 'Laporan belum selesai',
             };
