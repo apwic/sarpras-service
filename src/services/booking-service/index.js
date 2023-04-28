@@ -43,12 +43,29 @@ class BookingService {
         });
     }
 
-    static async getBookingByBookingId(bookingId) {
+    static async getBookingByBookingId(user, bookingId) {
         const booking = await BookingRepository.getBookingByBookingId(
             bookingId,
         );
 
         if (!booking) {
+            return {
+                message: `Booking dengan id = ${bookingId} tidak ditemukan!`,
+                data: null,
+            };
+        }
+
+        if (user.role === userRoles.BASIC_USER && booking.user_id !== user.id) {
+            return {
+                message: `Booking dengan id = ${bookingId} tidak ditemukan!`,
+                data: null,
+            };
+        }
+
+        if (
+            user.role !== userRoles.BOOKING_STAFF &&
+            user.role !== userRoles.BASIC_USER
+        ) {
             return {
                 message: `Booking dengan id = ${bookingId} tidak ditemukan!`,
                 data: null,
