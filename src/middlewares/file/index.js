@@ -18,6 +18,7 @@ const fileFilter = (req, file, cb) => {
     } else if (file.fieldname === 'video') {
         if (
             file.mimetype === 'video/3gpp' ||
+            file.mimetype === 'video/mp4' ||
             file.mimetype === 'video/quicktime' ||
             file.mimetype === 'video/x-msvideo' ||
             file.mimetype === '	video/x-ms-wmv'

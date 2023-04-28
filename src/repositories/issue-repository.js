@@ -16,6 +16,7 @@ class IssueRepository {
                 description: issue.description,
                 location: issue.location,
                 is_deleted: false,
+                video: issue.video,
             });
         } catch (err) {
             throw new StandardError(
@@ -99,6 +100,7 @@ class IssueRepository {
                     image: issue.image,
                     description: issue.description,
                     location: issue.location,
+                    video: issue.video,
                 },
                 {
                     where: {

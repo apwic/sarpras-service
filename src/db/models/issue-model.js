@@ -57,6 +57,10 @@ const IssueModel = (sequelize, { DataTypes }) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+
+        video: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+        },
     });
 
     Issue.associate = (models) => {
