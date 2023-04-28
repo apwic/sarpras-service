@@ -89,7 +89,10 @@ module.exports = () => {
         ),
         handleRequest(
             async (req) =>
-                await BookingService.getBookingByBookingId(req.params.id),
+                await BookingService.getBookingByBookingId(
+                    req.user,
+                    req.params.id,
+                ),
         ),
         buildResponse(),
     );
