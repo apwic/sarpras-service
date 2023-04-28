@@ -24,6 +24,7 @@ module.exports = () => {
                 description: Joi.string().required(),
                 location: Joi.string().required(),
                 image: Joi.array().required(),
+                video: Joi.array().optional(),
             }),
         ),
         handleRequest(async (req) =>

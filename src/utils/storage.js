@@ -64,6 +64,14 @@ async function uploadImageIssue(file) {
     return await GCPStorageClient.uploadPromise(file, fileName);
 }
 
+async function uploadVideoIssue(file) {
+    const fileName = `video/issue/${
+        crypto.randomBytes(20).toString('hex') +
+        path.parse(file.originalname).ext
+    }`;
+    return await GCPStorageClient.uploadPromise(file, fileName);
+}
+
 const ImageUserStorage = {
     upload: uploadImageUser,
     delete: deleteFile,
@@ -84,9 +92,15 @@ const ImageIssueStorage = {
     delete: deleteFile,
 };
 
+const VideoIssueStorage = {
+    upload: uploadVideoIssue,
+    delete: deleteFile,
+};
+
 module.exports = {
     ImageUserStorage,
     FileBookingStorage,
     ImageFacilityStorage,
     ImageIssueStorage,
+    VideoIssueStorage,
 };

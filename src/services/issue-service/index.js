@@ -2,7 +2,7 @@ const IssueRepository = require('../../repositories/issue-repository');
 const UserRepository = require('../../repositories/user-repository');
 const { catchThrows } = require('../../utils/promise');
 
-const { ImageIssueStorage } = require('../../utils/storage');
+const { ImageIssueStorage, VideoIssueStorage } = require('../../utils/storage');
 const { issueStatus, issueStaffRoles } = require('./constant');
 
 const LoggingService = require('../logging-service');
@@ -22,10 +22,31 @@ class IssueService {
         return uploadedImages;
     }
 
+    static async __uploadVideo(videos) {
+        const uploadedVideos = [];
+
+        await Promise.all(
+            videos.map(async (video) => {
+                const fileURL = await VideoIssueStorage.upload(video);
+                uploadedVideos.push(fileURL);
+            }),
+        );
+
+        return uploadedVideos;
+    }
+
     static async __deleteImage(images) {
         await Promise.all(
             images.map(async (image) => {
                 await ImageIssueStorage.delete(image);
+            }),
+        );
+    }
+
+    static async __deleteVideo(videos) {
+        await Promise.all(
+            videos.map(async (video) => {
+                await VideoIssueStorage.delete(video);
             }),
         );
     }
@@ -68,7 +89,9 @@ class IssueService {
 
     static async createIssue(data, files, userId) {
         const images = files.image || [];
+        const videos = files.video || [];
         const uploadedImages = await this.__uploadImage(images);
+        const uploadedVideos = await this.__uploadVideo(videos);
 
         const issueData = {
             user_creator_id: userId,
@@ -79,6 +102,7 @@ class IssueService {
             image: uploadedImages,
             description: data.description,
             location: data.location,
+            video: uploadedVideos,
         };
 
         const issue = await IssueRepository.createIssue(issueData);
@@ -153,6 +177,7 @@ class IssueService {
             image: oldIssue.image,
             description: data.description || oldIssue.description,
             location: data.location || oldIssue.location,
+            video: oldIssue.video,
         };
 
         await IssueRepository.updateIssue(issueData);
@@ -189,6 +214,7 @@ class IssueService {
 
         await IssueRepository.deleteIssueById(id);
         await catchThrows(this.__deleteImage(issue.image));
+        await catchThrows(this.__deleteVideo(issue.video));
 
         await catchThrows(
             LoggingService.createLoggingIssue(userId, id, issue, null),
