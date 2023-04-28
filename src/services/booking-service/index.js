@@ -23,6 +23,21 @@ class BookingService {
         return bookingFilter;
     }
 
+    static __accessValidation(booking, user) {
+        if (user.role === userRoles.BASIC_USER && booking.user_id !== user.id) {
+            return false;
+        }
+
+        if (
+            user.role !== userRoles.BASIC_USER &&
+            user.role !== userRoles.BOOKING_STAFF
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
     static async __updateTotalPrice(bookingId) {
         const bookingData = await BookingRepository.getBookingByBookingId(
             bookingId,
@@ -55,20 +70,10 @@ class BookingService {
             };
         }
 
-        if (user.role === userRoles.BASIC_USER && booking.user_id !== user.id) {
+        if (!this.__accessValidation(booking, user)) {
             return {
-                message: `Booking dengan id = ${bookingId} tidak ditemukan!`,
-                data: null,
-            };
-        }
-
-        if (
-            user.role !== userRoles.BOOKING_STAFF &&
-            user.role !== userRoles.BASIC_USER
-        ) {
-            return {
-                message: `Booking dengan id = ${bookingId} tidak ditemukan!`,
-                data: null,
+                error_message:
+                    'Anda tidak memiliki akses untuk melihat booking ini!',
             };
         }
 
