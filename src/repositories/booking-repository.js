@@ -182,6 +182,7 @@ class BookingRepository {
                     'category',
                     'status',
                     'description',
+                    'unit',
                     'start_timestamp',
                     'end_timestamp',
                     [
@@ -326,6 +327,7 @@ class BookingRepository {
                 status: booking.status,
                 description: booking.description,
                 url: booking.url,
+                unit: booking.unit,
                 start_timestamp: booking.start_timestamp,
                 end_timestamp: booking.end_timestamp,
             });
@@ -352,6 +354,7 @@ class BookingRepository {
                     price: booking.price,
                     cost: booking.cost,
                     total_price: booking.total_price,
+                    unit: booking.unit,
                 },
                 {
                     where: {
