@@ -24,7 +24,6 @@ const {
     LoggingFacilityModel,
 } = require('./models/facility-model');
 const {
-    PaymentModel,
     BookingModel,
     LoggingBookingModel,
     ReviewBookingModel,
@@ -60,7 +59,6 @@ const models = {
     FacilityRoom: FacilityRoomModel(sequelize, Sequelize),
     FacilityVehicle: FacilityVehicleModel(sequelize, Sequelize),
     UtilityModel: UtilityModel(sequelize, Sequelize),
-    Payment: PaymentModel(sequelize, Sequelize),
     Booking: BookingModel(sequelize, Sequelize),
     LoggingBooking: LoggingBookingModel(sequelize, Sequelize),
     ReviewBooking: ReviewBookingModel(sequelize, Sequelize),

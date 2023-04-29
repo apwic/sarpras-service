@@ -1,32 +1,3 @@
-const PaymentModel = (sequelize, { DataTypes }) => {
-    const Payment = sequelize.define('payment', {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-
-        amount: {
-            type: DataTypes.FLOAT,
-            allowNull: false,
-        },
-
-        image_proof: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-    });
-
-    Payment.associate = (models) => {
-        Payment.hasOne(models.Booking, {
-            foreignKey: 'payment_id',
-            onDelete: 'CASCADE',
-        });
-    };
-
-    return Payment;
-};
-
 const BookingModel = (sequelize, { DataTypes }) => {
     const Booking = sequelize.define('booking', {
         id: {
@@ -48,14 +19,6 @@ const BookingModel = (sequelize, { DataTypes }) => {
             type: DataTypes.INTEGER,
             references: {
                 model: 'user',
-                key: 'id',
-            },
-        },
-
-        payment_id: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'payment',
                 key: 'id',
             },
         },
@@ -246,7 +209,6 @@ const LoggingBookingModel = (sequelize, { DataTypes }) => {
 };
 
 module.exports = {
-    PaymentModel,
     BookingModel,
     LoggingBookingModel,
     ReviewBookingModel,
