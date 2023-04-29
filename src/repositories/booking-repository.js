@@ -460,6 +460,37 @@ class BookingRepository {
             );
         }
     }
+
+    static async updateStatusPastTimestamp() {
+        try {
+            return await models.Booking.update(
+                {
+                    status: 'WAITING_FOR_RATING',
+                },
+                {
+                    where: {
+                        [Op.and]: [
+                            {
+                                status: 'APPROVED',
+                            },
+                            {
+                                end_timestamp: {
+                                    [Op.lte]: sequelize.literal('NOW()'),
+                                },
+                            },
+                        ],
+                    },
+                },
+            );
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+            );
+        }
+    }
 }
 
 module.exports = BookingRepository;

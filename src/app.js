@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const cron = require('node-cron');
 
 const cors = require('./middlewares/cors/index');
 const { sequelize } = require('./db/index');
@@ -15,6 +16,7 @@ const facilityController = require('./controllers/facility-controller');
 const campusController = require('./controllers/campus-controller');
 const issueController = require('./controllers/issue-controller');
 const notificationController = require('./controllers/notification-controller');
+const scheduleController = require('./controllers/schedule-controller');
 
 async function setupRoutes(app) {
     app.use('/', rootController());
@@ -40,6 +42,10 @@ async function createApp() {
     sequelize.sync();
 
     await setupRoutes(app);
+
+    cron.schedule('0 * * * *', async () => {
+        await scheduleController.updateStatusBooking();
+    });
 
     app.listen(PORT, () => {
         LogHelper.info(`Sarpras Service listening on port ${PORT}`);
