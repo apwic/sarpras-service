@@ -263,6 +263,7 @@ class BookingService {
             status: bookingStatus.PENDING,
             description: body.description,
             url: body.url || null,
+            unit: body.unit || null,
             start_timestamp: body.start_timestamp,
             end_timestamp: body.end_timestamp,
         };
@@ -346,6 +347,7 @@ class BookingService {
                 body.cost === undefined || body.cost === null
                     ? old_data.cost
                     : body.cost,
+            unit: body.unit || old_data.unit,
         };
 
         await BookingRepository.updateBooking(bookingId, bookingData);
