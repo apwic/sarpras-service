@@ -271,15 +271,17 @@ class BookingService {
         const bookingId = bookingCreated.id;
 
         const uploadedFiles = [];
-        await Promise.all(
-            files.file.map(async (file) => {
-                const fileURL = await FileBookingStorage.upload(
-                    bookingId,
-                    file,
-                );
-                uploadedFiles.push(fileURL);
-            }),
-        );
+        if (files.file) {
+            await Promise.all(
+                files.file.map(async (file) => {
+                    const fileURL = await FileBookingStorage.upload(
+                        bookingId,
+                        file,
+                    );
+                    uploadedFiles.push(fileURL);
+                }),
+            );
+        }
 
         await BookingRepository.updateAttachment(bookingId, uploadedFiles);
         await this.__updateTotalPrice(bookingId);
