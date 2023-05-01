@@ -90,6 +90,22 @@ class BookingService {
         };
     }
 
+    static async getBookingOverview(bookingId) {
+        const booking = await BookingRepository.getBookingOverview(bookingId);
+
+        if (!booking) {
+            return {
+                message: `Booking dengan id = ${bookingId} tidak ditemukan!`,
+                data: null,
+            };
+        }
+
+        return {
+            message: `Booking dengan id = ${bookingId} berhasil ditemukan!`,
+            data: booking,
+        };
+    }
+
     static async searchMyBooking(userId, query, filter, page, limit) {
         const offset = (page - 1) * limit;
         const bookingFilter = this.__filter(filter);

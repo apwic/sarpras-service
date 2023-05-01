@@ -98,6 +98,21 @@ module.exports = () => {
     );
 
     bookingRouter.get(
+        '/:id/overview',
+        [JWTMiddleware.verifyToken],
+        validator.params(
+            Joi.object({
+                id: Joi.number().required(),
+            }),
+        ),
+        handleRequest(
+            async (req) =>
+                await BookingService.getBookingOverview(req.params.id),
+        ),
+        buildResponse(),
+    );
+
+    bookingRouter.get(
         '',
         [JWTMiddleware.verifyToken, UserValidation.bookingStaff],
         validator.query(

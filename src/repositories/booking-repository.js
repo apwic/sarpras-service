@@ -32,6 +32,43 @@ class BookingRepository {
         }
     }
 
+    static async getBookingOverview(bookingId) {
+        try {
+            return await models.Booking.findOne({
+                attributes: [
+                    'id',
+                    'status',
+                    'description',
+                    'start_timestamp',
+                    'end_timestamp',
+                ],
+                where: {
+                    id: bookingId,
+                },
+                include: [
+                    {
+                        model: models.Facility,
+                        attributes: ['id', 'name', 'color', 'description'],
+                    },
+                    {
+                        model: models.User,
+                        attributes: ['id', 'name', 'email'],
+                    },
+                ],
+            });
+        } catch (err) {
+            throw new StandardError(
+                500,
+                'DATABASE_ERROR',
+                'Error occured in database',
+                err,
+                {
+                    bookingId,
+                },
+            );
+        }
+    }
+
     static async searchBookingByUserId(userId, query, filter, offset, limit) {
         try {
             return await models.Booking.findAll({
