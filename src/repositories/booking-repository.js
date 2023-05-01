@@ -39,6 +39,7 @@ class BookingRepository {
                     'id',
                     'status',
                     'description',
+                    'unit',
                     'start_timestamp',
                     'end_timestamp',
                 ],
