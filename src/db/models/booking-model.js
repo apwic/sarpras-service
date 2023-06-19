@@ -78,7 +78,7 @@ const BookingModel = (sequelize, { DataTypes }) => {
         },
 
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
         },
 
         url: {
@@ -147,7 +147,7 @@ const ReviewBookingModel = (sequelize, { DataTypes }) => {
         },
 
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
         },
     });
 
@@ -187,7 +187,7 @@ const LoggingBookingModel = (sequelize, { DataTypes }) => {
         },
 
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
 

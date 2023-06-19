@@ -45,7 +45,7 @@ const IssueModel = (sequelize, { DataTypes }) => {
         },
 
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
         },
 
         location: {
@@ -108,7 +108,7 @@ const ReviewIssueModel = (sequelize, { DataTypes }) => {
         },
 
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
         },
     });
 
@@ -133,7 +133,7 @@ const LoggingIssueModel = (sequelize, { DataTypes }) => {
         },
 
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
 
